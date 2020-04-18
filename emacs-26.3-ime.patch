@@ -929,7 +929,7 @@ diff -ruN emacs-26.3.orig/src/w32fns.c emacs-26.3/src/w32fns.c
 +#ifdef RECONVERSION
 +	  if (!w32_get_ime_status (hwnd))
 +	    {
-+	      Fw32_set_ime_open_status (Qt);
++	      Fime_force_on (Qt);
 +	      my_post_msg (&wmsg, hwnd, VK_PROCESSKEY, wParam, lParam);
 +	      windows_translate = -1;
 +	      break;
