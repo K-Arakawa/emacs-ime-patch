@@ -455,7 +455,7 @@ index 0000000000..a56bbc6883
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 10dc78d628..a08c2b1c3e 100644
+index e1f238c7d8..864bc50ff6 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
 @@ -30556,6 +30556,14 @@ twice for the others.
@@ -797,7 +797,7 @@ index c94d794b01..ee5c982fc7 100644
    /* This means that command_loop_1 won't try to select anything the first
       time through.  */
 diff --git a/src/w32fns.c b/src/w32fns.c
-index e595b0285a..017b0baa14 100644
+index e595b0285a..fc74e45803 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,18 +73,84 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -911,7 +911,7 @@ index e595b0285a..017b0baa14 100644
 +#ifdef RECONVERSION
 +	  if (!w32_get_ime_status (hwnd))
 +	    {
-+	      Fw32_set_ime_open_status (Qt);
++	      Fime_force_on (Qt);
 +	      my_post_msg (&wmsg, hwnd, VK_PROCESSKEY, wParam, lParam);
 +	      windows_translate = -1;
 +	      break;
@@ -2482,10 +2482,10 @@ index e2dea8b70e..1e4ecf7941 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index abbe882649..f98a1f8080 100644
+index 01f272033e..4348e8e1bc 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12155,8 +12155,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12159,8 +12159,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2509,7 +2509,7 @@ index abbe882649..f98a1f8080 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12383,8 +12398,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12387,8 +12402,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
