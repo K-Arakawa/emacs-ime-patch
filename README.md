@@ -1,2 +1,2 @@
 # emacs-ime-patch
-Windows IME patch for Emacs in the MSYS2 environment
+Windows IME patches for Emacs in the MSYS2 environment
