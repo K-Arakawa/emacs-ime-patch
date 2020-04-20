@@ -249,11 +249,11 @@ index 0000000000..e6350c68e9
 +;; -*- mode: Emacs-Lisp; coding: euc-jp-unix -*-
 diff --git a/lisp/international/w32-ime.el b/lisp/international/w32-ime.el
 new file mode 100644
-index 0000000000..a56bbc6883
+index 0000000000..9d63ade01d
 --- /dev/null
 +++ b/lisp/international/w32-ime.el
 @@ -0,0 +1,201 @@
-+;;;;; w32-ime.el ---- Meadow features for NTEmacs.
++;;;;; w32-ime.el ---- Meadow features for NTEmacs. -*- lexical-binding: t -*-
 +;;
 +;;   Author H.Miyashita
 +;;
