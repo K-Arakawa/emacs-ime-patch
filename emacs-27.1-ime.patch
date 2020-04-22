@@ -1,6 +1,6 @@
 diff -ruN emacs-27.0.91.orig/configure emacs-27.0.91/configure
 --- emacs-27.0.91.orig/configure	2020-04-17 18:55:36.000000000 +0900
-+++ emacs-27.0.91/configure	2020-04-21 08:42:18.465708200 +0900
++++ emacs-27.0.91/configure	2020-04-23 07:27:43.566116500 +0900
 @@ -1630,6 +1630,9 @@
  with_xim
  with_ns
@@ -136,7 +136,7 @@ diff -ruN emacs-27.0.91.orig/configure emacs-27.0.91/configure
  Configured for '${canonical}'.
 diff -ruN emacs-27.0.91.orig/lisp/international/smart-ime.el emacs-27.0.91/lisp/international/smart-ime.el
 --- emacs-27.0.91.orig/lisp/international/smart-ime.el	1970-01-01 09:00:00.000000000 +0900
-+++ emacs-27.0.91/lisp/international/smart-ime.el	2020-04-21 08:42:18.484696800 +0900
++++ emacs-27.0.91/lisp/international/smart-ime.el	2020-04-23 07:27:43.580079500 +0900
 @@ -0,0 +1,172 @@
 +;;; smart-ime.el - smart Input Method -*- lexical-binding: t -*-
 +;;
@@ -312,7 +312,7 @@ diff -ruN emacs-27.0.91.orig/lisp/international/smart-ime.el emacs-27.0.91/lisp/
 +;; -*- mode: Emacs-Lisp; coding: euc-jp-unix -*-
 diff -ruN emacs-27.0.91.orig/lisp/international/w32-ime.el emacs-27.0.91/lisp/international/w32-ime.el
 --- emacs-27.0.91.orig/lisp/international/w32-ime.el	1970-01-01 09:00:00.000000000 +0900
-+++ emacs-27.0.91/lisp/international/w32-ime.el	2020-04-21 08:42:18.492691900 +0900
++++ emacs-27.0.91/lisp/international/w32-ime.el	2020-04-23 07:27:43.586063400 +0900
 @@ -0,0 +1,200 @@
 +;;;;; w32-ime.el ---- Meadow features for NTEmacs. -*- lexical-binding: t -*-
 +;;
@@ -516,7 +516,7 @@ diff -ruN emacs-27.0.91.orig/lisp/international/w32-ime.el emacs-27.0.91/lisp/in
 +(provide 'w32-ime)
 diff -ruN emacs-27.0.91.orig/lisp/loadup.el emacs-27.0.91/lisp/loadup.el
 --- emacs-27.0.91.orig/lisp/loadup.el	2020-01-28 17:50:35.000000000 +0900
-+++ emacs-27.0.91/lisp/loadup.el	2020-04-21 08:42:18.500686400 +0900
++++ emacs-27.0.91/lisp/loadup.el	2020-04-23 07:27:43.592047300 +0900
 @@ -285,34 +285,47 @@
  (load "emacs-lisp/tabulated-list")
  (load "buff-menu")
@@ -592,7 +592,7 @@ diff -ruN emacs-27.0.91.orig/lisp/loadup.el emacs-27.0.91/lisp/loadup.el
  (if (eq system-type 'ms-dos)
 diff -ruN emacs-27.0.91.orig/src/config.in emacs-27.0.91/src/config.in
 --- emacs-27.0.91.orig/src/config.in	2020-04-17 18:55:36.000000000 +0900
-+++ emacs-27.0.91/src/config.in	2020-04-21 08:47:39.752461300 +0900
++++ emacs-27.0.91/src/config.in	2020-04-23 07:27:43.597033900 +0900
 @@ -102,6 +102,9 @@
  #endif
  
@@ -645,7 +645,7 @@ diff -ruN emacs-27.0.91.orig/src/config.in emacs-27.0.91/src/config.in
  #undef USE_XCB
 diff -ruN emacs-27.0.91.orig/src/frame.c emacs-27.0.91/src/frame.c
 --- emacs-27.0.91.orig/src/frame.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/frame.c	2020-04-21 08:42:18.533666400 +0900
++++ emacs-27.0.91/src/frame.c	2020-04-23 07:27:43.605012900 +0900
 @@ -1367,8 +1367,24 @@
  
     The value of NORECORD is passed as argument to Fselect_window.  */
@@ -683,7 +683,7 @@ diff -ruN emacs-27.0.91.orig/src/frame.c emacs-27.0.91/src/frame.c
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff -ruN emacs-27.0.91.orig/src/keyboard.c emacs-27.0.91/src/keyboard.c
 --- emacs-27.0.91.orig/src/keyboard.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/keyboard.c	2020-04-21 08:42:18.546658200 +0900
++++ emacs-27.0.91/src/keyboard.c	2020-04-23 07:27:43.613988800 +0900
 @@ -331,6 +331,11 @@
  
  static struct timespec timer_last_idleness_start_time;
@@ -820,7 +820,7 @@ diff -ruN emacs-27.0.91.orig/src/keyboard.c emacs-27.0.91/src/keyboard.c
       time through.  */
 diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 --- emacs-27.0.91.orig/src/w32fns.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/w32fns.c	2020-04-21 08:42:18.565646300 +0900
++++ emacs-27.0.91/src/w32fns.c	2020-04-23 07:30:48.559402400 +0900
 @@ -73,19 +73,87 @@
  #include <imm.h>
  #include <windowsx.h>
@@ -959,10 +959,10 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 +	  if (wParam == VK_BACK
 +	      && ctrl_modifier == w32_get_key_modifiers (wParam, lParam)
 +	      && w32_get_ime_status (hwnd) != 0
-+	      && PeekMessage (&ime_undo_test_msg, hwnd, WM_KEYDOWN, WM_KEYDOWN, PM_NOYIELD | PM_NOREMOVE) != 0
++	      && PeekMessage (&ime_undo_test_msg, hwnd, WM_KEYDOWN, WM_KEYDOWN,
++			      PM_NOYIELD | PM_NOREMOVE) != 0
 +	      && ime_undo_test_msg.wParam == VK_BACK
-+	      && ime_undo_test_msg.lParam == 0x40000001
-+	      )
++	      && ime_undo_test_msg.lParam == 0x40000001)
 +	    {
 +	      post_character_message (hwnd, msg, wParam, lParam, 0);
 +	      break;
@@ -1066,7 +1066,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
      default:
 +
 +#ifdef USE_W32_IME
-+      if (MESSAGE_IMM_COM_P(msg))
++      if (MESSAGE_IMM_COM_P (msg))
 +	return conversion_agent_wndproc (hwnd, msg, wParam, lParam);
 +#endif /* USE_W32_IME */
 +
@@ -1084,7 +1084,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8147,6 +8336,1015 @@
+@@ -8147,6 +8336,999 @@
  
  
  /***********************************************************************
@@ -1147,9 +1147,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 +// Lisp_Object Vime_control;
 +
 +static void
-+w32_set_ime_conv_window (hwnd, f)
-+     HWND hwnd;
-+     struct frame *f;
++w32_set_ime_conv_window (HWND hwnd, struct frame *f)
 +{
 +  if (fIME && !NILP (Vime_control))
 +    {
@@ -1160,8 +1158,8 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 +      /* If Vw32_ime_composition_window is set, try it. */
 +      if (!NILP (Vw32_ime_composition_window)
 +	  && WINDOWP (Vw32_ime_composition_window)
-+	  && WINDOW_FRAME (XWINDOW (Vw32_ime_composition_window))
-+	  == WINDOW_FRAME (w))
++	  && (WINDOW_FRAME (XWINDOW (Vw32_ime_composition_window))
++	      == WINDOW_FRAME (w)))
 +	w = XWINDOW (Vw32_ime_composition_window);
 +
 +      himc = get_ime_context_fn (hwnd);
@@ -1195,9 +1193,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 +}
 +
 +static void
-+w32_set_ime_status (hwnd, openp)
-+     HWND hwnd;
-+     int openp;
++w32_set_ime_status (HWND hwnd, int openp)
 +{
 +  HIMC himc;
 +
@@ -1207,8 +1203,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 +}
 +
 +static int
-+w32_get_ime_status (hwnd)
-+     HWND hwnd;
++w32_get_ime_status (HWND hwnd)
 +{
 +  HIMC himc;
 +  int ret;
@@ -1221,10 +1216,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 +}
 +
 +static int
-+w32_set_ime_mode (hwnd, mode, mask)
-+     HWND hwnd;
-+     int mode;
-+     int mask;
++w32_set_ime_mode (HWND hwnd, int mode, int mask)
 +{
 +  HIMC himc;
 +  DWORD cmode, smode;
@@ -1242,8 +1234,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 +}
 +
 +static BOOL
-+w32_get_ime_composition_string (hwnd)
-+     HWND hwnd;
++w32_get_ime_composition_string (HWND hwnd)
 +{
 +  HIMC hIMC;
 +  int size;
@@ -1604,9 +1595,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 +}
 +
 +void
-+w32_set_ime_logfont (hwnd, f)
-+     HWND hwnd;
-+     struct frame *f;
++w32_set_ime_logfont (HWND hwnd, struct frame *f)
 +{
 +  Lisp_Object ime_font = Qnil, temp = Qnil, font = Qnil, family;
 +  int fsid = -1;
@@ -1685,8 +1674,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 +}
 +
 +static void
-+w32_set_ime_font (hwnd)
-+     HWND hwnd;
++w32_set_ime_font (HWND hwnd)
 +{
 +  HIMC himc;
 +
@@ -1703,10 +1691,6 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
 +
 +static LRESULT CALLBACK
 +conversion_agent_wndproc (HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
-+/*     HWND hwnd;
-+       UINT message;
-+       WPARAM wparam;
-+       LPARAM lparam; */
 +{
 +  HIMC himc, holdimc;
 +
@@ -2100,7 +2084,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
  			 w32 specialized functions
   ***********************************************************************/
  
-@@ -10334,6 +11532,9 @@
+@@ -10334,6 +11516,9 @@
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -2110,7 +2094,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
    0, /* x_set_sticky */
    0, /* x_set_tool_bar_position */
    0, /* x_set_inhibit_double_buffering */
-@@ -10357,6 +11558,10 @@
+@@ -10357,6 +11542,10 @@
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -2121,7 +2105,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10694,6 +11899,27 @@
+@@ -10694,6 +11883,27 @@
  	       doc: /* Non-nil means don't display the abort dialog when aborting.  */);
    w32_disable_abort_dialog = 0;
  
@@ -2149,7 +2133,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -10747,6 +11973,21 @@
+@@ -10747,6 +11957,21 @@
    defsubr (&Sw32_notification_close);
  #endif
  
@@ -2173,7 +2157,7 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
    defsubr (&Sfile_system_info);
 diff -ruN emacs-27.0.91.orig/src/w32font.c emacs-27.0.91/src/w32font.c
 --- emacs-27.0.91.orig/src/w32font.c	2020-01-28 17:50:36.000000000 +0900
-+++ emacs-27.0.91/src/w32font.c	2020-04-21 08:42:18.577639400 +0900
++++ emacs-27.0.91/src/w32font.c	2020-04-23 07:27:43.640916700 +0900
 @@ -55,7 +55,10 @@
  #define JOHAB_CHARSET 130
  #endif
@@ -2200,7 +2184,7 @@ diff -ruN emacs-27.0.91.orig/src/w32font.c emacs-27.0.91/src/w32font.c
    Lisp_Object tmp, extra;
 diff -ruN emacs-27.0.91.orig/src/w32font.h emacs-27.0.91/src/w32font.h
 --- emacs-27.0.91.orig/src/w32font.h	2020-01-28 17:50:36.000000000 +0900
-+++ emacs-27.0.91/src/w32font.h	2020-04-21 08:42:18.586633500 +0900
++++ emacs-27.0.91/src/w32font.h	2020-04-23 07:27:43.658868900 +0900
 @@ -83,6 +83,9 @@
  int uniscribe_check_otf (LOGFONT *font, Lisp_Object otf_spec);
  
@@ -2213,7 +2197,7 @@ diff -ruN emacs-27.0.91.orig/src/w32font.h emacs-27.0.91/src/w32font.h
  
 diff -ruN emacs-27.0.91.orig/src/w32term.c emacs-27.0.91/src/w32term.c
 --- emacs-27.0.91.orig/src/w32term.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/w32term.c	2020-04-21 08:42:18.595627700 +0900
++++ emacs-27.0.91/src/w32term.c	2020-04-23 07:30:48.561397400 +0900
 @@ -5676,6 +5676,107 @@
  	  break;
  #endif
@@ -2250,7 +2234,7 @@ diff -ruN emacs-27.0.91.orig/src/w32term.c emacs-27.0.91/src/w32term.c
 +#else
 +		lpStr = (LPSTR) hw32_ime_string;
 +#endif
-+		while(lpStr)
++		while (lpStr)
 +		  {
 +		    wchar_t code;
 +
@@ -2340,14 +2324,14 @@ diff -ruN emacs-27.0.91.orig/src/w32term.c emacs-27.0.91/src/w32term.c
        = GetSystemMetrics (SM_CYHSCROLL);
    }
 +#ifdef USE_W32_IME
-+  w32_ime_control_init();
++  w32_ime_control_init ();
 +#endif /* USE_W32_IME */
  }
  
  void
 diff -ruN emacs-27.0.91.orig/src/w32term.h emacs-27.0.91/src/w32term.h
 --- emacs-27.0.91.orig/src/w32term.h	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/w32term.h	2020-04-21 08:42:18.606621100 +0900
++++ emacs-27.0.91/src/w32term.h	2020-04-23 07:27:43.675823400 +0900
 @@ -634,6 +634,8 @@
  #endif /* WM_MOUSEHWHEEL  */
  #ifndef WM_APPCOMMAND
@@ -2469,7 +2453,7 @@ diff -ruN emacs-27.0.91.orig/src/w32term.h emacs-27.0.91/src/w32term.h
 +#endif /* USE_W32_IME */
 diff -ruN emacs-27.0.91.orig/src/window.c emacs-27.0.91/src/window.c
 --- emacs-27.0.91.orig/src/window.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/window.c	2020-04-21 08:42:18.617612800 +0900
++++ emacs-27.0.91/src/window.c	2020-04-23 07:27:43.683835800 +0900
 @@ -518,6 +518,9 @@
  {
    struct window *w;
@@ -2542,7 +2526,7 @@ diff -ruN emacs-27.0.91.orig/src/window.c emacs-27.0.91/src/window.c
    defsubr (&Sminibuffer_window);
 diff -ruN emacs-27.0.91.orig/src/xdisp.c emacs-27.0.91/src/xdisp.c
 --- emacs-27.0.91.orig/src/xdisp.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/xdisp.c	2020-04-21 08:42:18.635602900 +0900
++++ emacs-27.0.91/src/xdisp.c	2020-04-23 07:30:48.568381400 +0900
 @@ -12133,9 +12133,24 @@
    return vector;
  }
@@ -2573,9 +2557,9 @@ diff -ruN emacs-27.0.91.orig/src/xdisp.c emacs-27.0.91/src/xdisp.c
     appropriate.  This can call eval.  */
  
 +#ifdef USE_W32_IME
-+static void prepare_menu_bars_0 ();
++static void prepare_menu_bars_0 (void);
 +static void
-+prepare_menu_bars()
++prepare_menu_bars (void)
 +{
 +  int count = SPECPDL_INDEX ();
 +
@@ -2584,7 +2568,7 @@ diff -ruN emacs-27.0.91.orig/src/xdisp.c emacs-27.0.91/src/xdisp.c
 +  unbind_to (count, Qnil);
 +}
 +static void
-+prepare_menu_bars_0 ()
++prepare_menu_bars_0 (void)
 +#else  /* !USE_W32_IME */
  static void
  prepare_menu_bars (void)

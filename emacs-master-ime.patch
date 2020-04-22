@@ -249,7 +249,7 @@ index 0000000000..e6350c68e9
 +;; -*- mode: Emacs-Lisp; coding: euc-jp-unix -*-
 diff --git a/lisp/international/w32-ime.el b/lisp/international/w32-ime.el
 new file mode 100644
-index 0000000000..9d63ade01d
+index 0000000000..42f4b7a761
 --- /dev/null
 +++ b/lisp/international/w32-ime.el
 @@ -0,0 +1,200 @@
@@ -796,7 +796,7 @@ index c94d794b01..ee5c982fc7 100644
    /* This means that command_loop_1 won't try to select anything the first
       time through.  */
 diff --git a/src/w32fns.c b/src/w32fns.c
-index e595b0285a..7790c47077 100644
+index e595b0285a..8e3bb0028a 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,18 +73,84 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -934,10 +934,10 @@ index e595b0285a..7790c47077 100644
 +	  if (wParam == VK_BACK
 +	      && ctrl_modifier == w32_get_key_modifiers (wParam, lParam)
 +	      && w32_get_ime_status (hwnd) != 0
-+	      && PeekMessage (&ime_undo_test_msg, hwnd, WM_KEYDOWN, WM_KEYDOWN, PM_NOYIELD | PM_NOREMOVE) != 0
++	      && PeekMessage (&ime_undo_test_msg, hwnd, WM_KEYDOWN, WM_KEYDOWN,
++			      PM_NOYIELD | PM_NOREMOVE) != 0
 +	      && ime_undo_test_msg.wParam == VK_BACK
-+	      && ime_undo_test_msg.lParam == 0x40000001
-+	      )
++	      && ime_undo_test_msg.lParam == 0x40000001)
 +	    {
 +	      post_character_message (hwnd, msg, wParam, lParam, 0);
 +	      break;
@@ -1041,7 +1041,7 @@ index e595b0285a..7790c47077 100644
      default:
 +
 +#ifdef USE_W32_IME
-+      if (MESSAGE_IMM_COM_P(msg))
++      if (MESSAGE_IMM_COM_P (msg))
 +	return conversion_agent_wndproc (hwnd, msg, wParam, lParam);
 +#endif /* USE_W32_IME */
 +
@@ -1059,7 +1059,7 @@ index e595b0285a..7790c47077 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8164,6 +8351,976 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8164,6 +8351,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -1118,9 +1118,7 @@ index e595b0285a..7790c47077 100644
 +// Lisp_Object Vime_control;
 +
 +static void
-+w32_set_ime_conv_window (hwnd, f)
-+     HWND hwnd;
-+     struct frame *f;
++w32_set_ime_conv_window (HWND hwnd, struct frame *f)
 +{
 +  if (fIME && !NILP (Vime_control))
 +    {
@@ -1131,8 +1129,8 @@ index e595b0285a..7790c47077 100644
 +      /* If Vw32_ime_composition_window is set, try it. */
 +      if (!NILP (Vw32_ime_composition_window)
 +	  && WINDOWP (Vw32_ime_composition_window)
-+	  && WINDOW_FRAME (XWINDOW (Vw32_ime_composition_window))
-+	  == WINDOW_FRAME (w))
++	  && (WINDOW_FRAME (XWINDOW (Vw32_ime_composition_window))
++	      == WINDOW_FRAME (w)))
 +	w = XWINDOW (Vw32_ime_composition_window);
 +
 +      himc = get_ime_context_fn (hwnd);
@@ -1166,9 +1164,7 @@ index e595b0285a..7790c47077 100644
 +}
 +
 +static void
-+w32_set_ime_status (hwnd, openp)
-+     HWND hwnd;
-+     int openp;
++w32_set_ime_status (HWND hwnd, int openp)
 +{
 +  HIMC himc;
 +
@@ -1178,8 +1174,7 @@ index e595b0285a..7790c47077 100644
 +}
 +
 +static int
-+w32_get_ime_status (hwnd)
-+     HWND hwnd;
++w32_get_ime_status (HWND hwnd)
 +{
 +  HIMC himc;
 +  int ret;
@@ -1192,10 +1187,7 @@ index e595b0285a..7790c47077 100644
 +}
 +
 +static int
-+w32_set_ime_mode (hwnd, mode, mask)
-+     HWND hwnd;
-+     int mode;
-+     int mask;
++w32_set_ime_mode (HWND hwnd, int mode, int mask)
 +{
 +  HIMC himc;
 +  DWORD cmode, smode;
@@ -1213,8 +1205,7 @@ index e595b0285a..7790c47077 100644
 +}
 +
 +static BOOL
-+w32_get_ime_composition_string (hwnd)
-+     HWND hwnd;
++w32_get_ime_composition_string (HWND hwnd)
 +{
 +  HIMC hIMC;
 +  int size;
@@ -1565,9 +1556,7 @@ index e595b0285a..7790c47077 100644
 +}
 +
 +void
-+w32_set_ime_logfont (hwnd, f)
-+     HWND hwnd;
-+     struct frame *f;
++w32_set_ime_logfont (HWND hwnd, struct frame *f)
 +{
 +  Lisp_Object ime_font = Qnil, temp = Qnil, font = Qnil, family;
 +  int fsid = -1;
@@ -1646,8 +1635,7 @@ index e595b0285a..7790c47077 100644
 +}
 +
 +static void
-+w32_set_ime_font (hwnd)
-+     HWND hwnd;
++w32_set_ime_font (HWND hwnd)
 +{
 +  HIMC himc;
 +
@@ -1664,10 +1652,6 @@ index e595b0285a..7790c47077 100644
 +
 +static LRESULT CALLBACK
 +conversion_agent_wndproc (HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
-+/*     HWND hwnd;
-+       UINT message;
-+       WPARAM wparam;
-+       LPARAM lparam; */
 +{
 +  HIMC himc, holdimc;
 +
@@ -2036,7 +2020,7 @@ index e595b0285a..7790c47077 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10398,6 +11555,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10398,6 +11539,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -2046,7 +2030,7 @@ index e595b0285a..7790c47077 100644
    0, /* x_set_sticky */
    0, /* x_set_tool_bar_position */
    0, /* x_set_inhibit_double_buffering */
-@@ -10421,6 +11581,10 @@ syms_of_w32fns (void)
+@@ -10421,6 +11565,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -2057,7 +2041,7 @@ index e595b0285a..7790c47077 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10758,6 +11922,27 @@ tip frame.  */);
+@@ -10758,6 +11906,27 @@ tip frame.  */);
  	       doc: /* Non-nil means don't display the abort dialog when aborting.  */);
    w32_disable_abort_dialog = 0;
  
@@ -2085,7 +2069,7 @@ index e595b0285a..7790c47077 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -10813,6 +11998,20 @@ tip frame.  */);
+@@ -10813,6 +11982,20 @@ tip frame.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2149,7 +2133,7 @@ index a76f8c30ce..42500f78c8 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 108cb7922f..c9e84050e6 100644
+index 108cb7922f..a7de4531bb 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -5677,6 +5677,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2188,7 +2172,7 @@ index 108cb7922f..c9e84050e6 100644
 +#else
 +		lpStr = (LPSTR) hw32_ime_string;
 +#endif
-+		while(lpStr)
++		while (lpStr)
 +		  {
 +		    wchar_t code;
 +
@@ -2278,7 +2262,7 @@ index 108cb7922f..c9e84050e6 100644
        = GetSystemMetrics (SM_CYHSCROLL);
    }
 +#ifdef USE_W32_IME
-+  w32_ime_control_init();
++  w32_ime_control_init ();
 +#endif /* USE_W32_IME */
  }
  
@@ -2481,7 +2465,7 @@ index e2dea8b70e..1e4ecf7941 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 01f272033e..4348e8e1bc 100644
+index 01f272033e..7345298823 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12159,8 +12159,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
@@ -2513,9 +2497,9 @@ index 01f272033e..4348e8e1bc 100644
     appropriate.  This can call eval.  */
  
 +#ifdef USE_W32_IME
-+static void prepare_menu_bars_0 ();
++static void prepare_menu_bars_0 (void);
 +static void
-+prepare_menu_bars()
++prepare_menu_bars (void)
 +{
 +  int count = SPECPDL_INDEX ();
 +
@@ -2524,7 +2508,7 @@ index 01f272033e..4348e8e1bc 100644
 +  unbind_to (count, Qnil);
 +}
 +static void
-+prepare_menu_bars_0 ()
++prepare_menu_bars_0 (void)
 +#else  /* !USE_W32_IME */
  static void
  prepare_menu_bars (void)
