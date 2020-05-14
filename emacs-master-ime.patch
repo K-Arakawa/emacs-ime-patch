@@ -70,10 +70,10 @@ index 57527bb5af..14ea4a2fe7 100644
  # In 'compile-main' we could directly do
  #    ... | xargs $(MAKE)
 diff --git a/lisp/emacs-lisp/edebug.el b/lisp/emacs-lisp/edebug.el
-index a376067443..c5139f8c6a 100644
+index 78461185d3..68fbb8f4bf 100644
 --- a/lisp/emacs-lisp/edebug.el
 +++ b/lisp/emacs-lisp/edebug.el
-@@ -2764,7 +2764,6 @@ See `edebug-behavior-alist' for implementations.")
+@@ -2787,7 +2787,6 @@ See `edebug-behavior-alist' for implementations.")
  	      (edebug-stop))
  
  	    (edebug-overlay-arrow)
@@ -81,53 +81,6 @@ index a376067443..c5139f8c6a 100644
  
              (unwind-protect
                  (if (or edebug-stop
-@@ -3238,45 +3237,7 @@ the breakpoint."
- 
- 	  (setcar (cdr edebug-data) edebug-breakpoints)
- 	  (goto-char position)
--          (edebug--overlay-breakpoints edebug-def-name)))))
--
--(define-fringe-bitmap 'edebug-breakpoint
--  "\x3c\x7e\xff\xff\xff\xff\x7e\x3c")
--
--(defun edebug--overlay-breakpoints (function)
--  (let* ((data (get function 'edebug))
--         (start (nth 0 data))
--         (breakpoints (nth 1 data))
--         (offsets (nth 2 data)))
--    ;; First remove all old breakpoint overlays.
--    (edebug--overlay-breakpoints-remove
--     start (+ start (aref offsets (1- (length offsets)))))
--    ;; Then make overlays for the breakpoints (but only when we are in
--    ;; edebug mode).
--    (when edebug-active
--      (dolist (breakpoint breakpoints)
--        (let* ((pos (+ start (aref offsets (car breakpoint))))
--               (overlay (make-overlay pos (1+ pos)))
--               (face (if (nth 4 breakpoint)
--                         (progn
--                           (overlay-put overlay
--                                        'help-echo "Disabled breakpoint")
--                           (overlay-put overlay
--                                        'face 'edebug-disabled-breakpoint))
--                       (overlay-put overlay 'help-echo "Breakpoint")
--                       (overlay-put overlay 'face 'edebug-enabled-breakpoint))))
--          (overlay-put overlay 'edebug t)
--          (let ((fringe (make-overlay pos pos)))
--            (overlay-put fringe 'edebug t)
--            (overlay-put fringe 'before-string
--                         (propertize
--                          "x" 'display
--                          `(left-fringe edebug-breakpoint ,face)))))))))
--
--(defun edebug--overlay-breakpoints-remove (start end)
--  (dolist (overlay (overlays-in start end))
--    (when (overlay-get overlay 'edebug)
--      (delete-overlay overlay))))
-+	  ))))
- 
- (defun edebug-set-breakpoint (arg)
-   "Set the breakpoint of nearest sexp.
 diff --git a/lisp/international/smart-ime.el b/lisp/international/smart-ime.el
 new file mode 100644
 index 0000000000..e6350c68e9
@@ -741,7 +694,7 @@ index c871e4fd99..366b309cb8 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index c94d794b01..ee5c982fc7 100644
+index f9b9399d50..18076953b5 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -331,6 +331,11 @@ static struct timespec timer_idleness_start_time;
@@ -2548,10 +2501,10 @@ index e2dea8b70e..1e4ecf7941 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 140d134572..3ce70ae578 100644
+index d65bb38869..f96aa1c49c 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12246,8 +12246,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12271,8 +12271,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2575,7 +2528,7 @@ index 140d134572..3ce70ae578 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12474,8 +12489,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12499,8 +12514,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
