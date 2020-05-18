@@ -2501,7 +2501,7 @@ index e2dea8b70e..1e4ecf7941 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index d65bb38869..f96aa1c49c 100644
+index cf15f579b5..a839aa31ee 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12271,8 +12271,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
