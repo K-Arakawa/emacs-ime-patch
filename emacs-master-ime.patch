@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index 719eb747ae..d46706a7d7 100644
+index b1b8c846e1..c25cd9548e 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -449,6 +449,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
+@@ -453,6 +453,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
  On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
  
@@ -13,7 +13,7 @@ index 719eb747ae..d46706a7d7 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5651,6 +5655,42 @@ else
+@@ -5655,6 +5659,42 @@ else
    ACL_SUMMARY=no
  fi
  
@@ -466,10 +466,10 @@ index 0000000000..42f4b7a761
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index d49c752384..ac058c719e 100644
+index d7da5f6c24..2d510e7589 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -30612,6 +30612,14 @@ twice for the others.
+@@ -30657,6 +30657,14 @@ twice for the others.
  
  (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "skeleton" '("skeleton-")))
  
@@ -484,7 +484,7 @@ index d49c752384..ac058c719e 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -37727,8 +37735,28 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
+@@ -37779,8 +37787,28 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
  ;;;### (autoloads nil "w32-fns" "w32-fns.el" (0 0 0 0))
  ;;; Generated autoloads from w32-fns.el
  
@@ -513,30 +513,6 @@ index d49c752384..ac058c719e 100644
  ;;;***
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
-@@ -38941,19 +38969,10 @@ Zone out, completely." t nil)
- ;;;;;;  "eshell/em-unix.el" "eshell/em-xtra.el" "facemenu.el" "faces.el"
- ;;;;;;  "files.el" "font-core.el" "font-lock.el" "format.el" "frame.el"
- ;;;;;;  "help.el" "hfy-cmap.el" "ibuf-ext.el" "indent.el" "international/characters.el"
--;;;;;;  "international/charprop.el" "international/charscript.el"
--;;;;;;  "international/cp51932.el" "international/eucjp-ms.el" "international/mule-cmds.el"
--;;;;;;  "international/mule-conf.el" "international/mule.el" "international/uni-bidi.el"
--;;;;;;  "international/uni-brackets.el" "international/uni-category.el"
--;;;;;;  "international/uni-combining.el" "international/uni-comment.el"
--;;;;;;  "international/uni-decimal.el" "international/uni-decomposition.el"
--;;;;;;  "international/uni-digit.el" "international/uni-lowercase.el"
--;;;;;;  "international/uni-mirrored.el" "international/uni-name.el"
--;;;;;;  "international/uni-numeric.el" "international/uni-old-name.el"
--;;;;;;  "international/uni-special-lowercase.el" "international/uni-special-titlecase.el"
--;;;;;;  "international/uni-special-uppercase.el" "international/uni-titlecase.el"
--;;;;;;  "international/uni-uppercase.el" "isearch.el" "jit-lock.el"
--;;;;;;  "jka-cmpr-hook.el" "language/burmese.el" "language/cham.el"
-+;;;;;;  "international/charscript.el" "international/cp51932.el"
-+;;;;;;  "international/eucjp-ms.el" "international/mule-cmds.el"
-+;;;;;;  "international/mule-conf.el" "international/mule.el" "isearch.el"
-+;;;;;;  "jit-lock.el" "jka-cmpr-hook.el" "language/burmese.el" "language/cham.el"
- ;;;;;;  "language/chinese.el" "language/cyrillic.el" "language/czech.el"
- ;;;;;;  "language/english.el" "language/ethiopic.el" "language/european.el"
- ;;;;;;  "language/georgian.el" "language/greek.el" "language/hebrew.el"
 diff --git a/lisp/loadup.el b/lisp/loadup.el
 index 97525b2708..4d62acbc54 100644
 --- a/lisp/loadup.el
@@ -2501,10 +2477,10 @@ index e2dea8b70e..1e4ecf7941 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index cf15f579b5..a839aa31ee 100644
+index 327e8a183b..c1fd4abee1 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12271,8 +12271,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12277,8 +12277,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2528,7 +2504,7 @@ index cf15f579b5..a839aa31ee 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12499,8 +12514,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12505,8 +12520,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
