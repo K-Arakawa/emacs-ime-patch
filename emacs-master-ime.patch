@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index b1b8c846e1..c25cd9548e 100644
+index 6ede6104d3..62d3ea9372 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -453,6 +453,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index b1b8c846e1..c25cd9548e 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5655,6 +5659,42 @@ else
+@@ -5656,6 +5660,42 @@ else
    ACL_SUMMARY=no
  fi
  
@@ -261,10 +261,10 @@ index 0000000000..e6350c68e9
 +;; -*- mode: Emacs-Lisp; coding: euc-jp-unix -*-
 diff --git a/lisp/international/w32-ime.el b/lisp/international/w32-ime.el
 new file mode 100644
-index 0000000000..42f4b7a761
+index 0000000000..66d51b800d
 --- /dev/null
 +++ b/lisp/international/w32-ime.el
-@@ -0,0 +1,200 @@
+@@ -0,0 +1,202 @@
 +;;;;; w32-ime.el ---- Meadow features for NTEmacs. -*- lexical-binding: t -*-
 +;;
 +;;   Author H.Miyashita
@@ -379,9 +379,11 @@ index 0000000000..42f4b7a761
 +	  (run-hooks 'w32-ime-off-hook)))))))
 +
 +(defun w32-ime-set-selected-window-buffer-hook (oldbuf newwin newbuf)
++  (ignore oldbuf newwin newbuf)
 +  (w32-ime-sync-state newwin))
 +
 +(defun w32-ime-select-window-hook (old new)
++  (ignore old)
 +  (w32-ime-sync-state new))
 +
 +(defun w32-ime-mode-line-update ()
@@ -466,10 +468,10 @@ index 0000000000..42f4b7a761
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index d7da5f6c24..2d510e7589 100644
+index bcd8e0d508..9ba61247b4 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -30657,6 +30657,14 @@ twice for the others.
+@@ -30742,6 +30742,14 @@ twice for the others.
  
  (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "skeleton" '("skeleton-")))
  
@@ -484,7 +486,7 @@ index d7da5f6c24..2d510e7589 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -37779,8 +37787,28 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
+@@ -37874,8 +37882,28 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
  ;;;### (autoloads nil "w32-fns" "w32-fns.el" (0 0 0 0))
  ;;; Generated autoloads from w32-fns.el
  
@@ -808,7 +810,7 @@ index f9b9399d50..18076953b5 100644
    /* This means that command_loop_1 won't try to select anything the first
       time through.  */
 diff --git a/src/w32fns.c b/src/w32fns.c
-index e595b0285a..8e3bb0028a 100644
+index ab864332e7..48cba8cbbe 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,18 +73,84 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -914,7 +916,7 @@ index e595b0285a..8e3bb0028a 100644
  
  
  /* Store the screen positions of frame F into XPTR and YPTR.
-@@ -4396,9 +4473,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4249,9 +4326,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				  w32_get_key_modifiers (wParam, lParam));
  	  windows_translate = 1;
  	  break;
@@ -934,7 +936,7 @@ index e595b0285a..8e3bb0028a 100644
  	  windows_translate = 1;
  	  break;
  	case VK_CANCEL:
-@@ -4540,6 +4626,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4393,6 +4479,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  	  TranslateMessage (&windows_msg);
  	  goto dflt;
  	}
@@ -959,7 +961,7 @@ index e595b0285a..8e3bb0028a 100644
        /* Fall through */
        FALLTHROUGH;
  
-@@ -4559,6 +4663,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4412,6 +4516,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				w32_get_key_modifiers (wParam, lParam));
        break;
  
@@ -967,7 +969,7 @@ index e595b0285a..8e3bb0028a 100644
      case WM_UNICHAR:
        /* WM_UNICHAR looks promising from the docs, but the exact
  	 circumstances in which TranslateMessage sends it is one of those
-@@ -4683,6 +4788,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4536,6 +4641,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
      case WM_IME_ENDCOMPOSITION:
        ignore_ime_char = 0;
        goto dflt;
@@ -975,7 +977,7 @@ index e595b0285a..8e3bb0028a 100644
  
        /* Simulate middle mouse button events when left and right buttons
  	 are used together, but only if user has two button mouse. */
-@@ -5507,7 +5613,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -5360,7 +5466,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
        my_post_msg (&wmsg, hwnd, msg, wParam, lParam);
        return 1;
  
@@ -1060,7 +1062,7 @@ index e595b0285a..8e3bb0028a 100644
        /* Check for messages registered at runtime. */
        if (msg == msh_mousewheel)
  	{
-@@ -5809,6 +5992,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
+@@ -5662,6 +5845,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
                                            Qnil));
      }
    gui_default_parameter (f, parms, Qfont, font, "font", "Font", RES_TYPE_STRING);
@@ -1071,7 +1073,7 @@ index e595b0285a..8e3bb0028a 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8164,6 +8351,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8017,6 +8204,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -2032,7 +2034,7 @@ index e595b0285a..8e3bb0028a 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10398,6 +11539,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10251,6 +11392,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -2042,7 +2044,7 @@ index e595b0285a..8e3bb0028a 100644
    0, /* x_set_sticky */
    0, /* x_set_tool_bar_position */
    0, /* x_set_inhibit_double_buffering */
-@@ -10421,6 +11565,10 @@ syms_of_w32fns (void)
+@@ -10274,6 +11418,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -2053,7 +2055,7 @@ index e595b0285a..8e3bb0028a 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10758,6 +11906,27 @@ tip frame.  */);
+@@ -10611,6 +11759,27 @@ tip frame.  */);
  	       doc: /* Non-nil means don't display the abort dialog when aborting.  */);
    w32_disable_abort_dialog = 0;
  
@@ -2081,7 +2083,7 @@ index e595b0285a..8e3bb0028a 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -10813,6 +11982,20 @@ tip frame.  */);
+@@ -10666,6 +11835,20 @@ tip frame.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2477,10 +2479,10 @@ index e2dea8b70e..1e4ecf7941 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 327e8a183b..c1fd4abee1 100644
+index e454fd7b83..edad2ba686 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12277,8 +12277,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12288,8 +12288,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2504,7 +2506,7 @@ index 327e8a183b..c1fd4abee1 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12505,8 +12520,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12516,8 +12531,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
