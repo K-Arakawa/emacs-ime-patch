@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 6ede6104d3..62d3ea9372 100644
+index 93463e344a..00459b6ee8 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -453,6 +453,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index 6ede6104d3..62d3ea9372 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5656,6 +5660,42 @@ else
+@@ -5619,6 +5623,42 @@ else
    ACL_SUMMARY=no
  fi
  
@@ -70,10 +70,10 @@ index 57527bb5af..14ea4a2fe7 100644
  # In 'compile-main' we could directly do
  #    ... | xargs $(MAKE)
 diff --git a/lisp/emacs-lisp/edebug.el b/lisp/emacs-lisp/edebug.el
-index 78461185d3..68fbb8f4bf 100644
+index cef97e0fb4..e0d42cd4e8 100644
 --- a/lisp/emacs-lisp/edebug.el
 +++ b/lisp/emacs-lisp/edebug.el
-@@ -2787,7 +2787,6 @@ See `edebug-behavior-alist' for implementations.")
+@@ -2811,7 +2811,6 @@ See `edebug-behavior-alist' for implementations.")
  	      (edebug-stop))
  
  	    (edebug-overlay-arrow)
@@ -468,10 +468,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index bcd8e0d508..9ba61247b4 100644
+index ae58bfc566..1da325daf5 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -30742,6 +30742,14 @@ twice for the others.
+@@ -30866,6 +30866,14 @@ twice for the others.
  
  (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "skeleton" '("skeleton-")))
  
@@ -486,7 +486,7 @@ index bcd8e0d508..9ba61247b4 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -37874,8 +37882,28 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
+@@ -37998,8 +38006,28 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
  ;;;### (autoloads nil "w32-fns" "w32-fns.el" (0 0 0 0))
  ;;; Generated autoloads from w32-fns.el
  
@@ -672,7 +672,7 @@ index c871e4fd99..366b309cb8 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index f9b9399d50..18076953b5 100644
+index 5fa58abce1..58283a29ac 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -331,6 +331,11 @@ static struct timespec timer_idleness_start_time;
@@ -2479,10 +2479,10 @@ index e2dea8b70e..1e4ecf7941 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index e454fd7b83..edad2ba686 100644
+index a8cd4dc853..ed0debf328 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12288,8 +12288,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12291,8 +12291,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2506,7 +2506,7 @@ index e454fd7b83..edad2ba686 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12516,8 +12531,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12519,8 +12534,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  

@@ -1,6 +1,6 @@
-diff -ruN emacs-27.0.91.orig/configure emacs-27.0.91/configure
---- emacs-27.0.91.orig/configure	2020-04-17 18:55:36.000000000 +0900
-+++ emacs-27.0.91/configure	2020-04-23 07:27:43.566116500 +0900
+diff -ruN emacs-27.1.orig/configure emacs-27.1/configure
+--- emacs-27.1.orig/configure	2020-07-31 05:03:55.000000000 +0900
++++ emacs-27.1/configure	2020-08-03 07:08:27.684693800 +0900
 @@ -1630,6 +1630,9 @@
  with_xim
  with_ns
@@ -134,9 +134,9 @@ diff -ruN emacs-27.0.91.orig/configure emacs-27.0.91/configure
  emacs_standard_dirs='Standard dirs'
  $as_echo "
  Configured for '${canonical}'.
-diff -ruN emacs-27.0.91.orig/lisp/international/smart-ime.el emacs-27.0.91/lisp/international/smart-ime.el
---- emacs-27.0.91.orig/lisp/international/smart-ime.el	1970-01-01 09:00:00.000000000 +0900
-+++ emacs-27.0.91/lisp/international/smart-ime.el	2020-04-23 07:27:43.580079500 +0900
+diff -ruN emacs-27.1.orig/lisp/international/smart-ime.el emacs-27.1/lisp/international/smart-ime.el
+--- emacs-27.1.orig/lisp/international/smart-ime.el	1970-01-01 09:00:00.000000000 +0900
++++ emacs-27.1/lisp/international/smart-ime.el	2020-08-03 07:08:27.698657500 +0900
 @@ -0,0 +1,172 @@
 +;;; smart-ime.el - smart Input Method -*- lexical-binding: t -*-
 +;;
@@ -310,9 +310,9 @@ diff -ruN emacs-27.0.91.orig/lisp/international/smart-ime.el emacs-27.0.91/lisp/
 +
 +(provide 'smart-ime)
 +;; -*- mode: Emacs-Lisp; coding: euc-jp-unix -*-
-diff -ruN emacs-27.0.91.orig/lisp/international/w32-ime.el emacs-27.0.91/lisp/international/w32-ime.el
---- emacs-27.0.91.orig/lisp/international/w32-ime.el	1970-01-01 09:00:00.000000000 +0900
-+++ emacs-27.0.91/lisp/international/w32-ime.el	2020-04-23 07:27:43.586063400 +0900
+diff -ruN emacs-27.1.orig/lisp/international/w32-ime.el emacs-27.1/lisp/international/w32-ime.el
+--- emacs-27.1.orig/lisp/international/w32-ime.el	1970-01-01 09:00:00.000000000 +0900
++++ emacs-27.1/lisp/international/w32-ime.el	2020-08-03 07:08:27.704641800 +0900
 @@ -0,0 +1,200 @@
 +;;;;; w32-ime.el ---- Meadow features for NTEmacs. -*- lexical-binding: t -*-
 +;;
@@ -514,9 +514,9 @@ diff -ruN emacs-27.0.91.orig/lisp/international/w32-ime.el emacs-27.0.91/lisp/in
 +		       "W32 System IME")
 +
 +(provide 'w32-ime)
-diff -ruN emacs-27.0.91.orig/lisp/loadup.el emacs-27.0.91/lisp/loadup.el
---- emacs-27.0.91.orig/lisp/loadup.el	2020-01-28 17:50:35.000000000 +0900
-+++ emacs-27.0.91/lisp/loadup.el	2020-04-23 07:27:43.592047300 +0900
+diff -ruN emacs-27.1.orig/lisp/loadup.el emacs-27.1/lisp/loadup.el
+--- emacs-27.1.orig/lisp/loadup.el	2020-07-28 06:21:49.000000000 +0900
++++ emacs-27.1/lisp/loadup.el	2020-08-03 07:08:27.710632600 +0900
 @@ -285,34 +285,47 @@
  (load "emacs-lisp/tabulated-list")
  (load "buff-menu")
@@ -590,9 +590,9 @@ diff -ruN emacs-27.0.91.orig/lisp/loadup.el emacs-27.0.91/lisp/loadup.el
          (load "ls-lisp")
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
-diff -ruN emacs-27.0.91.orig/src/config.in emacs-27.0.91/src/config.in
---- emacs-27.0.91.orig/src/config.in	2020-04-17 18:55:36.000000000 +0900
-+++ emacs-27.0.91/src/config.in	2020-04-23 07:27:43.597033900 +0900
+diff -ruN emacs-27.1.orig/src/config.in emacs-27.1/src/config.in
+--- emacs-27.1.orig/src/config.in	2020-07-31 05:03:56.000000000 +0900
++++ emacs-27.1/src/config.in	2020-08-03 07:08:27.718442900 +0900
 @@ -102,6 +102,9 @@
  #endif
  
@@ -643,9 +643,9 @@ diff -ruN emacs-27.0.91.orig/src/config.in emacs-27.0.91/src/config.in
  /* Define to 1 if you have the XCB library and X11-XCB library for mixed
     X11/XCB programming. */
  #undef USE_XCB
-diff -ruN emacs-27.0.91.orig/src/frame.c emacs-27.0.91/src/frame.c
---- emacs-27.0.91.orig/src/frame.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/frame.c	2020-04-23 07:27:43.605012900 +0900
+diff -ruN emacs-27.1.orig/src/frame.c emacs-27.1/src/frame.c
+--- emacs-27.1.orig/src/frame.c	2020-07-30 06:40:42.000000000 +0900
++++ emacs-27.1/src/frame.c	2020-08-03 07:08:27.725584400 +0900
 @@ -1367,8 +1367,24 @@
  
     The value of NORECORD is passed as argument to Fselect_window.  */
@@ -681,9 +681,9 @@ diff -ruN emacs-27.0.91.orig/src/frame.c emacs-27.0.91/src/frame.c
    {"sticky",			SYMBOL_INDEX (Qsticky)},
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
-diff -ruN emacs-27.0.91.orig/src/keyboard.c emacs-27.0.91/src/keyboard.c
---- emacs-27.0.91.orig/src/keyboard.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/keyboard.c	2020-04-23 07:27:43.613988800 +0900
+diff -ruN emacs-27.1.orig/src/keyboard.c emacs-27.1/src/keyboard.c
+--- emacs-27.1.orig/src/keyboard.c	2020-07-30 06:40:42.000000000 +0900
++++ emacs-27.1/src/keyboard.c	2020-08-03 07:08:27.736579900 +0900
 @@ -331,6 +331,11 @@
  
  static struct timespec timer_last_idleness_start_time;
@@ -818,9 +818,9 @@ diff -ruN emacs-27.0.91.orig/src/keyboard.c emacs-27.0.91/src/keyboard.c
  
    /* This means that command_loop_1 won't try to select anything the first
       time through.  */
-diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
---- emacs-27.0.91.orig/src/w32fns.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/w32fns.c	2020-04-23 07:30:48.559402400 +0900
+diff -ruN emacs-27.1.orig/src/w32fns.c emacs-27.1/src/w32fns.c
+--- emacs-27.1.orig/src/w32fns.c	2020-07-30 06:40:42.000000000 +0900
++++ emacs-27.1/src/w32fns.c	2020-08-03 07:08:27.749873800 +0900
 @@ -73,19 +73,87 @@
  #include <imm.h>
  #include <windowsx.h>
@@ -2155,9 +2155,9 @@ diff -ruN emacs-27.0.91.orig/src/w32fns.c emacs-27.0.91/src/w32fns.c
  #ifdef WINDOWSNT
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
-diff -ruN emacs-27.0.91.orig/src/w32font.c emacs-27.0.91/src/w32font.c
---- emacs-27.0.91.orig/src/w32font.c	2020-01-28 17:50:36.000000000 +0900
-+++ emacs-27.0.91/src/w32font.c	2020-04-23 07:27:43.640916700 +0900
+diff -ruN emacs-27.1.orig/src/w32font.c emacs-27.1/src/w32font.c
+--- emacs-27.1.orig/src/w32font.c	2020-07-28 06:21:49.000000000 +0900
++++ emacs-27.1/src/w32font.c	2020-08-03 07:08:27.759686100 +0900
 @@ -55,7 +55,10 @@
  #define JOHAB_CHARSET 130
  #endif
@@ -2182,9 +2182,9 @@ diff -ruN emacs-27.0.91.orig/src/w32font.c emacs-27.0.91/src/w32font.c
  fill_in_logfont (struct frame *f, LOGFONT *logfont, Lisp_Object font_spec)
  {
    Lisp_Object tmp, extra;
-diff -ruN emacs-27.0.91.orig/src/w32font.h emacs-27.0.91/src/w32font.h
---- emacs-27.0.91.orig/src/w32font.h	2020-01-28 17:50:36.000000000 +0900
-+++ emacs-27.0.91/src/w32font.h	2020-04-23 07:27:43.658868900 +0900
+diff -ruN emacs-27.1.orig/src/w32font.h emacs-27.1/src/w32font.h
+--- emacs-27.1.orig/src/w32font.h	2020-07-28 06:21:49.000000000 +0900
++++ emacs-27.1/src/w32font.h	2020-08-03 07:08:27.766566700 +0900
 @@ -83,6 +83,9 @@
  int uniscribe_check_otf (LOGFONT *font, Lisp_Object otf_spec);
  
@@ -2195,9 +2195,9 @@ diff -ruN emacs-27.0.91.orig/src/w32font.h emacs-27.0.91/src/w32font.h
  
  extern void globals_of_w32font (void);
  
-diff -ruN emacs-27.0.91.orig/src/w32term.c emacs-27.0.91/src/w32term.c
---- emacs-27.0.91.orig/src/w32term.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/w32term.c	2020-04-23 07:30:48.561397400 +0900
+diff -ruN emacs-27.1.orig/src/w32term.c emacs-27.1/src/w32term.c
+--- emacs-27.1.orig/src/w32term.c	2020-07-30 06:40:42.000000000 +0900
++++ emacs-27.1/src/w32term.c	2020-08-03 07:08:27.773457300 +0900
 @@ -5676,6 +5676,107 @@
  	  break;
  #endif
@@ -2329,9 +2329,9 @@ diff -ruN emacs-27.0.91.orig/src/w32term.c emacs-27.0.91/src/w32term.c
  }
  
  void
-diff -ruN emacs-27.0.91.orig/src/w32term.h emacs-27.0.91/src/w32term.h
---- emacs-27.0.91.orig/src/w32term.h	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/w32term.h	2020-04-23 07:27:43.675823400 +0900
+diff -ruN emacs-27.1.orig/src/w32term.h emacs-27.1/src/w32term.h
+--- emacs-27.1.orig/src/w32term.h	2020-07-30 06:40:42.000000000 +0900
++++ emacs-27.1/src/w32term.h	2020-08-03 07:08:27.782739300 +0900
 @@ -634,6 +634,8 @@
  #endif /* WM_MOUSEHWHEEL  */
  #ifndef WM_APPCOMMAND
@@ -2451,9 +2451,9 @@ diff -ruN emacs-27.0.91.orig/src/w32term.h emacs-27.0.91/src/w32term.h
 +extern void w32_set_ime_logfont (HWND, struct frame *);
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
-diff -ruN emacs-27.0.91.orig/src/window.c emacs-27.0.91/src/window.c
---- emacs-27.0.91.orig/src/window.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/window.c	2020-04-23 07:27:43.683835800 +0900
+diff -ruN emacs-27.1.orig/src/window.c emacs-27.1/src/window.c
+--- emacs-27.1.orig/src/window.c	2020-07-30 06:40:42.000000000 +0900
++++ emacs-27.1/src/window.c	2020-08-03 07:08:27.791292400 +0900
 @@ -518,6 +518,9 @@
  {
    struct window *w;
@@ -2524,10 +2524,10 @@ diff -ruN emacs-27.0.91.orig/src/window.c emacs-27.0.91/src/window.c
    defsubr (&Sselected_window);
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
-diff -ruN emacs-27.0.91.orig/src/xdisp.c emacs-27.0.91/src/xdisp.c
---- emacs-27.0.91.orig/src/xdisp.c	2020-04-15 20:22:25.000000000 +0900
-+++ emacs-27.0.91/src/xdisp.c	2020-04-23 07:30:48.568381400 +0900
-@@ -12133,9 +12133,24 @@
+diff -ruN emacs-27.1.orig/src/xdisp.c emacs-27.1/src/xdisp.c
+--- emacs-27.1.orig/src/xdisp.c	2020-07-30 06:40:42.000000000 +0900
++++ emacs-27.1/src/xdisp.c	2020-08-03 07:08:27.811480600 +0900
+@@ -12253,9 +12253,24 @@
    return vector;
  }
  
@@ -2552,7 +2552,7 @@ diff -ruN emacs-27.0.91.orig/src/xdisp.c emacs-27.0.91/src/xdisp.c
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
    Lisp_Object old_top_frame = AREF (vector, 9);
-@@ -12361,8 +12376,23 @@
+@@ -12481,8 +12496,23 @@
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
