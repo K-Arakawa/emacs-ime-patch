@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 93463e344a..00459b6ee8 100644
+index 4ee4517e11..ae3eafdb51 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -453,6 +453,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index 93463e344a..00459b6ee8 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5619,6 +5623,42 @@ else
+@@ -5621,6 +5625,42 @@ else
    ACL_SUMMARY=no
  fi
  
@@ -70,10 +70,10 @@ index 57527bb5af..14ea4a2fe7 100644
  # In 'compile-main' we could directly do
  #    ... | xargs $(MAKE)
 diff --git a/lisp/emacs-lisp/edebug.el b/lisp/emacs-lisp/edebug.el
-index cef97e0fb4..e0d42cd4e8 100644
+index d9bbf6129c..862173b1a3 100644
 --- a/lisp/emacs-lisp/edebug.el
 +++ b/lisp/emacs-lisp/edebug.el
-@@ -2811,7 +2811,6 @@ See `edebug-behavior-alist' for implementations.")
+@@ -2818,7 +2818,6 @@ See `edebug-behavior-alist' for implementations.")
  	      (edebug-stop))
  
  	    (edebug-overlay-arrow)
@@ -633,10 +633,10 @@ index c252c0b18f..b473cb7ad8 100644
    "Set the coding system used by the Windows system to CODING-SYSTEM.
  This is used for things like passing font names with non-ASCII
 diff --git a/src/frame.c b/src/frame.c
-index c871e4fd99..366b309cb8 100644
+index c21d4708f7..231923e6be 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1367,8 +1367,24 @@ affects all frames on the same terminal device.  */)
+@@ -1366,8 +1366,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -661,7 +661,7 @@ index c871e4fd99..366b309cb8 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3752,6 +3768,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -3751,6 +3767,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -2479,10 +2479,10 @@ index e2dea8b70e..1e4ecf7941 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index a8cd4dc853..ed0debf328 100644
+index 4fe1c4288a..398b807ce6 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12291,8 +12291,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12288,8 +12288,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2506,7 +2506,7 @@ index a8cd4dc853..ed0debf328 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12519,8 +12534,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12516,8 +12531,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
