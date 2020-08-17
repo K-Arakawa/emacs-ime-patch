@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index 4ee4517e11..ae3eafdb51 100644
+index 745ff22d35..63303c6ade 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -453,6 +453,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
+@@ -468,6 +468,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
  On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
  
@@ -13,7 +13,7 @@ index 4ee4517e11..ae3eafdb51 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5621,6 +5625,42 @@ else
+@@ -5629,6 +5633,42 @@ else
    ACL_SUMMARY=no
  fi
  
@@ -57,10 +57,10 @@ index 4ee4517e11..ae3eafdb51 100644
  AS_ECHO(["
  Configured for '${canonical}'.
 diff --git a/lisp/Makefile.in b/lisp/Makefile.in
-index 57527bb5af..14ea4a2fe7 100644
+index 84c5733918..94b380117d 100644
 --- a/lisp/Makefile.in
 +++ b/lisp/Makefile.in
-@@ -297,7 +297,7 @@ $(THEFILE)c:
+@@ -296,7 +296,7 @@ $(THEFILE)c:
  
  .PHONY: compile-first compile-main compile compile-always
  
@@ -468,7 +468,7 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index ae58bfc566..1da325daf5 100644
+index 7077925602..32fe6dc3bc 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
 @@ -30866,6 +30866,14 @@ twice for the others.
@@ -633,7 +633,7 @@ index c252c0b18f..b473cb7ad8 100644
    "Set the coding system used by the Windows system to CODING-SYSTEM.
  This is used for things like passing font names with non-ASCII
 diff --git a/src/frame.c b/src/frame.c
-index c21d4708f7..231923e6be 100644
+index c4dfc35a0c..cc2d7c55d2 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1366,8 +1366,24 @@ affects all frames on the same terminal device.  */)
@@ -661,7 +661,7 @@ index c21d4708f7..231923e6be 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3751,6 +3767,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -3748,6 +3764,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -2405,7 +2405,7 @@ index 8ba248013c..0bc11fb6a7 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index e2dea8b70e..1e4ecf7941 100644
+index ef58f43a0b..89e29beffe 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -518,6 +518,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2479,7 +2479,7 @@ index e2dea8b70e..1e4ecf7941 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 4fe1c4288a..398b807ce6 100644
+index f05319aa64..d618e3f94f 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12288,8 +12288,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
