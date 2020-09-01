@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index ace1085284..10fe6ee653 100644
+index dd2adb7e74..1fc7bcdbee 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -468,6 +468,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
+@@ -469,6 +469,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
  On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
  
@@ -13,7 +13,7 @@ index ace1085284..10fe6ee653 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5632,6 +5636,42 @@ else
+@@ -5629,6 +5633,42 @@ else
    ACL_SUMMARY=no
  fi
  
@@ -69,18 +69,6 @@ index 84c5733918..94b380117d 100644
  
  # In 'compile-main' we could directly do
  #    ... | xargs $(MAKE)
-diff --git a/lisp/emacs-lisp/edebug.el b/lisp/emacs-lisp/edebug.el
-index d9bbf6129c..862173b1a3 100644
---- a/lisp/emacs-lisp/edebug.el
-+++ b/lisp/emacs-lisp/edebug.el
-@@ -2818,7 +2818,6 @@ See `edebug-behavior-alist' for implementations.")
- 	      (edebug-stop))
- 
- 	    (edebug-overlay-arrow)
--            (edebug--overlay-breakpoints edebug-function)
- 
-             (unwind-protect
-                 (if (or edebug-stop
 diff --git a/lisp/international/smart-ime.el b/lisp/international/smart-ime.el
 new file mode 100644
 index 0000000000..e6350c68e9
@@ -468,12 +456,12 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 7077925602..32fe6dc3bc 100644
+index 40a4150628..4ea4ae7531 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -30866,6 +30866,14 @@ twice for the others.
+@@ -31208,6 +31208,14 @@ twice for the others.
  
- (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "skeleton" '("skeleton-")))
+ (register-definition-prefixes "skeleton" '("skeleton-"))
  
 +;;;***
 +
@@ -486,23 +474,9 @@ index 7077925602..32fe6dc3bc 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -37998,8 +38006,28 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
- ;;;### (autoloads nil "w32-fns" "w32-fns.el" (0 0 0 0))
- ;;; Generated autoloads from w32-fns.el
+@@ -38374,6 +38382,14 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
  
-+(autoload 'w32-convert-standard-filename "w32-fns" "\
-+Convert a standard file's name to something suitable for MS-Windows.
-+This means to guarantee valid names and perhaps to canonicalize
-+certain patterns.
-+
-+This function is called by `convert-standard-filename'.
-+
-+Replace invalid characters and turn Cygwin names into native
-+names.
-+
-+\(fn FILENAME)" nil nil)
-+
- (if (fboundp 'register-definition-prefixes) (register-definition-prefixes "w32-fns" '("w32-")))
+ (register-definition-prefixes "w32-fns" '("w32-"))
  
 +;;;***
 +
@@ -672,7 +646,7 @@ index c4dfc35a0c..cc2d7c55d2 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 5fa58abce1..58283a29ac 100644
+index 590d183c4c..56d573a473 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -331,6 +331,11 @@ static struct timespec timer_idleness_start_time;
@@ -2405,7 +2379,7 @@ index 8ba248013c..0bc11fb6a7 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index ef58f43a0b..89e29beffe 100644
+index e7433969d2..ba6e46a356 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -518,6 +518,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2462,7 +2436,7 @@ index ef58f43a0b..89e29beffe 100644
    DEFSYM (Qwindow_live_p, "window-live-p");
 @@ -8408,6 +8432,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
-   Vfast_but_imprecise_scrolling = false;
+   fast_but_imprecise_scrolling = false;
  
 +#ifdef USE_W32_IME
 +  DEFVAR_LISP ("set-selected-window-buffer-functions",
@@ -2479,10 +2453,10 @@ index ef58f43a0b..89e29beffe 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index ad03ac4605..b8f8aeec87 100644
+index dd73758043..a0a3c0051c 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12288,8 +12288,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12371,8 +12371,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2506,7 +2480,7 @@ index ad03ac4605..b8f8aeec87 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12516,8 +12531,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12605,8 +12620,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
