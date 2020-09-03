@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index dd2adb7e74..1fc7bcdbee 100644
+index 0bcff587e8..cbd934e85f 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -469,6 +469,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index dd2adb7e74..1fc7bcdbee 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5629,6 +5633,42 @@ else
+@@ -5642,6 +5646,42 @@ else
    ACL_SUMMARY=no
  fi
  
@@ -646,7 +646,7 @@ index c4dfc35a0c..cc2d7c55d2 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 590d183c4c..56d573a473 100644
+index 5fa58abce1..58283a29ac 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -331,6 +331,11 @@ static struct timespec timer_idleness_start_time;
@@ -2453,7 +2453,7 @@ index e7433969d2..ba6e46a356 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index dd73758043..a0a3c0051c 100644
+index 406b2d70d5..eeda2e71be 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12371,8 +12371,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
