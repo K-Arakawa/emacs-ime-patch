@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index ae0c0d2a2e..e966dd1e3d 100644
+index f0c8e5210f..2e51240bb9 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -469,6 +469,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 40a4150628..4ea4ae7531 100644
+index 3260b67a99..de95d30a03 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -31208,6 +31208,14 @@ twice for the others.
+@@ -31276,6 +31276,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index 40a4150628..4ea4ae7531 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -38374,6 +38382,14 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
+@@ -38465,6 +38473,14 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -607,7 +607,7 @@ index e159d1888e..bb4395aafe 100644
    "Set the coding system used by the Windows system to CODING-SYSTEM.
  This is used for things like passing font names with non-ASCII
 diff --git a/src/frame.c b/src/frame.c
-index c4dfc35a0c..cc2d7c55d2 100644
+index 0b707c2af8..30e0cb1251 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1366,8 +1366,24 @@ affects all frames on the same terminal device.  */)
@@ -646,7 +646,7 @@ index c4dfc35a0c..cc2d7c55d2 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 8525d3b8de..75a6cc7414 100644
+index 4d22c44810..deea085f30 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -761,7 +761,7 @@ index 8525d3b8de..75a6cc7414 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11016,6 +11071,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11014,6 +11069,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -772,7 +772,7 @@ index 8525d3b8de..75a6cc7414 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11432,6 +11491,10 @@ init_keyboard (void)
+@@ -11430,6 +11489,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -784,7 +784,7 @@ index 8525d3b8de..75a6cc7414 100644
    /* This means that command_loop_1 won't try to select anything the first
       time through.  */
 diff --git a/src/w32fns.c b/src/w32fns.c
-index ab864332e7..48cba8cbbe 100644
+index ef69f40611..12efe13106 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,18 +73,84 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2121,7 +2121,7 @@ index a76f8c30ce..42500f78c8 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 2669f29b56..a20a9e24e7 100644
+index e0618e4f52..b7652596ae 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -5702,6 +5702,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2256,7 +2256,7 @@ index 2669f29b56..a20a9e24e7 100644
  
  void
 diff --git a/src/w32term.h b/src/w32term.h
-index 8ba248013c..0bc11fb6a7 100644
+index 694493c6c8..a2f48c8117 100644
 --- a/src/w32term.h
 +++ b/src/w32term.h
 @@ -635,6 +635,8 @@ do { \
@@ -2453,10 +2453,10 @@ index e7433969d2..ba6e46a356 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 615f0ca7cf..1a37138d46 100644
+index 9e8f4fc5ad..2f782a8e30 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12371,8 +12371,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12384,8 +12384,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2480,7 +2480,7 @@ index 615f0ca7cf..1a37138d46 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12605,8 +12620,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12618,8 +12633,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
