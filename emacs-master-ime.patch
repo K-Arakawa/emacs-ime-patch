@@ -646,7 +646,7 @@ index 097cd555c6..66ed11485f 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 5db45ce8e5..ceb262a7bd 100644
+index e9236fee1a..08f6b2cb60 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -2453,7 +2453,7 @@ index 5134c3df63..c217787a75 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 7a89089958..41e54fb1a3 100644
+index 7a89089958..9713aae505 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12495,8 +12495,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
@@ -2480,25 +2480,19 @@ index 7a89089958..41e54fb1a3 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12673,10 +12688,17 @@ gui_consider_frame_title (Lisp_Object frame)
-       /* Switch to the buffer of selected window of the frame.  Set up
- 	 mode_line_target so that display_mode_element will output into
- 	 mode_line_noprop_buf; then display the title.  */
-+#if !defined(USE_W32_IME)
-       record_unwind_protect (unwind_format_mode_line,
+@@ -12677,6 +12692,11 @@ gui_consider_frame_title (Lisp_Object frame)
  			     format_mode_line_unwind_data
  			     (NULL, current_buffer, Qnil, false));
-+#else  /* defined(USE_W32_IME) */
-+      record_unwind_protect (unwind_format_mode_line,
-+			     format_mode_line_unwind_data
-+			       (f, current_buffer, selected_window, false));
  
-+      Fselect_window (f->selected_window, Qt);
++#if defined(USE_W32_IME)
++      if (!NILP (Vselect_window_functions))
++	run_hook_with_args_2 (Qselect_window_functions,
++			      selected_window, f->selected_window);
 +#endif	/* defined(USE_W32_IME) */
        set_buffer_internal_1
  	(XBUFFER (XWINDOW (f->selected_window)->contents));
        fmt = FRAME_ICONIFIED_P (f) ? Vicon_title_format : Vframe_title_format;
-@@ -12728,8 +12750,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12728,8 +12748,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
