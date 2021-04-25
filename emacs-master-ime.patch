@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index 2c62a9fe6f..fe51a40aae 100644
+index 3df4359fa7..9d494d0484 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -468,6 +468,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
+@@ -469,6 +469,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
  On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
  
@@ -13,7 +13,7 @@ index 2c62a9fe6f..fe51a40aae 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5653,6 +5657,42 @@ else
+@@ -5806,6 +5810,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -57,10 +57,10 @@ index 2c62a9fe6f..fe51a40aae 100644
  AS_ECHO(["
  Configured for '${canonical}'.
 diff --git a/lisp/Makefile.in b/lisp/Makefile.in
-index 8ea2841558..088033ea36 100644
+index b970451dd2..eb701d0115 100644
 --- a/lisp/Makefile.in
 +++ b/lisp/Makefile.in
-@@ -280,7 +280,7 @@ $(THEFILE)c:
+@@ -303,7 +303,7 @@ endif
  
  .PHONY: compile-first compile-main compile compile-always
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index c9210c6251..c62ba111a6 100644
+index 412751bf45..e0d7c89b05 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -29976,6 +29976,14 @@ twice for the others.
+@@ -29988,6 +29988,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index c9210c6251..c62ba111a6 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -37118,6 +37126,14 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
+@@ -37153,6 +37161,14 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -490,10 +490,10 @@ index c9210c6251..c62ba111a6 100644
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 4a0b8f508c..6a59d5bea9 100644
+index c82d08133c..aa8b661a85 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
-@@ -283,34 +283,47 @@
+@@ -284,34 +284,47 @@
  (load "emacs-lisp/tabulated-list")
  (load "buff-menu")
  
@@ -607,7 +607,7 @@ index 2548fa4d44..cfed0a7e3a 100644
    "Set the coding system used by the Windows system to CODING-SYSTEM.
  This is used for things like passing font names with non-ASCII
 diff --git a/src/frame.c b/src/frame.c
-index 66ae4943ba..d5c50d7fa1 100644
+index 097cd555c6..66ed11485f 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1367,8 +1367,24 @@ affects all frames on the same terminal device.  */)
@@ -635,7 +635,7 @@ index 66ae4943ba..d5c50d7fa1 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3800,6 +3816,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -3823,6 +3839,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -646,7 +646,7 @@ index 66ae4943ba..d5c50d7fa1 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 266ebaa5fd..5985c67efd 100644
+index e9236fee1a..08f6b2cb60 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -784,7 +784,7 @@ index 266ebaa5fd..5985c67efd 100644
    /* This means that command_loop_1 won't try to select anything the first
       time through.  */
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 9db367bfaf..ac627158df 100644
+index c07f32ab0c..e262f15799 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,18 +73,84 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -1047,7 +1047,7 @@ index 9db367bfaf..ac627158df 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8074,6 +8261,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8076,6 +8263,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -2008,7 +2008,7 @@ index 9db367bfaf..ac627158df 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10324,6 +11465,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10326,6 +11467,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -2018,7 +2018,7 @@ index 9db367bfaf..ac627158df 100644
    0, /* x_set_sticky */
    0, /* x_set_tool_bar_position */
    0, /* x_set_inhibit_double_buffering */
-@@ -10347,6 +11491,10 @@ syms_of_w32fns (void)
+@@ -10349,6 +11493,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -2029,7 +2029,7 @@ index 9db367bfaf..ac627158df 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10693,6 +11841,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -10695,6 +11843,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -2057,7 +2057,7 @@ index 9db367bfaf..ac627158df 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -10748,6 +11917,20 @@ keys when IME input is received.  */);
+@@ -10750,6 +11919,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2121,10 +2121,10 @@ index cf2bf3c242..6502dea0a2 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 0ee805a852..9b982d1b85 100644
+index 361cf33c02..4cb427d92b 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
-@@ -5712,6 +5712,107 @@ w32_read_socket (struct terminal *terminal,
+@@ -5728,6 +5728,107 @@ w32_read_socket (struct terminal *terminal,
  	  break;
  #endif
  
@@ -2232,7 +2232,7 @@ index 0ee805a852..9b982d1b85 100644
  	default:
  	  /* Check for messages registered at runtime.  */
  	  if (msg.msg.message == msh_mousewheel)
-@@ -6075,7 +6176,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
+@@ -6091,7 +6192,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
  	    + WINDOW_HEADER_LINE_HEIGHT (w);
  	  w32_system_caret_mode_height = WINDOW_MODE_LINE_HEIGHT (w);
  
@@ -2245,7 +2245,7 @@ index 0ee805a852..9b982d1b85 100644
  
  	  /* If the size of the active cursor changed, destroy the old
  	     system caret.  */
-@@ -7599,6 +7705,9 @@ w32_initialize (void)
+@@ -7615,6 +7721,9 @@ w32_initialize (void)
      horizontal_scroll_bar_left_border = horizontal_scroll_bar_right_border
        = GetSystemMetrics (SM_CYHSCROLL);
    }
@@ -2379,20 +2379,20 @@ index 7d351df871..85842dbe20 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 4d5c7e763e..95dbb16611 100644
+index 0a14eca58f..c9a05690e3 100644
 --- a/src/window.c
 +++ b/src/window.c
-@@ -518,6 +518,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
- {
-   struct window *w;
+@@ -506,6 +506,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
    struct frame *sf;
+   Lisp_Object frame;
+   struct frame *f;
 +#ifdef USE_W32_IME
 +  Lisp_Object oldwin = selected_window;
 +#endif /* USE_W32_IME */
  
    CHECK_LIVE_WINDOW (window);
  
-@@ -571,6 +574,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
+@@ -565,6 +568,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
        record_buffer (w->contents);
      }
  
@@ -2404,7 +2404,7 @@ index 4d5c7e763e..95dbb16611 100644
    return window;
  }
  
-@@ -4108,6 +4116,18 @@ This function runs `window-scroll-functions' before running
+@@ -4125,6 +4133,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2423,7 +2423,7 @@ index 4d5c7e763e..95dbb16611 100644
    return Qnil;
  }
  
-@@ -8198,6 +8218,10 @@ syms_of_window (void)
+@@ -8222,6 +8242,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2434,7 +2434,7 @@ index 4d5c7e763e..95dbb16611 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8480,6 +8504,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8505,6 +8529,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2453,10 +2453,10 @@ index 4d5c7e763e..95dbb16611 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index a405d51f80..d6390ac482 100644
+index 7a89089958..14f21a40a3 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12470,8 +12470,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12495,8 +12495,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2480,7 +2480,19 @@ index a405d51f80..d6390ac482 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12703,8 +12718,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12677,6 +12692,11 @@ gui_consider_frame_title (Lisp_Object frame)
+ 			     format_mode_line_unwind_data
+ 			     (NULL, current_buffer, Qnil, false));
+ 
++#if defined(USE_W32_IME)
++      if (!NILP (Vselect_window_functions))
++	run_hook_with_args_2 (Qselect_window_functions,
++			      selected_window, selected_window);
++#endif	/* defined(USE_W32_IME) */
+       set_buffer_internal_1
+ 	(XBUFFER (XWINDOW (f->selected_window)->contents));
+       fmt = FRAME_ICONIFIED_P (f) ? Vicon_title_format : Vframe_title_format;
+@@ -12728,8 +12748,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
