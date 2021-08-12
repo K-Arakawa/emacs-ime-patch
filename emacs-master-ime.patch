@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 79cc56f9a7..aa319ad8de 100644
+index eff5591543..f064a9ad79 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -469,6 +469,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index 79cc56f9a7..aa319ad8de 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5823,6 +5827,42 @@ else
+@@ -5848,6 +5852,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -2379,7 +2379,7 @@ index 160be35782..5c61b0eb95 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index a6e8ee0d53..74a7dfb975 100644
+index a6e8ee0d53..123f2464c3 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -507,6 +507,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2392,18 +2392,18 @@ index a6e8ee0d53..74a7dfb975 100644
  
    CHECK_LIVE_WINDOW (window);
  
-@@ -559,6 +562,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
-   bset_last_selected_window (XBUFFER (w->contents), window);
+@@ -569,6 +572,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
+       record_buffer (w->contents);
+     }
  
-  record_and_return:
 +#ifdef USE_W32_IME
 +  if (!NILP (Vselect_window_functions))
 +    run_hook_with_args_2 (Qselect_window_functions, oldwin, window);
 +#endif /* USE_W32_IME */
 +
-   /* record_buffer can call maybe_quit, so make sure it is run only
-      after we have re-established the invariant between
-      selected_window and selected_frame, otherwise the temporary
+   return window;
+ }
+ 
 @@ -4134,6 +4142,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
@@ -2453,7 +2453,7 @@ index a6e8ee0d53..74a7dfb975 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 70d15aee68..94bc88dbe2 100644
+index e62f7e3df6..4158ee2437 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12537,8 +12537,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
