@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 76f608ffb0..ce62b3a299 100644
+index 6d204b6103..e2094218f4 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -469,6 +469,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index 76f608ffb0..ce62b3a299 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5849,6 +5853,42 @@ else
+@@ -5851,6 +5855,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index e6ac5d54fc..753bf2d8c1 100644
+index 542cbef9f5..320a7eb2dc 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -30642,6 +30642,14 @@ twice for the others.
+@@ -30745,6 +30745,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index e6ac5d54fc..753bf2d8c1 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -37916,6 +37924,14 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
+@@ -38058,6 +38066,14 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -607,10 +607,10 @@ index 2548fa4d44..cfed0a7e3a 100644
    "Set the coding system used by the Windows system to CODING-SYSTEM.
  This is used for things like passing font names with non-ASCII
 diff --git a/src/frame.c b/src/frame.c
-index 74ef2afdb1..9454840369 100644
+index ab5dcc3664..4714e4aed3 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1445,8 +1445,24 @@ affects all frames on the same terminal device.  */)
+@@ -1446,8 +1446,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -635,7 +635,7 @@ index 74ef2afdb1..9454840369 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3883,6 +3899,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -3884,6 +3900,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -646,7 +646,7 @@ index 74ef2afdb1..9454840369 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 2e4c4e6aab..6545f62b79 100644
+index f6139b30e7..5e3632c057 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -661,7 +661,7 @@ index 2e4c4e6aab..6545f62b79 100644
  
  /* Global variable declarations.  */
  
-@@ -1273,6 +1278,14 @@ command_loop_1 (void)
+@@ -1274,6 +1279,14 @@ command_loop_1 (void)
    this_command_key_count = 0;
    this_single_command_key_start = 0;
  
@@ -676,7 +676,7 @@ index 2e4c4e6aab..6545f62b79 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4635,7 +4648,11 @@ const char *const lispy_function_keys[] =
+@@ -4636,7 +4649,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
