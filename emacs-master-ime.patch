@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 6d204b6103..e2094218f4 100644
+index 418a62fd5e..25fb66f770 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -469,6 +469,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -607,7 +607,7 @@ index 2548fa4d44..cfed0a7e3a 100644
    "Set the coding system used by the Windows system to CODING-SYSTEM.
  This is used for things like passing font names with non-ASCII
 diff --git a/src/frame.c b/src/frame.c
-index ab5dcc3664..4714e4aed3 100644
+index f95566818a..1eb8886deb 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1446,8 +1446,24 @@ affects all frames on the same terminal device.  */)
@@ -646,7 +646,7 @@ index ab5dcc3664..4714e4aed3 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index f6139b30e7..5e3632c057 100644
+index ac8c6b0d95..9e9888e15c 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -661,7 +661,7 @@ index f6139b30e7..5e3632c057 100644
  
  /* Global variable declarations.  */
  
-@@ -1274,6 +1279,14 @@ command_loop_1 (void)
+@@ -1278,6 +1283,14 @@ command_loop_1 (void)
    this_command_key_count = 0;
    this_single_command_key_start = 0;
  
@@ -676,7 +676,7 @@ index f6139b30e7..5e3632c057 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4636,7 +4649,11 @@ const char *const lispy_function_keys[] =
+@@ -4640,7 +4653,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -688,7 +688,7 @@ index f6139b30e7..5e3632c057 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9321,6 +9338,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9331,6 +9348,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    ptrdiff_t count = SPECPDL_INDEX ();
  
@@ -708,7 +708,7 @@ index f6139b30e7..5e3632c057 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9442,6 +9472,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9452,6 +9482,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -721,7 +721,7 @@ index f6139b30e7..5e3632c057 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9524,6 +9560,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9534,6 +9570,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -738,7 +738,7 @@ index f6139b30e7..5e3632c057 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -9646,6 +9692,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9656,6 +9702,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -749,7 +749,7 @@ index f6139b30e7..5e3632c057 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10214,6 +10264,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10224,6 +10274,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -761,7 +761,7 @@ index f6139b30e7..5e3632c057 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11035,6 +11090,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11045,6 +11100,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -772,7 +772,7 @@ index f6139b30e7..5e3632c057 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11463,6 +11522,10 @@ init_keyboard (void)
+@@ -11473,6 +11532,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2121,10 +2121,10 @@ index cf2bf3c242..6502dea0a2 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index ad4d1a3282..b7054dfcb8 100644
+index 9ee3b1ed1f..0bc9849a47 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
-@@ -5705,6 +5705,107 @@ w32_read_socket (struct terminal *terminal,
+@@ -5712,6 +5712,107 @@ w32_read_socket (struct terminal *terminal,
  	  break;
  #endif
  
@@ -2232,7 +2232,7 @@ index ad4d1a3282..b7054dfcb8 100644
  	default:
  	  /* Check for messages registered at runtime.  */
  	  if (msg.msg.message == msh_mousewheel)
-@@ -6068,7 +6169,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
+@@ -6075,7 +6176,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
  	    + WINDOW_HEADER_LINE_HEIGHT (w);
  	  w32_system_caret_mode_height = WINDOW_MODE_LINE_HEIGHT (w);
  
@@ -2245,7 +2245,7 @@ index ad4d1a3282..b7054dfcb8 100644
  
  	  /* If the size of the active cursor changed, destroy the old
  	     system caret.  */
-@@ -7545,6 +7651,9 @@ w32_initialize (void)
+@@ -7552,6 +7658,9 @@ w32_initialize (void)
      horizontal_scroll_bar_left_border = horizontal_scroll_bar_right_border
        = GetSystemMetrics (SM_CYHSCROLL);
    }
@@ -2453,7 +2453,7 @@ index a6e8ee0d53..123f2464c3 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index e853c8c223..b0f28840b9 100644
+index 45c7090fc0..e8df1d0fb3 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12551,8 +12551,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
