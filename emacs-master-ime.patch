@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index f151dd551d..8b1285de3d 100644
+index 31c715e20c..748ae23723 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -469,6 +469,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index f151dd551d..8b1285de3d 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5859,6 +5863,42 @@ else
+@@ -5861,6 +5865,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -57,10 +57,10 @@ index f151dd551d..8b1285de3d 100644
  AS_ECHO(["
  Configured for '${canonical}'.
 diff --git a/lisp/Makefile.in b/lisp/Makefile.in
-index 431217a9da..e67e2df567 100644
+index 60d1d10e5b..75ad4b9f83 100644
 --- a/lisp/Makefile.in
 +++ b/lisp/Makefile.in
-@@ -303,7 +303,7 @@ endif
+@@ -311,7 +311,7 @@ endif
  
  .PHONY: compile-first compile-main compile compile-always
  
@@ -490,7 +490,7 @@ index 0ab9552c60..91114fcbf2 100644
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index fce17bf113..e5cf3c0626 100644
+index 942057c838..fdba75b8c7 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -283,34 +283,47 @@
