@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 31c715e20c..748ae23723 100644
+index bd7ff2e1b7..a1a74e33f4 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -469,6 +469,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -57,10 +57,10 @@ index 31c715e20c..748ae23723 100644
  AS_ECHO(["
  Configured for '${canonical}'.
 diff --git a/lisp/Makefile.in b/lisp/Makefile.in
-index 60d1d10e5b..75ad4b9f83 100644
+index 3e764c5a78..9a18ad8d76 100644
 --- a/lisp/Makefile.in
 +++ b/lisp/Makefile.in
-@@ -311,7 +311,7 @@ endif
+@@ -322,7 +322,7 @@ endif
  
  .PHONY: compile-first compile-main compile compile-always
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 0ab9552c60..91114fcbf2 100644
+index 47d251f3b5..ba9b1a82f6 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -30745,6 +30745,14 @@ twice for the others.
+@@ -30909,6 +30909,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index 0ab9552c60..91114fcbf2 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -38058,6 +38066,14 @@ Turn on Viper emulation of Vi in Emacs. See Info node `(viper)Top'." t nil)
+@@ -38244,6 +38252,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -490,7 +490,7 @@ index 0ab9552c60..91114fcbf2 100644
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 942057c838..fdba75b8c7 100644
+index 3a55d2c805..9c7bd7e9c6 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -283,34 +283,47 @@
@@ -646,7 +646,7 @@ index f95566818a..1eb8886deb 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index bc6f97586d..0c6d7b7d57 100644
+index 9a50a5e5eb..5b12fd1e2f 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -688,7 +688,7 @@ index bc6f97586d..0c6d7b7d57 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9370,6 +9387,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9371,6 +9388,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    ptrdiff_t count = SPECPDL_INDEX ();
  
@@ -708,7 +708,7 @@ index bc6f97586d..0c6d7b7d57 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9491,6 +9521,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9492,6 +9522,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -721,7 +721,7 @@ index bc6f97586d..0c6d7b7d57 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9573,6 +9609,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9574,6 +9610,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -738,7 +738,7 @@ index bc6f97586d..0c6d7b7d57 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -9695,6 +9741,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9696,6 +9742,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -749,7 +749,7 @@ index bc6f97586d..0c6d7b7d57 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10263,6 +10313,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10267,6 +10317,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -761,7 +761,7 @@ index bc6f97586d..0c6d7b7d57 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11084,6 +11139,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11088,6 +11143,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -772,7 +772,7 @@ index bc6f97586d..0c6d7b7d57 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11512,6 +11571,10 @@ init_keyboard (void)
+@@ -11516,6 +11575,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2453,10 +2453,10 @@ index a6e8ee0d53..123f2464c3 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index b777d1b282..2ea6a1c822 100644
+index 9ddf0dd54b..5a7c3234f3 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12557,8 +12557,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12559,8 +12559,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2480,7 +2480,7 @@ index b777d1b282..2ea6a1c822 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12739,6 +12754,11 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12741,6 +12756,11 @@ gui_consider_frame_title (Lisp_Object frame)
  			     format_mode_line_unwind_data
  			     (NULL, current_buffer, Qnil, false));
  
@@ -2492,7 +2492,7 @@ index b777d1b282..2ea6a1c822 100644
        set_buffer_internal_1
  	(XBUFFER (XWINDOW (f->selected_window)->contents));
        fmt = FRAME_ICONIFIED_P (f) ? Vicon_title_format : Vframe_title_format;
-@@ -12790,8 +12810,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12792,8 +12812,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
