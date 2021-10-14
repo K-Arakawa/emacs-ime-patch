@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index bd7ff2e1b7..a1a74e33f4 100644
+index 9ab0314428..aa9a4b5038 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -469,6 +469,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index bd7ff2e1b7..a1a74e33f4 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5861,6 +5865,42 @@ else
+@@ -5862,6 +5866,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -646,7 +646,7 @@ index f95566818a..1eb8886deb 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 9a50a5e5eb..5b12fd1e2f 100644
+index be9fad3ac3..08551ddc9c 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -676,7 +676,7 @@ index 9a50a5e5eb..5b12fd1e2f 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4651,7 +4664,11 @@ const char *const lispy_function_keys[] =
+@@ -4639,7 +4652,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -688,7 +688,7 @@ index 9a50a5e5eb..5b12fd1e2f 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9371,6 +9388,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9374,6 +9391,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    ptrdiff_t count = SPECPDL_INDEX ();
  
@@ -708,7 +708,7 @@ index 9a50a5e5eb..5b12fd1e2f 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9492,6 +9522,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9495,6 +9525,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -721,7 +721,7 @@ index 9a50a5e5eb..5b12fd1e2f 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9574,6 +9610,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9577,6 +9613,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -738,7 +738,7 @@ index 9a50a5e5eb..5b12fd1e2f 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -9696,6 +9742,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9699,6 +9745,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -749,7 +749,7 @@ index 9a50a5e5eb..5b12fd1e2f 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10267,6 +10317,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10270,6 +10320,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -761,7 +761,7 @@ index 9a50a5e5eb..5b12fd1e2f 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11088,6 +11143,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11091,6 +11146,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -772,7 +772,7 @@ index 9a50a5e5eb..5b12fd1e2f 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11516,6 +11575,10 @@ init_keyboard (void)
+@@ -11519,6 +11578,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2379,10 +2379,10 @@ index 160be35782..5c61b0eb95 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index a6e8ee0d53..123f2464c3 100644
+index 9845fbb876..f6e95a4daf 100644
 --- a/src/window.c
 +++ b/src/window.c
-@@ -507,6 +507,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
+@@ -512,6 +512,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
    struct frame *sf;
    Lisp_Object frame;
    struct frame *f;
@@ -2392,7 +2392,7 @@ index a6e8ee0d53..123f2464c3 100644
  
    CHECK_LIVE_WINDOW (window);
  
-@@ -569,6 +572,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
+@@ -574,6 +577,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
        record_buffer (w->contents);
      }
  
@@ -2404,7 +2404,7 @@ index a6e8ee0d53..123f2464c3 100644
    return window;
  }
  
-@@ -4134,6 +4142,18 @@ This function runs `window-scroll-functions' before running
+@@ -4133,6 +4141,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2423,7 +2423,7 @@ index a6e8ee0d53..123f2464c3 100644
    return Qnil;
  }
  
-@@ -8217,6 +8237,10 @@ syms_of_window (void)
+@@ -8216,6 +8236,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2434,7 +2434,7 @@ index a6e8ee0d53..123f2464c3 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8500,6 +8524,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8499,6 +8523,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2453,10 +2453,10 @@ index a6e8ee0d53..123f2464c3 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 9ddf0dd54b..5a7c3234f3 100644
+index 012c2ad8bf..cd5608467b 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12559,8 +12559,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12563,8 +12563,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2480,7 +2480,7 @@ index 9ddf0dd54b..5a7c3234f3 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12741,6 +12756,11 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12745,6 +12760,11 @@ gui_consider_frame_title (Lisp_Object frame)
  			     format_mode_line_unwind_data
  			     (NULL, current_buffer, Qnil, false));
  
@@ -2492,7 +2492,7 @@ index 9ddf0dd54b..5a7c3234f3 100644
        set_buffer_internal_1
  	(XBUFFER (XWINDOW (f->selected_window)->contents));
        fmt = FRAME_ICONIFIED_P (f) ? Vicon_title_format : Vframe_title_format;
-@@ -12792,8 +12812,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12796,8 +12816,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
