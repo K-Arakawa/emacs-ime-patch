@@ -607,7 +607,7 @@ index 2548fa4d44..cfed0a7e3a 100644
    "Set the coding system used by the Windows system to CODING-SYSTEM.
  This is used for things like passing font names with non-ASCII
 diff --git a/src/frame.c b/src/frame.c
-index f95566818a..1eb8886deb 100644
+index 2b1cb452ef..68592e8c95 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1446,8 +1446,24 @@ affects all frames on the same terminal device.  */)
@@ -646,7 +646,7 @@ index f95566818a..1eb8886deb 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index be9fad3ac3..08551ddc9c 100644
+index 6e8a1e3657..a8be19999e 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -676,7 +676,7 @@ index be9fad3ac3..08551ddc9c 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4639,7 +4652,11 @@ const char *const lispy_function_keys[] =
+@@ -4641,7 +4654,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -688,7 +688,7 @@ index be9fad3ac3..08551ddc9c 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9374,6 +9391,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9376,6 +9393,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    ptrdiff_t count = SPECPDL_INDEX ();
  
@@ -708,7 +708,7 @@ index be9fad3ac3..08551ddc9c 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9495,6 +9525,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9497,6 +9527,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -721,7 +721,7 @@ index be9fad3ac3..08551ddc9c 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9577,6 +9613,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9579,6 +9615,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -738,7 +738,7 @@ index be9fad3ac3..08551ddc9c 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -9699,6 +9745,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9701,6 +9747,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -749,7 +749,7 @@ index be9fad3ac3..08551ddc9c 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10270,6 +10320,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10272,6 +10322,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -761,7 +761,7 @@ index be9fad3ac3..08551ddc9c 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11091,6 +11146,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11093,6 +11148,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -772,7 +772,7 @@ index be9fad3ac3..08551ddc9c 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11519,6 +11578,10 @@ init_keyboard (void)
+@@ -11521,6 +11580,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2079,7 +2079,7 @@ index 14d1154a2b..e76fe405a5 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index 6b9ab0468c..5cc675f660 100644
+index 4ceb4302ce..91ea851b2e 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2121,10 +2121,10 @@ index cf2bf3c242..6502dea0a2 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 9cf250cd73..4122d6c836 100644
+index 07a5cd3564..862dbd3d91 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
-@@ -5698,6 +5698,107 @@ w32_read_socket (struct terminal *terminal,
+@@ -5682,6 +5682,107 @@ w32_read_socket (struct terminal *terminal,
  	  break;
  #endif
  
@@ -2232,7 +2232,7 @@ index 9cf250cd73..4122d6c836 100644
  	default:
  	  /* Check for messages registered at runtime.  */
  	  if (msg.msg.message == msh_mousewheel)
-@@ -6061,7 +6162,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
+@@ -6045,7 +6146,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
  	    + WINDOW_HEADER_LINE_HEIGHT (w);
  	  w32_system_caret_mode_height = WINDOW_MODE_LINE_HEIGHT (w);
  
@@ -2245,7 +2245,7 @@ index 9cf250cd73..4122d6c836 100644
  
  	  /* If the size of the active cursor changed, destroy the old
  	     system caret.  */
-@@ -7538,6 +7644,9 @@ w32_initialize (void)
+@@ -7522,6 +7628,9 @@ w32_initialize (void)
      horizontal_scroll_bar_left_border = horizontal_scroll_bar_right_border
        = GetSystemMetrics (SM_CYHSCROLL);
    }
@@ -2379,7 +2379,7 @@ index 160be35782..5c61b0eb95 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 9845fbb876..f6e95a4daf 100644
+index e801ff821f..9d1474f2ac 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -512,6 +512,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2404,7 +2404,7 @@ index 9845fbb876..f6e95a4daf 100644
    return window;
  }
  
-@@ -4133,6 +4141,18 @@ This function runs `window-scroll-functions' before running
+@@ -4146,6 +4154,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2423,7 +2423,7 @@ index 9845fbb876..f6e95a4daf 100644
    return Qnil;
  }
  
-@@ -8216,6 +8236,10 @@ syms_of_window (void)
+@@ -8217,6 +8237,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2434,7 +2434,7 @@ index 9845fbb876..f6e95a4daf 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8499,6 +8523,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8500,6 +8524,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2453,10 +2453,10 @@ index 9845fbb876..f6e95a4daf 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 012c2ad8bf..cd5608467b 100644
+index 8eb5b2e4bd..cf7283344a 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12563,8 +12563,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12564,8 +12564,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2480,7 +2480,7 @@ index 012c2ad8bf..cd5608467b 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12745,6 +12760,11 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12746,6 +12761,11 @@ gui_consider_frame_title (Lisp_Object frame)
  			     format_mode_line_unwind_data
  			     (NULL, current_buffer, Qnil, false));
  
@@ -2492,7 +2492,7 @@ index 012c2ad8bf..cd5608467b 100644
        set_buffer_internal_1
  	(XBUFFER (XWINDOW (f->selected_window)->contents));
        fmt = FRAME_ICONIFIED_P (f) ? Vicon_title_format : Vframe_title_format;
-@@ -12796,8 +12816,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -12797,8 +12817,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
