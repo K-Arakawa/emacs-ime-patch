@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 86928c8393..4c1a5093f3 100644
+index 33e7037afe..d1475276d0 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -470,6 +470,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index 86928c8393..4c1a5093f3 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5885,6 +5889,42 @@ else
+@@ -5896,6 +5900,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 47d251f3b5..ba9b1a82f6 100644
+index 4b9505a135..2f9b38e0ed 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -30909,6 +30909,14 @@ twice for the others.
+@@ -30927,6 +30927,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index 47d251f3b5..ba9b1a82f6 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -38244,6 +38252,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
+@@ -38290,6 +38298,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -490,7 +490,7 @@ index 47d251f3b5..ba9b1a82f6 100644
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 3a55d2c805..9c7bd7e9c6 100644
+index e8ecb67d56..14b6957363 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -283,34 +283,47 @@
@@ -784,10 +784,10 @@ index 5d4bb6ee8f..172122236f 100644
    /* This means that command_loop_1 won't try to select anything the first
       time through.  */
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 14d1154a2b..e76fe405a5 100644
+index c1686beaaa..da7e53b66e 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
-@@ -73,18 +73,84 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
+@@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
  #include <imm.h>
  #include <windowsx.h>
  
@@ -796,7 +796,10 @@ index 14d1154a2b..e76fe405a5 100644
 +#include "w32font.h"
 +#endif /* USE_W32_IME */
 +
- #ifndef FOF_NO_CONNECTED_ELEMENTS
+ /*
+   Internal/undocumented constants for Windows Dark mode.
+   See: https://github.com/microsoft/WindowsAppSDK/issues/41
+@@ -91,14 +96,75 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
  #define FOF_NO_CONNECTED_ELEMENTS 0x2000
  #endif
  
@@ -872,7 +875,7 @@ index 14d1154a2b..e76fe405a5 100644
  /* Prefix for system colors.  */
  #define SYSTEM_COLOR_PREFIX "System"
  #define SYSTEM_COLOR_PREFIX_LEN (sizeof (SYSTEM_COLOR_PREFIX) - 1)
-@@ -377,6 +443,17 @@ static void w32_set_icon_type (struct frame *, Lisp_Object, Lisp_Object);
+@@ -401,6 +467,17 @@ static void w32_set_icon_type (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_set_icon_name (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_explicitly_set_name (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_set_title (struct frame *, Lisp_Object, Lisp_Object);
@@ -890,7 +893,7 @@ index 14d1154a2b..e76fe405a5 100644
  
  
  /* Store the screen positions of frame F into XPTR and YPTR.
-@@ -4277,9 +4354,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4336,9 +4413,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				  w32_get_key_modifiers (wParam, lParam));
  	  windows_translate = 1;
  	  break;
@@ -910,7 +913,7 @@ index 14d1154a2b..e76fe405a5 100644
  	  windows_translate = 1;
  	  break;
  	case VK_CANCEL:
-@@ -4421,6 +4507,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4480,6 +4566,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  	  TranslateMessage (&windows_msg);
  	  goto dflt;
  	}
@@ -935,7 +938,7 @@ index 14d1154a2b..e76fe405a5 100644
        /* Fall through */
        FALLTHROUGH;
  
-@@ -4440,6 +4544,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4499,6 +4603,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				w32_get_key_modifiers (wParam, lParam));
        break;
  
@@ -943,7 +946,7 @@ index 14d1154a2b..e76fe405a5 100644
      case WM_UNICHAR:
        /* WM_UNICHAR looks promising from the docs, but the exact
  	 circumstances in which TranslateMessage sends it is one of those
-@@ -4567,6 +4672,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4626,6 +4731,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
      case WM_IME_ENDCOMPOSITION:
        ignore_ime_char = 0;
        goto dflt;
@@ -951,7 +954,7 @@ index 14d1154a2b..e76fe405a5 100644
  
        /* Simulate middle mouse button events when left and right buttons
  	 are used together, but only if user has two button mouse. */
-@@ -5391,7 +5497,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -5450,7 +5556,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
        my_post_msg (&wmsg, hwnd, msg, wParam, lParam);
        return 1;
  
@@ -1036,7 +1039,7 @@ index 14d1154a2b..e76fe405a5 100644
        /* Check for messages registered at runtime. */
        if (msg == msh_mousewheel)
  	{
-@@ -5693,6 +5876,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
+@@ -5752,6 +5935,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
                                            Qnil));
      }
    gui_default_parameter (f, parms, Qfont, font, "font", "Font", RES_TYPE_STRING);
@@ -1047,7 +1050,7 @@ index 14d1154a2b..e76fe405a5 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8054,6 +8241,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8113,6 +8300,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -2008,7 +2011,7 @@ index 14d1154a2b..e76fe405a5 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10304,6 +11445,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10417,6 +11558,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -2018,7 +2021,7 @@ index 14d1154a2b..e76fe405a5 100644
    0, /* x_set_sticky */
    0, /* x_set_tool_bar_position */
    0, /* x_set_inhibit_double_buffering */
-@@ -10327,6 +11471,10 @@ syms_of_w32fns (void)
+@@ -10440,6 +11584,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -2029,7 +2032,7 @@ index 14d1154a2b..e76fe405a5 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10673,6 +11821,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -10786,6 +11934,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -2057,7 +2060,7 @@ index 14d1154a2b..e76fe405a5 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -10728,6 +11897,20 @@ keys when IME input is received.  */);
+@@ -10841,6 +12010,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2453,7 +2456,7 @@ index e801ff821f..9d1474f2ac 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index aa01db210b..d5fa3e57c4 100644
+index 646beed6f0..b0382e1e8c 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12592,8 +12592,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
