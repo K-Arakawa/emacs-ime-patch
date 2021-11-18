@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 33e7037afe..d1475276d0 100644
+index c231c2ceae..c9fffa0033 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -470,6 +470,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index 33e7037afe..d1475276d0 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5896,6 +5900,42 @@ else
+@@ -5913,6 +5917,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -490,10 +490,10 @@ index 2eae134e3d..9c60c80616 100644
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index e8ecb67d56..14b6957363 100644
+index 15a71ef244..add3fa8d31 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
-@@ -283,34 +283,47 @@
+@@ -284,34 +284,47 @@
  (load "emacs-lisp/tabulated-list")
  (load "buff-menu")
  
@@ -646,7 +646,7 @@ index 79a7c89e0d..55d49f334b 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index de9805df32..9f6d62e50b 100644
+index c3bc8307d7..7d8750bed8 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -2082,7 +2082,7 @@ index c1686beaaa..da7e53b66e 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index 752acdc904..1388a713b0 100644
+index 2d09f459f8..568d26c9e3 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2456,7 +2456,7 @@ index e801ff821f..9d1474f2ac 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index d7ad548917..4ad219e445 100644
+index ef49297e0f..6cf7bbe33e 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12592,8 +12592,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
