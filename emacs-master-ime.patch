@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index c231c2ceae..c9fffa0033 100644
+index c36dffde84..251e6c8356 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -470,6 +470,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
@@ -13,7 +13,7 @@ index c231c2ceae..c9fffa0033 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -5913,6 +5917,42 @@ else
+@@ -6134,6 +6138,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 2eae134e3d..9c60c80616 100644
+index 613d9734ae..3833185ede 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -30995,6 +30995,14 @@ twice for the others.
+@@ -31022,6 +31022,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index 2eae134e3d..9c60c80616 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -38362,6 +38370,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
+@@ -38345,6 +38353,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -490,10 +490,10 @@ index 2eae134e3d..9c60c80616 100644
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 15a71ef244..add3fa8d31 100644
+index ed1570e778..cac355d99d 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
-@@ -284,34 +284,47 @@
+@@ -284,39 +284,47 @@
  (load "emacs-lisp/tabulated-list")
  (load "buff-menu")
  
@@ -515,6 +515,11 @@ index 15a71ef244..add3fa8d31 100644
 -      (load "x-dnd")
 -      (load "term/common-win")
 -      (load "term/x-win")))
+-
+-(if (featurep 'haiku)
+-    (progn
+-      (load "term/common-win")
+-      (load "term/haiku-win")))
 -
 -(if (or (eq system-type 'windows-nt)
 -        (featurep 'w32))
@@ -607,10 +612,10 @@ index 2548fa4d44..cfed0a7e3a 100644
    "Set the coding system used by the Windows system to CODING-SYSTEM.
  This is used for things like passing font names with non-ASCII
 diff --git a/src/frame.c b/src/frame.c
-index 79a7c89e0d..55d49f334b 100644
+index 33e9606e41..4ddd033d94 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1446,8 +1446,24 @@ affects all frames on the same terminal device.  */)
+@@ -1449,8 +1449,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -635,7 +640,7 @@ index 79a7c89e0d..55d49f334b 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3884,6 +3900,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -3887,6 +3903,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -646,7 +651,7 @@ index 79a7c89e0d..55d49f334b 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index c3bc8307d7..7d8750bed8 100644
+index c98175aea0..4d929f936c 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -688,7 +693,7 @@ index c3bc8307d7..7d8750bed8 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9364,6 +9381,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9368,6 +9385,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    ptrdiff_t count = SPECPDL_INDEX ();
  
@@ -708,7 +713,7 @@ index c3bc8307d7..7d8750bed8 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9485,6 +9515,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9489,6 +9519,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -721,7 +726,7 @@ index c3bc8307d7..7d8750bed8 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9567,6 +9603,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9571,6 +9607,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -738,7 +743,7 @@ index c3bc8307d7..7d8750bed8 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -9689,6 +9735,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9693,6 +9739,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -749,7 +754,7 @@ index c3bc8307d7..7d8750bed8 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10260,6 +10310,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10264,6 +10314,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -761,7 +766,7 @@ index c3bc8307d7..7d8750bed8 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11081,6 +11136,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11085,6 +11140,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -772,7 +777,7 @@ index c3bc8307d7..7d8750bed8 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11511,6 +11570,10 @@ init_keyboard (void)
+@@ -11515,6 +11574,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2456,10 +2461,10 @@ index e801ff821f..9d1474f2ac 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index ef49297e0f..6cf7bbe33e 100644
+index 9f93799783..463822a30a 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12592,8 +12592,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12848,8 +12848,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2483,7 +2488,7 @@ index ef49297e0f..6cf7bbe33e 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -12774,6 +12789,11 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -13030,6 +13045,11 @@ gui_consider_frame_title (Lisp_Object frame)
  			     format_mode_line_unwind_data
  			     (NULL, current_buffer, Qnil, false));
  
@@ -2495,7 +2500,7 @@ index ef49297e0f..6cf7bbe33e 100644
        set_buffer_internal_1
  	(XBUFFER (XWINDOW (f->selected_window)->contents));
        fmt = FRAME_ICONIFIED_P (f) ? Vicon_title_format : Vframe_title_format;
-@@ -12825,8 +12845,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -13081,8 +13101,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
