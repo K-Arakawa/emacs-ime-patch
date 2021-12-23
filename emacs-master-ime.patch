@@ -1,10 +1,10 @@
 diff --git a/configure.ac b/configure.ac
-index 0debc85214..ce879dd693 100644
+index 9fcc124758..350705b962 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -471,6 +471,10 @@ AC_ARG_WITH([ns],[AS_HELP_STRING([--with-ns],
- On by default on macOS.])],[],[with_ns=maybe])
+@@ -473,6 +473,10 @@ On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
+ OPTION_DEFAULT_OFF([pgtk], [use pure GTK build without reliance on X libs (Wayland support) (requires cairo) - Experimental])
  
 +OPTION_DEFAULT_ON([w32-ime], [don't compile with W32-IME support])
 +OPTION_DEFAULT_ON([reconversion], [don't compile with RECONVERSION support])
@@ -13,7 +13,7 @@ index 0debc85214..ce879dd693 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6157,6 +6161,42 @@ else
+@@ -6231,6 +6235,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -57,7 +57,7 @@ index 0debc85214..ce879dd693 100644
  AS_ECHO(["
  Configured for '${canonical}'.
 diff --git a/lisp/Makefile.in b/lisp/Makefile.in
-index df9e5c36ee..61f5fddc20 100644
+index 0c0c3f12ac..f993c85b0a 100644
 --- a/lisp/Makefile.in
 +++ b/lisp/Makefile.in
 @@ -314,7 +314,7 @@ endif
@@ -490,7 +490,7 @@ index 0fbae8508a..2186d98486 100644
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 71d6a501b9..4ca2e9a73f 100644
+index b87c0550fc..8be37b0399 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -284,39 +284,47 @@
@@ -612,10 +612,10 @@ index 2548fa4d44..cfed0a7e3a 100644
    "Set the coding system used by the Windows system to CODING-SYSTEM.
  This is used for things like passing font names with non-ASCII
 diff --git a/src/frame.c b/src/frame.c
-index 33e9606e41..4ddd033d94 100644
+index 2b06bc821d..fb5fcdb5fb 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1449,8 +1449,24 @@ affects all frames on the same terminal device.  */)
+@@ -1452,8 +1452,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -640,7 +640,7 @@ index 33e9606e41..4ddd033d94 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3887,6 +3903,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -3891,6 +3907,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -651,7 +651,7 @@ index 33e9606e41..4ddd033d94 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 899c9109c2..e9d0f6015e 100644
+index 821a1b576b..207d1ad606 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -335,6 +335,11 @@ static struct timespec timer_idleness_start_time;
@@ -681,7 +681,7 @@ index 899c9109c2..e9d0f6015e 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4632,7 +4645,11 @@ const char *const lispy_function_keys[] =
+@@ -4635,7 +4648,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -693,7 +693,7 @@ index 899c9109c2..e9d0f6015e 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9383,6 +9400,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9432,6 +9449,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    ptrdiff_t count = SPECPDL_INDEX ();
  
@@ -713,7 +713,7 @@ index 899c9109c2..e9d0f6015e 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9504,6 +9534,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9553,6 +9583,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -726,7 +726,7 @@ index 899c9109c2..e9d0f6015e 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9586,6 +9622,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9635,6 +9671,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -743,7 +743,7 @@ index 899c9109c2..e9d0f6015e 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -9708,6 +9754,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9757,6 +9803,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -754,7 +754,7 @@ index 899c9109c2..e9d0f6015e 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10279,6 +10329,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10328,6 +10378,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -766,7 +766,7 @@ index 899c9109c2..e9d0f6015e 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11100,6 +11155,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11149,6 +11204,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -777,7 +777,7 @@ index 899c9109c2..e9d0f6015e 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11530,6 +11589,10 @@ init_keyboard (void)
+@@ -11579,6 +11638,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -789,7 +789,7 @@ index 899c9109c2..e9d0f6015e 100644
    /* This means that command_loop_1 won't try to select anything the first
       time through.  */
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 65463b5261..1bb637f27f 100644
+index 02a6d78b51..282a927962 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -1055,7 +1055,7 @@ index 65463b5261..1bb637f27f 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8120,6 +8307,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8121,6 +8308,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -2016,7 +2016,7 @@ index 65463b5261..1bb637f27f 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10424,6 +11565,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10425,6 +11566,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -2026,7 +2026,7 @@ index 65463b5261..1bb637f27f 100644
    0, /* x_set_sticky */
    0, /* x_set_tool_bar_position */
    0, /* x_set_inhibit_double_buffering */
-@@ -10447,6 +11591,10 @@ syms_of_w32fns (void)
+@@ -10448,6 +11592,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -2037,7 +2037,7 @@ index 65463b5261..1bb637f27f 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10793,6 +11941,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -10794,6 +11942,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -2065,7 +2065,7 @@ index 65463b5261..1bb637f27f 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -10848,6 +12017,20 @@ keys when IME input is received.  */);
+@@ -10849,6 +12018,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2461,10 +2461,10 @@ index e801ff821f..9d1474f2ac 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 5e549c9c63..439842c8f2 100644
+index a6c122aee8..a121d18571 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -12856,8 +12856,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -12930,8 +12930,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2488,7 +2488,7 @@ index 5e549c9c63..439842c8f2 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13038,6 +13053,11 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -13112,6 +13127,11 @@ gui_consider_frame_title (Lisp_Object frame)
  			     format_mode_line_unwind_data
  			     (NULL, current_buffer, Qnil, false));
  
@@ -2500,7 +2500,7 @@ index 5e549c9c63..439842c8f2 100644
        set_buffer_internal_1
  	(XBUFFER (XWINDOW (f->selected_window)->contents));
        fmt = FRAME_ICONIFIED_P (f) ? Vicon_title_format : Vframe_title_format;
-@@ -13089,8 +13109,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -13163,8 +13183,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
