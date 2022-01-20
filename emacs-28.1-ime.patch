@@ -516,17 +516,6 @@ diff -ruN emacs-28.0.91.orig/lisp/international/w32-ime.el emacs-28.0.91/lisp/in
 +		       "W32 System IME")
 +
 +(provide 'w32-ime)
-diff -ruN emacs-28.0.91.orig/lisp/loadup.el emacs-28.0.91/lisp/loadup.el
---- emacs-28.0.91.orig/lisp/loadup.el	2022-01-08 23:55:49.000000000 +0900
-+++ emacs-28.0.91/lisp/loadup.el	2022-01-15 12:51:15.905880300 +0900
-@@ -309,6 +309,7 @@
-       (load "w32-vars")
-       (load "term/w32-win")
-       (load "disp-table")
-+      (load "international/w32-ime")
-       (when (eq system-type 'windows-nt)
-         (load "w32-fns")
-         (load "ls-lisp")
 diff -ruN emacs-28.0.91.orig/src/config.in emacs-28.0.91/src/config.in
 --- emacs-28.0.91.orig/src/config.in	2022-01-09 00:36:19.000000000 +0900
 +++ emacs-28.0.91/src/config.in	2022-01-15 13:16:22.480822800 +0900
