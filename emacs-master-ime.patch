@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index baf8c8018e..28fd376934 100644
+index 6e15c1727a..b073e3de19 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -473,6 +473,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index baf8c8018e..28fd376934 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6241,6 +6245,42 @@ else
+@@ -6217,6 +6221,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -57,10 +57,10 @@ index baf8c8018e..28fd376934 100644
  AS_ECHO(["
  Configured for '${canonical}'.
 diff --git a/lisp/Makefile.in b/lisp/Makefile.in
-index 3a72034463..4630d5878b 100644
+index 308407a8bf..4d6cdbe135 100644
 --- a/lisp/Makefile.in
 +++ b/lisp/Makefile.in
-@@ -313,7 +313,7 @@ endif
+@@ -329,7 +329,7 @@ endif
  
  .PHONY: compile-first compile-main compile compile-always
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 6d5b0d84e6..613b1f8ff8 100644
+index 05d461e41e..84b0991b0f 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -31314,6 +31314,14 @@ twice for the others.
+@@ -31371,6 +31371,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index 6d5b0d84e6..613b1f8ff8 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -38666,6 +38674,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
+@@ -38723,6 +38731,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -575,7 +575,7 @@ index 1be73a2090..6714341fb3 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index e5d74edc16..02b9ed259d 100644
+index 8aaff949ba..d29595a616 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1454,8 +1454,24 @@ affects all frames on the same terminal device.  */)
@@ -2050,7 +2050,7 @@ index 37f9b813c6..08dd3dcd3e 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index 0495099db5..f56bf560a1 100644
+index c4a89446b9..7b6bbdf542 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2424,7 +2424,7 @@ index 2a5e4042a4..296b9ba99f 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 977d31703f..e8b1fbf61b 100644
+index c695e466e7..01d971334e 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12940,8 +12940,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
