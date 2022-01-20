@@ -1,6 +1,6 @@
-diff -ruN emacs-28.0.91.orig/configure emacs-28.0.91/configure
+diff -aruN emacs-28.0.91.orig/configure emacs-28.0.91/configure
 --- emacs-28.0.91.orig/configure	2022-01-09 00:36:18.000000000 +0900
-+++ emacs-28.0.91/configure	2022-01-15 06:12:37.478980800 +0900
++++ emacs-28.0.91/configure	2022-01-21 02:33:19.298482900 +0900
 @@ -1761,6 +1761,9 @@
  with_xdbe
  with_ns
@@ -134,9 +134,9 @@ diff -ruN emacs-28.0.91.orig/configure emacs-28.0.91/configure
  emacs_standard_dirs='Standard dirs'
  $as_echo "
  Configured for '${canonical}'.
-diff -ruN emacs-28.0.91.orig/lisp/international/smart-ime.el emacs-28.0.91/lisp/international/smart-ime.el
+diff -aruN emacs-28.0.91.orig/lisp/international/smart-ime.el emacs-28.0.91/lisp/international/smart-ime.el
 --- emacs-28.0.91.orig/lisp/international/smart-ime.el	1970-01-01 09:00:00.000000000 +0900
-+++ emacs-28.0.91/lisp/international/smart-ime.el	2022-01-15 06:13:21.511024700 +0900
++++ emacs-28.0.91/lisp/international/smart-ime.el	2022-01-21 02:33:19.342137400 +0900
 @@ -0,0 +1,172 @@
 +;;; smart-ime.el - smart Input Method -*- lexical-binding: t -*-
 +;;
@@ -310,9 +310,9 @@ diff -ruN emacs-28.0.91.orig/lisp/international/smart-ime.el emacs-28.0.91/lisp/
 +
 +(provide 'smart-ime)
 +;; -*- mode: Emacs-Lisp; coding: euc-jp-unix -*-
-diff -ruN emacs-28.0.91.orig/lisp/international/w32-ime.el emacs-28.0.91/lisp/international/w32-ime.el
+diff -aruN emacs-28.0.91.orig/lisp/international/w32-ime.el emacs-28.0.91/lisp/international/w32-ime.el
 --- emacs-28.0.91.orig/lisp/international/w32-ime.el	1970-01-01 09:00:00.000000000 +0900
-+++ emacs-28.0.91/lisp/international/w32-ime.el	2022-01-15 08:13:31.781335200 +0900
++++ emacs-28.0.91/lisp/international/w32-ime.el	2022-01-21 02:33:19.353138500 +0900
 @@ -0,0 +1,202 @@
 +;;;;; w32-ime.el ---- Meadow features for NTEmacs. -*- lexical-binding: t -*-
 +;;
@@ -516,9 +516,86 @@ diff -ruN emacs-28.0.91.orig/lisp/international/w32-ime.el emacs-28.0.91/lisp/in
 +		       "W32 System IME")
 +
 +(provide 'w32-ime)
-diff -ruN emacs-28.0.91.orig/src/config.in emacs-28.0.91/src/config.in
+diff -aruN emacs-28.0.91.orig/lisp/international/w32-ime.elc emacs-28.0.91/lisp/international/w32-ime.elc
+--- emacs-28.0.91.orig/lisp/international/w32-ime.elc	1970-01-01 09:00:00.000000000 +0900
++++ emacs-28.0.91/lisp/international/w32-ime.elc	2022-01-21 02:34:13.727194200 +0900
+@@ -0,0 +1,62 @@
++;ELC   
++;;; Compiled
++;;; in Emacs version 28.0.91
++;;; with all optimizations.
++
++
++
++(custom-declare-group 'W32-IME nil "w32-ime" :group 'emacs)
++#@40 It is stored the last data from Emacs.
++(defvar w32-last-selection nil (#$ . 147))
++#@119 Functions to eval when IME is turned on at least.
++Even if IME state is not changed, these functiona are maybe called.
++(defvar w32-ime-on-hook nil (#$ . 236))
++#@120 Functions to eval when IME is turned off at least.
++Even if IME state is not changed, these functiona are maybe called.
++(defvar w32-ime-off-hook nil (#$ . 401))
++#@75 If this variable is nil, IME control when buffer is switched is disabled.
++(defvar w32-ime-buffer-switch-p t (#$ . 567))
++#@40 When t, mode line indicates IME state.
++(defvar w32-ime-show-mode-line t (#$ . 693))
++#@65 This is shown at the mode line. It is regarded as state of ime.
++(defvar w32-ime-mode-line-state-indicator "[O]" (#$ . 783))
++(byte-code "\300\301!\210\302\301\303\304#\207" [make-variable-buffer-local w32-ime-mode-line-state-indicator put permanent-local t] 4)
++#@37 List of IME state indicator string.
++(defvar w32-ime-mode-line-state-indicator-list '("-" "[|]" "[O]") (#$ . 1049))
++#@28 Original mode line format.
++(defvar w32-ime-mode-line-format-original nil (#$ . 1170))
++(byte-code "\300\301\302\"\210\300\303\302\"\207" [global-set-key [kanji] ignore [compend]] 3)
++#@243 Wrap FUNCTION, and IME control is enabled when FUNCTION is called.
++An original function is saved to FUNCTION-SUFFIX when suffix is string.
++If SUFFIX is nil, "-original" is added. 
++
++(fn FUNCTION INTERACTIVE-P INTERACTIVE-ARG &optional SUFFIX)
++(defalias 'wrap-function-to-control-ime #[1027 "\300\301!\203\f \202 \302P!\303!?\205D \211KM\210\304\305\205' \306D\307\310\311\312\313\314\nD\315BB\316BBE\317\313\314	D\320BBDEFM\207" [intern symbol-name "-original" fboundp lambda (&rest arguments) interactive cond (and (ime-get-mode) (equal current-input-method "W32-IME")) (ime-force-off) unwind-protect apply quote (arguments) ((when (and (not (ime-get-mode)) (equal current-input-method "W32-IME")) (ime-force-on))) t (arguments)] 16 (#$ . 1358)])
++#@76 * if this variable is string, toroku-region regard this value as yomigana.
++(defvar w32-ime-toroku-region-yomigana nil (#$ . -2124))
++#@18 
++
++(fn BEGIN END)
++(defalias 'w32-ime-toroku-region #[514 "{\302\211;\204 \303\304!\210\305\306\307\"\302\310#\262\311\")\207" [w32-ime-toroku-region-yomigana w32-ime-buffer-switch-p nil w32-set-ime-mode hiragana read-multilingual-string format "Input reading of \"%s\": " "W32-IME" w32-ime-register-word-dialog] 9 (#$ . 2262) "r"])
++#@15 
++
++(fn WINDOW)
++(defalias 'w32-ime-sync-state #[257 "\2055 r\302!q\210\303 \211\204  	\304\232\203  \305\306!\210\307\310!\2022 \211\2052 	\304\232?\2052 \311\306!\210\307\312!\262)\207" [w32-ime-buffer-switch-p current-input-method window-buffer ime-get-mode "W32-IME" ime-force-on nil run-hooks w32-ime-on-hook ime-force-off w32-ime-off-hook] 4 (#$ . 2609)])
++#@29 
++
++(fn OLDBUF NEWWIN NEWBUF)
++(defalias 'w32-ime-set-selected-window-buffer-hook #[771 "\300!\207" [w32-ime-sync-state] 5 (#$ . 2977)])
++#@16 
++
++(fn OLD NEW)
++(defalias 'w32-ime-select-window-hook #[514 "\300!\207" [w32-ime-sync-state] 4 (#$ . 3118)])
++(defalias 'w32-ime-mode-line-update #[0 "\203 \303\304 !\204 \305 \203 \306\202 \307	8\202 	@\310 \207" [w32-ime-show-mode-line w32-ime-mode-line-state-indicator-list w32-ime-mode-line-state-indicator window-minibuffer-p selected-window ime-get-mode 1 2 force-mode-line-update] 2])
++(defalias 'w32-ime-init-mode-line-display #[0 "\302>?\2051 \303\300!@;\203% @\304\230\203% \305\300\306\302ABB\"\210\202. \305\300\306\302BB\"\210\307\310!\207" [mode-line-format w32-ime-mode-line-format-original w32-ime-mode-line-state-indicator default-value "-" set-default "" force-mode-line-update t] 5])
++(defalias 'w32-ime-initialize #[0 "\303=\205' 	\304=\205' \305\306!\205' \307 \210\310 \210\311\312\313\"\210\311\314\315\"\210\316\n\317\320#\207" [system-type window-system global-map windows-nt w32 featurep w32-ime w32-ime-init-mode-line-display w32-ime-mode-line-update add-hook select-window-functions w32-ime-select-window-hook set-selected-window-buffer-functions w32-ime-set-selected-window-buffer-hook define-key [kanji] toggle-input-method] 4])
++(defalias 'w32-ime-uninitialize #[0 "\304=\205* 	\305=\205* \306\307!\205* \310\311\n\"\210\312\313!\210\314\315\316\"\210\314\317\320\"\210\321\322\323#\207" [system-type window-system w32-ime-mode-line-format-original global-map windows-nt w32 featurep w32-ime set-default mode-line-format force-mode-line-update t remove-hook select-window-functions w32-ime-select-window-hook set-selected-window-buffer-functions w32-ime-set-selected-window-buffer-hook define-key [kanji] ignore] 4])
++(defalias 'w32-ime-exit-from-minibuffer #[0 "\300 \210\301 \302X\205 \303\304\305\"\207" [deactivate-input-method minibuffer-depth 1 remove-hook minibuffer-exit-hook w32-ime-exit-from-minibuffer] 3])
++#@22 
++
++(fn &optional ARG)
++(defalias 'w32-ime-state-switch #[256 "\211\203# \303\304\305!\210\304\306!\210\307\310 \311 =\203 \312\313\314\"\210\315 \210\2022 \307\304\316!\210\304\317!\210\307\320 \210\321 \207" [deactivate-current-input-method-function describe-current-input-method-function current-input-method w32-ime-state-switch run-hooks input-method-activate-hook w32-ime-on-hook nil selected-window minibuffer-window add-hook minibuffer-exit-hook w32-ime-exit-from-minibuffer ime-force-on input-method-inactivate-hook w32-ime-off-hook ime-force-off w32-ime-mode-line-update] 4 (#$ . 4986)])
++(byte-code "\300\301\302\303\304\305%\210\306\307!\207" [register-input-method "W32-IME" "Japanese" w32-ime-state-switch "" "W32 System IME" provide w32-ime] 6)
+diff -aruN emacs-28.0.91.orig/lisp/loadup.el emacs-28.0.91/lisp/loadup.el
+--- emacs-28.0.91.orig/lisp/loadup.el	2022-01-08 23:55:49.000000000 +0900
++++ emacs-28.0.91/lisp/loadup.el	2022-01-21 02:33:55.606026700 +0900
+@@ -309,6 +309,7 @@
+       (load "w32-vars")
+       (load "term/w32-win")
+       (load "disp-table")
++      (load "international/w32-ime")
+       (when (eq system-type 'windows-nt)
+         (load "w32-fns")
+         (load "ls-lisp")
+diff -aruN emacs-28.0.91.orig/src/config.in emacs-28.0.91/src/config.in
 --- emacs-28.0.91.orig/src/config.in	2022-01-09 00:36:19.000000000 +0900
-+++ emacs-28.0.91/src/config.in	2022-01-15 13:16:22.480822800 +0900
++++ emacs-28.0.91/src/config.in	2022-01-21 02:33:19.369142400 +0900
 @@ -97,6 +97,9 @@
  #endif
  
@@ -569,9 +646,9 @@ diff -ruN emacs-28.0.91.orig/src/config.in emacs-28.0.91/src/config.in
  /* Define to 1 if you have the XCB library and X11-XCB library for mixed
     X11/XCB programming. */
  #undef USE_XCB
-diff -ruN emacs-28.0.91.orig/src/frame.c emacs-28.0.91/src/frame.c
+diff -aruN emacs-28.0.91.orig/src/frame.c emacs-28.0.91/src/frame.c
 --- emacs-28.0.91.orig/src/frame.c	2022-01-08 23:55:49.000000000 +0900
-+++ emacs-28.0.91/src/frame.c	2022-01-15 06:13:21.601025100 +0900
++++ emacs-28.0.91/src/frame.c	2022-01-21 02:33:19.384142200 +0900
 @@ -1446,8 +1446,24 @@
  
     The value of NORECORD is passed as argument to Fselect_window.  */
@@ -607,9 +684,9 @@ diff -ruN emacs-28.0.91.orig/src/frame.c emacs-28.0.91/src/frame.c
    {"sticky",			SYMBOL_INDEX (Qsticky)},
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
-diff -ruN emacs-28.0.91.orig/src/keyboard.c emacs-28.0.91/src/keyboard.c
+diff -aruN emacs-28.0.91.orig/src/keyboard.c emacs-28.0.91/src/keyboard.c
 --- emacs-28.0.91.orig/src/keyboard.c	2022-01-08 23:55:49.000000000 +0900
-+++ emacs-28.0.91/src/keyboard.c	2022-01-15 08:14:54.950059000 +0900
++++ emacs-28.0.91/src/keyboard.c	2022-01-21 02:33:19.401136100 +0900
 @@ -335,6 +335,11 @@
  
  static struct timespec timer_last_idleness_start_time;
@@ -744,9 +821,9 @@ diff -ruN emacs-28.0.91.orig/src/keyboard.c emacs-28.0.91/src/keyboard.c
  
    /* This means that command_loop_1 won't try to select anything the first
       time through.  */
-diff -ruN emacs-28.0.91.orig/src/w32fns.c emacs-28.0.91/src/w32fns.c
+diff -aruN emacs-28.0.91.orig/src/w32fns.c emacs-28.0.91/src/w32fns.c
 --- emacs-28.0.91.orig/src/w32fns.c	2022-01-08 23:55:49.000000000 +0900
-+++ emacs-28.0.91/src/w32fns.c	2022-01-15 08:18:56.026985100 +0900
++++ emacs-28.0.91/src/w32fns.c	2022-01-21 02:33:19.423138300 +0900
 @@ -73,18 +73,86 @@
  #include <imm.h>
  #include <windowsx.h>
@@ -2080,9 +2157,9 @@ diff -ruN emacs-28.0.91.orig/src/w32fns.c emacs-28.0.91/src/w32fns.c
  #ifdef WINDOWSNT
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
-diff -ruN emacs-28.0.91.orig/src/w32font.c emacs-28.0.91/src/w32font.c
+diff -aruN emacs-28.0.91.orig/src/w32font.c emacs-28.0.91/src/w32font.c
 --- emacs-28.0.91.orig/src/w32font.c	2022-01-08 23:55:49.000000000 +0900
-+++ emacs-28.0.91/src/w32font.c	2022-01-15 06:13:21.668799700 +0900
++++ emacs-28.0.91/src/w32font.c	2022-01-21 02:33:19.441140000 +0900
 @@ -55,7 +55,10 @@
  #define JOHAB_CHARSET 130
  #endif
@@ -2107,9 +2184,9 @@ diff -ruN emacs-28.0.91.orig/src/w32font.c emacs-28.0.91/src/w32font.c
  fill_in_logfont (struct frame *f, LOGFONT *logfont, Lisp_Object font_spec)
  {
    Lisp_Object tmp, extra;
-diff -ruN emacs-28.0.91.orig/src/w32font.h emacs-28.0.91/src/w32font.h
+diff -aruN emacs-28.0.91.orig/src/w32font.h emacs-28.0.91/src/w32font.h
 --- emacs-28.0.91.orig/src/w32font.h	2022-01-08 23:55:49.000000000 +0900
-+++ emacs-28.0.91/src/w32font.h	2022-01-15 06:13:21.676793700 +0900
++++ emacs-28.0.91/src/w32font.h	2022-01-21 02:33:19.453139300 +0900
 @@ -83,6 +83,9 @@
  int uniscribe_check_otf (LOGFONT *font, Lisp_Object otf_spec);
  
@@ -2120,9 +2197,9 @@ diff -ruN emacs-28.0.91.orig/src/w32font.h emacs-28.0.91/src/w32font.h
  
  extern void globals_of_w32font (void);
  
-diff -ruN emacs-28.0.91.orig/src/w32term.c emacs-28.0.91/src/w32term.c
+diff -aruN emacs-28.0.91.orig/src/w32term.c emacs-28.0.91/src/w32term.c
 --- emacs-28.0.91.orig/src/w32term.c	2022-01-08 23:55:49.000000000 +0900
-+++ emacs-28.0.91/src/w32term.c	2022-01-15 06:13:21.685793000 +0900
++++ emacs-28.0.91/src/w32term.c	2022-01-21 02:33:19.467137700 +0900
 @@ -5698,6 +5698,107 @@
  	  break;
  #endif
@@ -2254,9 +2331,9 @@ diff -ruN emacs-28.0.91.orig/src/w32term.c emacs-28.0.91/src/w32term.c
  
    /* It is desirable that mainThread should have the same notion of
       focus window and active window as windowsThread.  Unfortunately, the
-diff -ruN emacs-28.0.91.orig/src/w32term.h emacs-28.0.91/src/w32term.h
+diff -aruN emacs-28.0.91.orig/src/w32term.h emacs-28.0.91/src/w32term.h
 --- emacs-28.0.91.orig/src/w32term.h	2022-01-08 23:55:49.000000000 +0900
-+++ emacs-28.0.91/src/w32term.h	2022-01-15 06:13:21.698793500 +0900
++++ emacs-28.0.91/src/w32term.h	2022-01-21 02:33:19.480139200 +0900
 @@ -635,6 +635,8 @@
  #endif /* WM_MOUSEHWHEEL  */
  #ifndef WM_APPCOMMAND
@@ -2376,9 +2453,9 @@ diff -ruN emacs-28.0.91.orig/src/w32term.h emacs-28.0.91/src/w32term.h
 +extern void w32_set_ime_logfont (HWND, struct frame *);
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
-diff -ruN emacs-28.0.91.orig/src/window.c emacs-28.0.91/src/window.c
+diff -aruN emacs-28.0.91.orig/src/window.c emacs-28.0.91/src/window.c
 --- emacs-28.0.91.orig/src/window.c	2022-01-08 23:55:49.000000000 +0900
-+++ emacs-28.0.91/src/window.c	2022-01-15 06:13:21.713792800 +0900
++++ emacs-28.0.91/src/window.c	2022-01-21 02:33:19.496140800 +0900
 @@ -512,6 +512,9 @@
    struct frame *sf;
    Lisp_Object frame;
@@ -2449,9 +2526,9 @@ diff -ruN emacs-28.0.91.orig/src/window.c emacs-28.0.91/src/window.c
    defsubr (&Sselected_window);
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
-diff -ruN emacs-28.0.91.orig/src/xdisp.c emacs-28.0.91/src/xdisp.c
+diff -aruN emacs-28.0.91.orig/src/xdisp.c emacs-28.0.91/src/xdisp.c
 --- emacs-28.0.91.orig/src/xdisp.c	2022-01-08 23:55:49.000000000 +0900
-+++ emacs-28.0.91/src/xdisp.c	2022-01-15 06:13:21.734792800 +0900
++++ emacs-28.0.91/src/xdisp.c	2022-01-21 02:33:19.519139800 +0900
 @@ -12575,9 +12575,24 @@
    return vector;
  }
