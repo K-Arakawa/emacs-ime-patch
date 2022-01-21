@@ -535,7 +535,7 @@ diff -ruN emacs-28.0.91.orig/lisp/Makefile.in emacs-28.0.91/lisp/Makefile.in
  	$(AM_V_ELC)$(emacs) $(BYTE_COMPILE_FLAGS) \
  		-l comp -f byte-compile-refresh-preloaded \
 -		-f batch-byte+native-compile $(THEFILE)
-+		-f batch-byte $(THEFILE)
++		-f batch-byte-compile $(THEFILE)
  else
  	$(AM_V_ELC)$(emacs) $(BYTE_COMPILE_FLAGS) \
  		-l bytecomp -f byte-compile-refresh-preloaded \
