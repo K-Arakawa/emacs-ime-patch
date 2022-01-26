@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 6e15c1727a..b073e3de19 100644
+index 9f4d5db43f..cb177d36d3 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -473,6 +473,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 6e15c1727a..b073e3de19 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6217,6 +6221,42 @@ else
+@@ -6226,6 +6230,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 05d461e41e..84b0991b0f 100644
+index 6ddce2eba3..4f29439855 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -31371,6 +31371,14 @@ twice for the others.
+@@ -31376,6 +31376,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index 05d461e41e..84b0991b0f 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -38723,6 +38731,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
+@@ -38778,6 +38786,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -614,7 +614,7 @@ index 8aaff949ba..d29595a616 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index a9f3257282..8b687d999e 100644
+index 9242e8dc62..2d1441f6b6 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -336,6 +336,11 @@ static struct timespec timer_idleness_start_time;
@@ -629,7 +629,7 @@ index a9f3257282..8b687d999e 100644
  
  /* Global variable declarations.  */
  
-@@ -1291,6 +1296,14 @@ command_loop_1 (void)
+@@ -1293,6 +1298,14 @@ command_loop_1 (void)
    this_command_key_count = 0;
    this_single_command_key_start = 0;
  
@@ -644,7 +644,7 @@ index a9f3257282..8b687d999e 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4690,7 +4703,11 @@ const char *const lispy_function_keys[] =
+@@ -4711,7 +4724,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -656,7 +656,7 @@ index a9f3257282..8b687d999e 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9501,6 +9518,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9522,6 +9539,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    ptrdiff_t count = SPECPDL_INDEX ();
  
@@ -676,7 +676,7 @@ index a9f3257282..8b687d999e 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9622,6 +9652,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9643,6 +9673,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -689,7 +689,7 @@ index a9f3257282..8b687d999e 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9704,6 +9740,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9725,6 +9761,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -706,7 +706,7 @@ index a9f3257282..8b687d999e 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -9826,6 +9872,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9847,6 +9893,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -717,7 +717,7 @@ index a9f3257282..8b687d999e 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10397,6 +10447,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10418,6 +10468,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -729,7 +729,7 @@ index a9f3257282..8b687d999e 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11218,6 +11273,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11239,6 +11294,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -740,7 +740,7 @@ index a9f3257282..8b687d999e 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11648,6 +11707,10 @@ init_keyboard (void)
+@@ -11669,6 +11728,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -752,7 +752,7 @@ index a9f3257282..8b687d999e 100644
    /* This means that command_loop_1 won't try to select anything the first
       time through.  */
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 37f9b813c6..08dd3dcd3e 100644
+index 1ea685d194..420286ca84 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2424,7 +2424,7 @@ index 2a5e4042a4..296b9ba99f 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index c695e466e7..01d971334e 100644
+index 9c0764be69..247a3bb65a 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12940,8 +12940,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
