@@ -575,7 +575,7 @@ index 81172c584d..afd9064fe6 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index b7ff7fd1fc..6704bc9e4b 100644
+index b7ff7fd1fc..a580908303 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1454,8 +1454,24 @@ affects all frames on the same terminal device.  */)
@@ -588,7 +588,7 @@ index b7ff7fd1fc..6704bc9e4b 100644
 +Lisp_Object
 +do_switch_frame (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
 +{
-+  int count = SPECPDL_INDEX ();
++  specpdl_ref count = SPECPDL_INDEX ();
 +
 +  specbind (Qw32_ime_buffer_switch_p, Qnil);
 +  do_switch_frame_0 (frame, track, for_deletion, norecord);
@@ -2424,7 +2424,7 @@ index 59e21f11cb..cab639ca6f 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index acb9cb7283..0c6f65d351 100644
+index acb9cb7283..1ddee77804 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12960,8 +12960,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
@@ -2436,7 +2436,7 @@ index acb9cb7283..0c6f65d351 100644
  static void
  unwind_format_mode_line (Lisp_Object vector)
 +{
-+  int count = SPECPDL_INDEX ();
++  specpdl_ref count = SPECPDL_INDEX ();
 +
 +  specbind (Qw32_ime_buffer_switch_p, Qnil);
 +  unwind_format_mode_line_0 (vector);
@@ -2472,7 +2472,7 @@ index acb9cb7283..0c6f65d351 100644
 +static void
 +prepare_menu_bars (void)
 +{
-+  int count = SPECPDL_INDEX ();
++  specpdl_ref count = SPECPDL_INDEX ();
 +
 +  specbind (Qw32_ime_buffer_switch_p, Qnil);
 +  prepare_menu_bars_0 ();
