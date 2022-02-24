@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 945e2ff8d4..11c1795995 100644
+index a315eeb6bd..627fe0645c 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -473,6 +473,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 945e2ff8d4..11c1795995 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6243,6 +6247,42 @@ else
+@@ -6245,6 +6249,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -575,7 +575,7 @@ index 81172c584d..afd9064fe6 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index 8750fe4889..bc7259d817 100644
+index b7ff7fd1fc..6704bc9e4b 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1454,8 +1454,24 @@ affects all frames on the same terminal device.  */)
@@ -614,7 +614,7 @@ index 8750fe4889..bc7259d817 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 0747ab4820..e0a38fa887 100644
+index da8c6c54d8..64ebe43e5d 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -336,6 +336,11 @@ static struct timespec timer_idleness_start_time;
@@ -644,7 +644,7 @@ index 0747ab4820..e0a38fa887 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4783,7 +4796,11 @@ const char *const lispy_function_keys[] =
+@@ -4788,7 +4801,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -656,7 +656,7 @@ index 0747ab4820..e0a38fa887 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9594,6 +9611,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9599,6 +9616,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -676,7 +676,7 @@ index 0747ab4820..e0a38fa887 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9715,6 +9745,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9720,6 +9750,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -689,7 +689,7 @@ index 0747ab4820..e0a38fa887 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9797,6 +9833,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9802,6 +9838,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -706,7 +706,7 @@ index 0747ab4820..e0a38fa887 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -9919,6 +9965,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9924,6 +9970,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -717,7 +717,7 @@ index 0747ab4820..e0a38fa887 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10490,6 +10540,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10495,6 +10545,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -729,7 +729,7 @@ index 0747ab4820..e0a38fa887 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11311,6 +11366,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11316,6 +11371,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -740,7 +740,7 @@ index 0747ab4820..e0a38fa887 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11741,6 +11800,10 @@ init_keyboard (void)
+@@ -11746,6 +11805,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2424,7 +2424,7 @@ index 59e21f11cb..cab639ca6f 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index d0fb0ea733..b9515982fc 100644
+index acb9cb7283..0c6f65d351 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12960,8 +12960,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
