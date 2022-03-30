@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 6e63747733..4d2592d6d5 100644
+index 93c821eda0..ea05fdc533 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -473,6 +473,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 6e63747733..4d2592d6d5 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6273,6 +6277,42 @@ else
+@@ -6310,6 +6314,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -490,10 +490,10 @@ index 5dd4291461..2c266f02e0 100644
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index faeb9188e4..b1f261f714 100644
+index 6ca699f901..672ad56357 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
-@@ -285,39 +285,47 @@
+@@ -286,39 +286,47 @@
  (load "emacs-lisp/tabulated-list")
  (load "buff-menu")
  
@@ -575,7 +575,7 @@ index faeb9188e4..b1f261f714 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index 8f8df8f8e0..98a67bff5d 100644
+index e531891a8a..422374222d 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1454,8 +1454,24 @@ affects all frames on the same terminal device.  */)
@@ -603,7 +603,7 @@ index 8f8df8f8e0..98a67bff5d 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3896,6 +3912,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -3902,6 +3918,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -2092,7 +2092,7 @@ index 9fd4a6c187..bd8f23b1bf 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 9094843f60..8058280229 100644
+index 7837032304..db46987c64 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -5794,6 +5794,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2424,7 +2424,7 @@ index aed698d2a3..5aed29f0c0 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 62c8f9d4d9..a7e06672a2 100644
+index f6fe3253e9..7c1ba0fb1e 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12960,8 +12960,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
