@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index a315eeb6bd..627fe0645c 100644
+index 93c821eda0..ea05fdc533 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -473,6 +473,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index a315eeb6bd..627fe0645c 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6245,6 +6249,42 @@ else
+@@ -6310,6 +6314,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 9f5169605b..cc0aae16bd 100644
+index 5dd4291461..2c266f02e0 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -31384,6 +31384,14 @@ twice for the others.
+@@ -31349,6 +31349,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index 9f5169605b..cc0aae16bd 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -38786,6 +38794,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
+@@ -38744,6 +38752,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -490,10 +490,10 @@ index 9f5169605b..cc0aae16bd 100644
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 81172c584d..afd9064fe6 100644
+index 6ca699f901..672ad56357 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
-@@ -285,39 +285,47 @@
+@@ -286,39 +286,47 @@
  (load "emacs-lisp/tabulated-list")
  (load "buff-menu")
  
@@ -575,7 +575,7 @@ index 81172c584d..afd9064fe6 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index b3990ae2aa..2e11db27f0 100644
+index e531891a8a..422374222d 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1454,8 +1454,24 @@ affects all frames on the same terminal device.  */)
@@ -603,7 +603,7 @@ index b3990ae2aa..2e11db27f0 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3896,6 +3912,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -3902,6 +3918,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -614,7 +614,7 @@ index b3990ae2aa..2e11db27f0 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 218f9a86c8..db5b9c911c 100644
+index 8b451d834d..7d845279f9 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -336,6 +336,11 @@ static struct timespec timer_idleness_start_time;
@@ -2092,7 +2092,7 @@ index 9fd4a6c187..bd8f23b1bf 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 9094843f60..8058280229 100644
+index 7837032304..db46987c64 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -5794,6 +5794,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2350,7 +2350,7 @@ index 6c48323651..cafb42f81a 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 59e21f11cb..cab639ca6f 100644
+index aed698d2a3..5aed29f0c0 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -514,6 +514,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2375,7 +2375,7 @@ index 59e21f11cb..cab639ca6f 100644
    return window;
  }
  
-@@ -4148,6 +4156,18 @@ This function runs `window-scroll-functions' before running
+@@ -4140,6 +4148,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2394,7 +2394,7 @@ index 59e21f11cb..cab639ca6f 100644
    return Qnil;
  }
  
-@@ -8222,6 +8242,10 @@ syms_of_window (void)
+@@ -8216,6 +8236,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2405,7 +2405,7 @@ index 59e21f11cb..cab639ca6f 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8513,6 +8537,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8506,6 +8530,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2424,7 +2424,7 @@ index 59e21f11cb..cab639ca6f 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 5cb58391dd..d5c738d0eb 100644
+index f6fe3253e9..7c1ba0fb1e 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12960,8 +12960,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
