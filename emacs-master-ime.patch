@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 93c821eda0..ea05fdc533 100644
+index cda2a04be9..3676d15daf 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -473,6 +473,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 93c821eda0..ea05fdc533 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6310,6 +6314,42 @@ else
+@@ -6311,6 +6315,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -575,7 +575,7 @@ index 6ca699f901..672ad56357 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index e531891a8a..422374222d 100644
+index 93028aa895..738c9fea8e 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1454,8 +1454,24 @@ affects all frames on the same terminal device.  */)
@@ -603,7 +603,7 @@ index e531891a8a..422374222d 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3902,6 +3918,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -3922,6 +3938,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -614,7 +614,7 @@ index e531891a8a..422374222d 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 8b451d834d..7d845279f9 100644
+index 8142ffec2d..b088a89efc 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -336,6 +336,11 @@ static struct timespec timer_idleness_start_time;
@@ -626,10 +626,10 @@ index 8b451d834d..7d845279f9 100644
 +static Lisp_Object IME_interrupt_flag;
 +#endif /* USE_W32_IME */
 +
- 
- /* Global variable declarations.  */
+ /* Predefined strings for core device names.  */
  
-@@ -1293,6 +1298,14 @@ command_loop_1 (void)
+ static Lisp_Object virtual_core_pointer_name;
+@@ -1298,6 +1303,14 @@ command_loop_1 (void)
    this_command_key_count = 0;
    this_single_command_key_start = 0;
  
@@ -644,7 +644,7 @@ index 8b451d834d..7d845279f9 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4788,7 +4801,11 @@ const char *const lispy_function_keys[] =
+@@ -4848,7 +4861,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -656,7 +656,7 @@ index 8b451d834d..7d845279f9 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9615,6 +9632,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9682,6 +9699,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -676,7 +676,7 @@ index 8b451d834d..7d845279f9 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9736,6 +9766,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9803,6 +9833,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -689,7 +689,7 @@ index 8b451d834d..7d845279f9 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9818,6 +9854,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9885,6 +9921,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -706,7 +706,7 @@ index 8b451d834d..7d845279f9 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -9940,6 +9986,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10007,6 +10053,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -717,7 +717,7 @@ index 8b451d834d..7d845279f9 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10511,6 +10561,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10578,6 +10628,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -729,7 +729,7 @@ index 8b451d834d..7d845279f9 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11332,6 +11387,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11399,6 +11454,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -740,7 +740,7 @@ index 8b451d834d..7d845279f9 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11762,6 +11821,10 @@ init_keyboard (void)
+@@ -11829,6 +11888,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -749,8 +749,8 @@ index 8b451d834d..7d845279f9 100644
 +  IME_interrupt_flag = Qnil;
 +#endif /* USE_W32_IME */
  
-   /* This means that command_loop_1 won't try to select anything the first
-      time through.  */
+   virtual_core_pointer_name = build_string ("Virtual core pointer");
+   virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
 index a880136d0a..6b075c534c 100644
 --- a/src/w32fns.c
@@ -2424,7 +2424,7 @@ index aed698d2a3..5aed29f0c0 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index f6fe3253e9..7c1ba0fb1e 100644
+index d731308173..0df29e9d5b 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -12960,8 +12960,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
