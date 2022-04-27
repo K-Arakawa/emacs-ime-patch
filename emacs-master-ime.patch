@@ -57,10 +57,10 @@ index 7c8638a471..14d6a94c44 100644
  AS_ECHO(["
  Configured for '${canonical}'.
 diff --git a/lisp/Makefile.in b/lisp/Makefile.in
-index 308407a8bf..4d6cdbe135 100644
+index fabf6ed55e..d00bca4728 100644
 --- a/lisp/Makefile.in
 +++ b/lisp/Makefile.in
-@@ -329,7 +329,7 @@ endif
+@@ -331,7 +331,7 @@ endif
  
  .PHONY: compile-first compile-main compile compile-always
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 77f6b980ac..814ded1c7f 100644
+index a049f65e4d..8aa4e14980 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -31447,6 +31447,14 @@ twice for the others.
+@@ -31464,6 +31464,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index 77f6b980ac..814ded1c7f 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -38829,6 +38837,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
+@@ -38878,6 +38886,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -2424,10 +2424,10 @@ index 4cca60e23d..de54138083 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index a3a4338eb4..3d4bc4f127 100644
+index dccff9f2ea..a2cd540872 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13015,8 +13015,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13020,8 +13020,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2451,7 +2451,7 @@ index a3a4338eb4..3d4bc4f127 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13197,6 +13212,11 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -13202,6 +13217,11 @@ gui_consider_frame_title (Lisp_Object frame)
  			     format_mode_line_unwind_data
  			     (NULL, current_buffer, Qnil, false));
  
@@ -2463,7 +2463,7 @@ index a3a4338eb4..3d4bc4f127 100644
        set_buffer_internal_1
  	(XBUFFER (XWINDOW (f->selected_window)->contents));
        fmt = FRAME_ICONIFIED_P (f) ? Vicon_title_format : Vframe_title_format;
-@@ -13248,8 +13268,23 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -13253,8 +13273,23 @@ gui_consider_frame_title (Lisp_Object frame)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
