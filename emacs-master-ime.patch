@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 484ce980a5..c405684f4e 100644
+index 1ba4448d1e..694a1eb7cb 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -473,6 +473,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 484ce980a5..c405684f4e 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6326,6 +6330,42 @@ else
+@@ -6373,6 +6377,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index b79c6b2a08..bd9d038498 100644
+index 977b743f39..b4a10f499d 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -31500,6 +31500,14 @@ twice for the others.
+@@ -31544,6 +31544,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index b79c6b2a08..bd9d038498 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -38882,6 +38890,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
+@@ -38926,6 +38934,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -614,10 +614,10 @@ index 93028aa895..738c9fea8e 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 70908120cb..7b0a8c9aff 100644
+index e8f51f8a6f..af872af198 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
-@@ -336,6 +336,11 @@ static struct timespec timer_idleness_start_time;
+@@ -334,6 +334,11 @@ static struct timespec timer_idleness_start_time;
  
  static struct timespec timer_last_idleness_start_time;
  
@@ -629,7 +629,7 @@ index 70908120cb..7b0a8c9aff 100644
  /* Predefined strings for core device names.  */
  
  static Lisp_Object virtual_core_pointer_name;
-@@ -1298,6 +1303,14 @@ command_loop_1 (void)
+@@ -1296,6 +1301,14 @@ command_loop_1 (void)
    this_command_key_count = 0;
    this_single_command_key_start = 0;
  
@@ -644,7 +644,7 @@ index 70908120cb..7b0a8c9aff 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4854,7 +4867,11 @@ const char *const lispy_function_keys[] =
+@@ -4858,7 +4871,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -656,7 +656,7 @@ index 70908120cb..7b0a8c9aff 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9688,6 +9705,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9692,6 +9709,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -676,7 +676,7 @@ index 70908120cb..7b0a8c9aff 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9809,6 +9839,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9813,6 +9843,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -689,7 +689,7 @@ index 70908120cb..7b0a8c9aff 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9891,6 +9927,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9895,6 +9931,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -706,7 +706,7 @@ index 70908120cb..7b0a8c9aff 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10013,6 +10059,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10017,6 +10063,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -717,7 +717,7 @@ index 70908120cb..7b0a8c9aff 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10584,6 +10634,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10588,6 +10638,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -729,7 +729,7 @@ index 70908120cb..7b0a8c9aff 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11405,6 +11460,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11409,6 +11464,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -740,7 +740,7 @@ index 70908120cb..7b0a8c9aff 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11835,6 +11894,10 @@ init_keyboard (void)
+@@ -11839,6 +11898,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -752,7 +752,7 @@ index 70908120cb..7b0a8c9aff 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 0f25c1a594..c78d8b4240 100644
+index e5becb5d64..7ed73bd47f 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -843,7 +843,7 @@ index 0f25c1a594..c78d8b4240 100644
  /* Prefix for system colors.  */
  #define SYSTEM_COLOR_PREFIX "System"
  #define SYSTEM_COLOR_PREFIX_LEN (sizeof (SYSTEM_COLOR_PREFIX) - 1)
-@@ -401,6 +467,17 @@ static void w32_set_icon_type (struct frame *, Lisp_Object, Lisp_Object);
+@@ -403,6 +469,17 @@ static void w32_set_icon_type (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_set_icon_name (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_explicitly_set_name (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_set_title (struct frame *, Lisp_Object, Lisp_Object);
@@ -861,7 +861,7 @@ index 0f25c1a594..c78d8b4240 100644
  
  
  /* Store the screen positions of frame F into XPTR and YPTR.
-@@ -4366,9 +4443,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4378,9 +4455,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				  w32_get_key_modifiers (wParam, lParam));
  	  windows_translate = 1;
  	  break;
@@ -881,7 +881,7 @@ index 0f25c1a594..c78d8b4240 100644
  	  windows_translate = 1;
  	  break;
  	case VK_CANCEL:
-@@ -4510,6 +4596,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4522,6 +4608,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  	  TranslateMessage (&windows_msg);
  	  goto dflt;
  	}
@@ -906,7 +906,7 @@ index 0f25c1a594..c78d8b4240 100644
        /* Fall through */
        FALLTHROUGH;
  
-@@ -4529,6 +4633,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4541,6 +4645,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				w32_get_key_modifiers (wParam, lParam));
        break;
  
@@ -914,7 +914,7 @@ index 0f25c1a594..c78d8b4240 100644
      case WM_UNICHAR:
        /* WM_UNICHAR looks promising from the docs, but the exact
  	 circumstances in which TranslateMessage sends it is one of those
-@@ -4656,6 +4761,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4668,6 +4773,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
      case WM_IME_ENDCOMPOSITION:
        ignore_ime_char = 0;
        goto dflt;
@@ -922,7 +922,7 @@ index 0f25c1a594..c78d8b4240 100644
  
        /* Simulate middle mouse button events when left and right buttons
  	 are used together, but only if user has two button mouse. */
-@@ -5487,7 +5593,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -5499,7 +5605,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
        my_post_msg (&wmsg, hwnd, msg, wParam, lParam);
        return 1;
  
@@ -1007,7 +1007,7 @@ index 0f25c1a594..c78d8b4240 100644
        /* Check for messages registered at runtime. */
        if (msg == msh_mousewheel)
  	{
-@@ -5789,6 +5972,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
+@@ -5801,6 +5984,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
                                            Qnil));
      }
    gui_default_parameter (f, parms, Qfont, font, "font", "Font", RES_TYPE_STRING);
@@ -1018,7 +1018,7 @@ index 0f25c1a594..c78d8b4240 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8162,6 +8349,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8183,6 +8370,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -1979,7 +1979,7 @@ index 0f25c1a594..c78d8b4240 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10466,6 +11607,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10487,6 +11628,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -1989,7 +1989,7 @@ index 0f25c1a594..c78d8b4240 100644
    0, /* x_set_sticky */
    0, /* x_set_tool_bar_position */
    w32_set_inhibit_double_buffering,
-@@ -10490,6 +11634,10 @@ syms_of_w32fns (void)
+@@ -10511,6 +11655,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -2000,7 +2000,7 @@ index 0f25c1a594..c78d8b4240 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10836,6 +11984,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -10857,6 +12005,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -2028,7 +2028,7 @@ index 0f25c1a594..c78d8b4240 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -10891,6 +12060,20 @@ keys when IME input is received.  */);
+@@ -10912,6 +12081,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2350,7 +2350,7 @@ index 88b7ec22bd..95460e7a36 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 15d6cf94b0..7a82d1f751 100644
+index a87b4834aa..44b003d81f 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -514,6 +514,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2394,7 +2394,7 @@ index 15d6cf94b0..7a82d1f751 100644
    return Qnil;
  }
  
-@@ -8202,6 +8222,10 @@ syms_of_window (void)
+@@ -8214,6 +8234,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2405,7 +2405,7 @@ index 15d6cf94b0..7a82d1f751 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8495,6 +8519,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8507,6 +8531,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2424,7 +2424,7 @@ index 15d6cf94b0..7a82d1f751 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 50efa50c55..139e5d204b 100644
+index 82a018485d..f50d8fe3a0 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13020,8 +13020,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
