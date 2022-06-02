@@ -57,10 +57,10 @@ index ed8ec890ac..cdf11c049c 100644
  AS_ECHO(["
  Configured for '${canonical}'.
 diff --git a/lisp/Makefile.in b/lisp/Makefile.in
-index fabf6ed55e..d00bca4728 100644
+index 8728467977..cd2be5178e 100644
 --- a/lisp/Makefile.in
 +++ b/lisp/Makefile.in
-@@ -331,7 +331,7 @@ endif
+@@ -337,7 +337,7 @@ endif
  
  .PHONY: compile-first compile-main compile compile-always
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index ed133cd55d..c4d8b0aa8e 100644
+index d63c006678..9faf9b789b 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -31623,6 +31623,14 @@ twice for the others.
+@@ -31638,6 +31638,14 @@ twice for the others.
  
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index ed133cd55d..c4d8b0aa8e 100644
  ;;;***
  
  ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -39005,6 +39013,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
+@@ -39020,6 +39028,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  
  (register-definition-prefixes "w32-fns" '("w32-"))
  
@@ -490,10 +490,10 @@ index ed133cd55d..c4d8b0aa8e 100644
  
  ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 9f1da4c0f9..60a36068fa 100644
+index aa15a3bbe8..e067a516ae 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
-@@ -287,39 +287,47 @@
+@@ -288,39 +288,47 @@
  (load "emacs-lisp/tabulated-list")
  (load "buff-menu")
  
@@ -575,7 +575,7 @@ index 9f1da4c0f9..60a36068fa 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index 252dc591bf..7fb5e105cb 100644
+index 46ac54d767..0f3e40c491 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1454,8 +1454,24 @@ affects all frames on the same terminal device.  */)
@@ -603,7 +603,7 @@ index 252dc591bf..7fb5e105cb 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3930,6 +3946,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -3937,6 +3953,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -752,7 +752,7 @@ index 274c7b3fa8..64347dd9ea 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index e5becb5d64..7ed73bd47f 100644
+index a03fa3a665..5b4e1df69c 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2000,7 +2000,7 @@ index e5becb5d64..7ed73bd47f 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10857,6 +12005,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -10842,6 +11990,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -2028,7 +2028,7 @@ index e5becb5d64..7ed73bd47f 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -10912,6 +12081,20 @@ keys when IME input is received.  */);
+@@ -10897,6 +12066,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2050,7 +2050,7 @@ index e5becb5d64..7ed73bd47f 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index 4e60b818ce..20c85d42fb 100644
+index 611a0c8965..b02f0834b9 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2065,7 +2065,7 @@ index 4e60b818ce..20c85d42fb 100644
  
  static BYTE w32_antialias_type (Lisp_Object);
  static Lisp_Object lispy_antialias_type (BYTE);
-@@ -2014,7 +2017,10 @@ w32_to_fc_weight (int n)
+@@ -2027,7 +2030,10 @@ w32_to_fc_weight (int n)
  }
  
  /* Fill in all the available details of LOGFONT from FONT_SPEC.  */
