@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index ed8ec890ac..cdf11c049c 100644
+index 313a1436b5..7ff65dc3fb 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -473,6 +473,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index ed8ec890ac..cdf11c049c 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6391,6 +6395,42 @@ else
+@@ -6392,6 +6396,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -456,14 +456,13 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index d63c006678..9faf9b789b 100644
+index f4e9d2732f..97a114bb45 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -31638,6 +31638,14 @@ twice for the others.
- 
+@@ -28019,6 +28019,14 @@ twice for the others.
+ (fn ARG)" t nil)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
-+;;;***
 +
 +;;;### (autoloads nil "smart-ime" "international/smart-ime.el" (0
 +;;;;;;  0 0 0))
@@ -471,24 +470,26 @@ index d63c006678..9faf9b789b 100644
 +
 +(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "smart-ime" '("wrap-function-to-control-input-method" "universal-argument--mode" "sime-")))
 +
- ;;;***
++;;;***
  
- ;;;### (autoloads nil "smerge-mode" "vc/smerge-mode.el" (0 0 0 0))
-@@ -39020,6 +39028,14 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
+ ;;; Generated autoloads from vc/smerge-mode.el
  
+@@ -34536,6 +34544,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
-+;;;***
-+
+ 
 +;;;### (autoloads nil "w32-ime" "international/w32-ime.el" (0 0 0
 +;;;;;;  0))
 +;;; Generated autoloads from international/w32-ime.el
 +
 +(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "w32-ime" '("wrap-function-to-control-ime" "w32-")))
 +
- ;;;***
- 
- ;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
++;;;***
++
++;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
+ ;;; Generated autoloads from w32-vars.el
+ 
+ (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
 index aa15a3bbe8..e067a516ae 100644
 --- a/lisp/loadup.el
@@ -614,7 +615,7 @@ index 46ac54d767..0f3e40c491 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 274c7b3fa8..64347dd9ea 100644
+index 55d710ed62..6392bccc3f 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -334,6 +334,11 @@ static struct timespec timer_idleness_start_time;
@@ -629,7 +630,7 @@ index 274c7b3fa8..64347dd9ea 100644
  /* Predefined strings for core device names.  */
  
  static Lisp_Object virtual_core_pointer_name;
-@@ -1296,6 +1301,14 @@ command_loop_1 (void)
+@@ -1288,6 +1293,14 @@ command_loop_1 (void)
    this_command_key_count = 0;
    this_single_command_key_start = 0;
  
@@ -644,7 +645,7 @@ index 274c7b3fa8..64347dd9ea 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4875,7 +4888,11 @@ const char *const lispy_function_keys[] =
+@@ -4880,7 +4893,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -656,7 +657,7 @@ index 274c7b3fa8..64347dd9ea 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9709,6 +9726,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9717,6 +9734,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -676,7 +677,7 @@ index 274c7b3fa8..64347dd9ea 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9830,6 +9860,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9838,6 +9868,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -689,7 +690,7 @@ index 274c7b3fa8..64347dd9ea 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9912,6 +9948,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9920,6 +9956,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -706,7 +707,7 @@ index 274c7b3fa8..64347dd9ea 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10034,6 +10080,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10042,6 +10088,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -717,7 +718,7 @@ index 274c7b3fa8..64347dd9ea 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10605,6 +10655,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10613,6 +10663,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -729,7 +730,7 @@ index 274c7b3fa8..64347dd9ea 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11426,6 +11481,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11434,6 +11489,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -740,7 +741,7 @@ index 274c7b3fa8..64347dd9ea 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11856,6 +11915,10 @@ init_keyboard (void)
+@@ -11864,6 +11923,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2350,7 +2351,7 @@ index 88b7ec22bd..95460e7a36 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index d3e8afd68a..66e1ce0de1 100644
+index e5666ce38e..e809b5b4e5 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -514,6 +514,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2375,7 +2376,7 @@ index d3e8afd68a..66e1ce0de1 100644
    return window;
  }
  
-@@ -4156,6 +4164,18 @@ This function runs `window-scroll-functions' before running
+@@ -4212,6 +4220,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2394,7 +2395,7 @@ index d3e8afd68a..66e1ce0de1 100644
    return Qnil;
  }
  
-@@ -8214,6 +8234,10 @@ syms_of_window (void)
+@@ -8274,6 +8294,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2405,7 +2406,7 @@ index d3e8afd68a..66e1ce0de1 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8507,6 +8531,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8567,6 +8591,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
