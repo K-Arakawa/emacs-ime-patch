@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index 17f86627a7..e2ecc2081f 100644
+index 45b62647e7..f44e139eb5 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -473,6 +473,10 @@ On by default on macOS.])],[],[with_ns=maybe])
+@@ -479,6 +479,10 @@ On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
  OPTION_DEFAULT_OFF([pgtk], [use GTK to support window systems other than X])
  
@@ -13,7 +13,7 @@ index 17f86627a7..e2ecc2081f 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6393,6 +6397,42 @@ else
+@@ -6507,6 +6511,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -456,10 +456,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 2d1e327597..63ef6a5ddf 100644
+index 98dad181f4..1c3255335e 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -28009,6 +28009,14 @@ twice for the others.
+@@ -28068,6 +28068,14 @@ twice for the others.
  (fn ARG)" t nil)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -474,7 +474,7 @@ index 2d1e327597..63ef6a5ddf 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -34514,6 +34522,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
+@@ -34570,6 +34578,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t nil)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -615,7 +615,7 @@ index 02c90ea651..b196aca24a 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 8b8d348c41..b788763ecc 100644
+index 84a7a0a38a..f90f531940 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -334,6 +334,11 @@ static struct timespec timer_idleness_start_time;
@@ -645,7 +645,7 @@ index 8b8d348c41..b788763ecc 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4909,7 +4922,11 @@ const char *const lispy_function_keys[] =
+@@ -4907,7 +4920,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -657,7 +657,7 @@ index 8b8d348c41..b788763ecc 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9746,6 +9763,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9744,6 +9761,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -677,7 +677,7 @@ index 8b8d348c41..b788763ecc 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9867,6 +9897,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9865,6 +9895,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -690,7 +690,7 @@ index 8b8d348c41..b788763ecc 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9949,6 +9985,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9947,6 +9983,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -707,7 +707,7 @@ index 8b8d348c41..b788763ecc 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10071,6 +10117,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10069,6 +10115,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -718,7 +718,7 @@ index 8b8d348c41..b788763ecc 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10642,6 +10692,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10640,6 +10690,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -730,7 +730,7 @@ index 8b8d348c41..b788763ecc 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11463,6 +11518,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11461,6 +11516,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -741,7 +741,7 @@ index 8b8d348c41..b788763ecc 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11893,6 +11952,10 @@ init_keyboard (void)
+@@ -11891,6 +11950,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2351,7 +2351,7 @@ index 88b7ec22bd..95460e7a36 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index ad03a02758..5a5de1e16f 100644
+index af463b90ce..7a5d5b4cf3 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -514,6 +514,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2395,7 +2395,7 @@ index ad03a02758..5a5de1e16f 100644
    return Qnil;
  }
  
-@@ -8293,6 +8313,10 @@ syms_of_window (void)
+@@ -8294,6 +8314,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2406,7 +2406,7 @@ index ad03a02758..5a5de1e16f 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8586,6 +8610,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8587,6 +8611,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
