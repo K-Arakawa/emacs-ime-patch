@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 45b62647e7..f44e139eb5 100644
+index 87c126ecbb..87c95e5bd1 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -479,6 +479,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 45b62647e7..f44e139eb5 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6507,6 +6511,42 @@ else
+@@ -6511,6 +6515,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -753,7 +753,7 @@ index 2863058d63..a1023c3c19 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 51540e1880..216e14038e 100644
+index 5e42a1df6f..e9e34f7ef6 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -1019,7 +1019,7 @@ index 51540e1880..216e14038e 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8176,6 +8363,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8192,6 +8379,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -1980,7 +1980,7 @@ index 51540e1880..216e14038e 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10480,6 +11621,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10496,6 +11637,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -1990,7 +1990,7 @@ index 51540e1880..216e14038e 100644
    0, /* x_set_sticky */
    0, /* x_set_tool_bar_position */
    w32_set_inhibit_double_buffering,
-@@ -10504,6 +11648,10 @@ syms_of_w32fns (void)
+@@ -10520,6 +11664,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -2001,7 +2001,7 @@ index 51540e1880..216e14038e 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10835,6 +11983,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -10851,6 +11999,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -2029,7 +2029,7 @@ index 51540e1880..216e14038e 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -10889,6 +12058,20 @@ keys when IME input is received.  */);
+@@ -10905,6 +12074,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2351,7 +2351,7 @@ index 88b7ec22bd..95460e7a36 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 10373f8a2b..10963cc795 100644
+index 8f88958558..af2eaf3051 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -514,6 +514,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2425,10 +2425,10 @@ index 10373f8a2b..10963cc795 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index f205327cc3..7d902b64a7 100644
+index ebeaf2a3da..6cbad37947 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13036,8 +13036,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13087,8 +13087,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2452,7 +2452,7 @@ index f205327cc3..7d902b64a7 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13218,6 +13233,11 @@ gui_consider_frame_title (Lisp_Object frame)
+@@ -13269,6 +13284,11 @@ gui_consider_frame_title (Lisp_Object frame)
  			     format_mode_line_unwind_data
  			     (f, current_buffer, selected_window, false));
  
@@ -2464,7 +2464,7 @@ index f205327cc3..7d902b64a7 100644
        Fselect_window (f->selected_window, Qt);
        set_buffer_internal_1
  	(XBUFFER (XWINDOW (f->selected_window)->contents));
-@@ -13284,8 +13304,23 @@ needs_no_redisplay (struct window *w)
+@@ -13335,8 +13355,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
