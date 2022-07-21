@@ -576,7 +576,7 @@ index 21a87dbd77..4846a7c1b1 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index a39e1c4944..1acdf6dfb7 100644
+index a39e1c4944..bbf39b3d06 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1450,8 +1450,24 @@ affects all frames on the same terminal device.  */)
@@ -585,18 +585,18 @@ index a39e1c4944..1acdf6dfb7 100644
  
 +#ifdef USE_W32_IME
 +Lisp_Object
-+do_switch_frame_0 (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord);
++do_switch_frame_0 (Lisp_Object frame, int for_deletion, Lisp_Object norecord);
  Lisp_Object
  do_switch_frame (Lisp_Object frame, int for_deletion, Lisp_Object norecord)
 +{
 +  specpdl_ref count = SPECPDL_INDEX ();
 +
 +  specbind (Qw32_ime_buffer_switch_p, Qnil);
-+  do_switch_frame_0 (frame, track, for_deletion, norecord);
++  do_switch_frame_0 (frame, for_deletion, norecord);
 +  unbind_to (count, Qnil);
 +}
 +Lisp_Object
-+do_switch_frame_0 (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
++do_switch_frame_0 (Lisp_Object frame, int for_deletion, Lisp_Object norecord)
 +#else  /* !USE_W32_IME */
 +Lisp_Object
 +do_switch_frame (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
