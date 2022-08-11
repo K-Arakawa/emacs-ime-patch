@@ -56,19 +56,6 @@ index 1a264275bd..f6262bbb00 100644
  emacs_standard_dirs='Standard dirs'
  AS_ECHO(["
  Configured for '${canonical}'.
-diff --git a/lisp/Makefile.in b/lisp/Makefile.in
-index c73a623cce..579b47a9e7 100644
---- a/lisp/Makefile.in
-+++ b/lisp/Makefile.in
-@@ -328,7 +328,7 @@ endif
- 
- .PHONY: compile-first compile-main compile compile-always
- 
--compile-first: $(COMPILE_FIRST)
-+compile-first: loaddefs.el $(COMPILE_FIRST)
- 
- # In 'compile-main' we could directly do
- #    ... | xargs $(MAKE)
 diff --git a/lisp/international/smart-ime.el b/lisp/international/smart-ime.el
 new file mode 100644
 index 0000000000..e6350c68e9
@@ -2425,7 +2412,7 @@ index afb8f75537..59e7e9a2d5 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 855f48f2bd..b7387b9827 100644
+index 855f48f2bd..4507b00420 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13244,8 +13244,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
@@ -2452,23 +2439,19 @@ index 855f48f2bd..b7387b9827 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13424,9 +13439,13 @@ gui_consider_frame_title (Lisp_Object frame)
- 	 mode_line_noprop_buf; then display the title.  */
-       record_unwind_protect (unwind_format_mode_line,
+@@ -13426,6 +13441,11 @@ gui_consider_frame_title (Lisp_Object frame)
  			     format_mode_line_unwind_data
--			     (f, current_buffer, selected_window, false));
-+			     (NULL, current_buffer, Qnil, false));
+ 			     (f, current_buffer, selected_window, false));
  
--      Fselect_window (f->selected_window, Qt);
 +#if defined(USE_W32_IME)
 +      if (!NILP (Vselect_window_functions))
 +	run_hook_with_args_2 (Qselect_window_functions,
 +			      selected_window, selected_window);
 +#endif	/* defined(USE_W32_IME) */
+       Fselect_window (f->selected_window, Qt);
        set_buffer_internal_1
  	(XBUFFER (XWINDOW (f->selected_window)->contents));
-       fmt = FRAME_ICONIFIED_P (f) ? Vicon_title_format : Vframe_title_format;
-@@ -13492,8 +13511,23 @@ needs_no_redisplay (struct window *w)
+@@ -13492,8 +13512,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
