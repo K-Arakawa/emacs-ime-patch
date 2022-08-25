@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 1a264275bd..f6262bbb00 100644
+index 7616e450d0..2cbf07e1a8 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -479,6 +479,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -443,7 +443,7 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 855f5a25b1..809c51efef 100644
+index 07dfc23a09..dfb4aa0316 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
 @@ -27987,6 +27987,14 @@ twice for the others.
@@ -2338,7 +2338,7 @@ index 88b7ec22bd..95460e7a36 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index c8fcb3a607..a4e53daf21 100644
+index 2bce4c9723..8517a32b0e 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -514,6 +514,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2351,7 +2351,7 @@ index c8fcb3a607..a4e53daf21 100644
  
    CHECK_LIVE_WINDOW (window);
  
-@@ -576,6 +579,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
+@@ -578,6 +581,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
        record_buffer (w->contents);
      }
  
@@ -2363,7 +2363,7 @@ index c8fcb3a607..a4e53daf21 100644
    return window;
  }
  
-@@ -4192,6 +4200,18 @@ This function runs `window-scroll-functions' before running
+@@ -4194,6 +4202,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2382,7 +2382,7 @@ index c8fcb3a607..a4e53daf21 100644
    return Qnil;
  }
  
-@@ -8275,6 +8295,10 @@ syms_of_window (void)
+@@ -8277,6 +8297,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2393,7 +2393,7 @@ index c8fcb3a607..a4e53daf21 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8568,6 +8592,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8570,6 +8594,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2412,7 +2412,7 @@ index c8fcb3a607..a4e53daf21 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 03c43be5bc..37f501e3d2 100644
+index 86a119c0f6..f939ab4f58 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13297,8 +13297,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
@@ -2439,23 +2439,19 @@ index 03c43be5bc..37f501e3d2 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13477,9 +13492,13 @@ gui_consider_frame_title (Lisp_Object frame)
- 	 mode_line_noprop_buf; then display the title.  */
-       record_unwind_protect (unwind_format_mode_line,
+@@ -13479,6 +13494,11 @@ gui_consider_frame_title (Lisp_Object frame)
  			     format_mode_line_unwind_data
--			     (f, current_buffer, selected_window, false));
-+			     (NULL, current_buffer, Qnil, false));
+ 			     (f, current_buffer, selected_window, false));
  
--      Fselect_window (f->selected_window, Qt);
 +#if defined(USE_W32_IME)
 +      if (!NILP (Vselect_window_functions))
 +	run_hook_with_args_2 (Qselect_window_functions,
 +			      selected_window, selected_window);
 +#endif	/* defined(USE_W32_IME) */
+       Fselect_window (f->selected_window, Qt);
        set_buffer_internal_1
  	(XBUFFER (XWINDOW (f->selected_window)->contents));
-       fmt = FRAME_ICONIFIED_P (f) ? Vicon_title_format : Vframe_title_format;
-@@ -13545,8 +13564,23 @@ needs_no_redisplay (struct window *w)
+@@ -13545,8 +13565,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
