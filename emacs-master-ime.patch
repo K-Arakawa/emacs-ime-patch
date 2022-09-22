@@ -443,10 +443,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index e84795547c..c17e4e6f3d 100644
+index 4708025002..46b6e40a2b 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -28133,6 +28133,14 @@ twice for the others.
+@@ -28329,6 +28329,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -461,7 +461,7 @@ index e84795547c..c17e4e6f3d 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -34717,6 +34725,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
+@@ -34909,6 +34917,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -478,10 +478,10 @@ index e84795547c..c17e4e6f3d 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 634a331436..8cd2d888d7 100644
+index c01c827a75..222ee6d061 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
-@@ -284,39 +284,47 @@
+@@ -282,39 +282,47 @@
  (load "emacs-lisp/tabulated-list")
  (load "buff-menu")
  
@@ -563,7 +563,7 @@ index 634a331436..8cd2d888d7 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index 25d71e0769..bede9b527b 100644
+index 91b9bec82c..d8ae7435f3 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1450,8 +1450,24 @@ affects all frames on the same terminal device.  */)
@@ -2412,10 +2412,10 @@ index 12a212a85a..7e4f1f4016 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 80a0763695..7000bbb2fa 100644
+index ee074c018e..1911b7c240 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13296,8 +13296,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13299,8 +13299,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2439,19 +2439,7 @@ index 80a0763695..7000bbb2fa 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13478,6 +13493,11 @@ gui_consider_frame_title (Lisp_Object frame)
- 			     format_mode_line_unwind_data
- 			     (f, current_buffer, selected_window, false));
- 
-+#if defined(USE_W32_IME)
-+      if (!NILP (Vselect_window_functions))
-+	run_hook_with_args_2 (Qselect_window_functions,
-+			      selected_window, selected_window);
-+#endif	/* defined(USE_W32_IME) */
-       Fselect_window (f->selected_window, Qt);
-       set_buffer_internal_1
- 	(XBUFFER (XWINDOW (f->selected_window)->contents));
-@@ -13544,8 +13564,23 @@ needs_no_redisplay (struct window *w)
+@@ -13547,8 +13562,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
