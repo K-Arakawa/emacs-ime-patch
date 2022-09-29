@@ -443,10 +443,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 4708025002..46b6e40a2b 100644
+index 98a94b310c..a2f022f6a2 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -28329,6 +28329,14 @@ twice for the others.
+@@ -28240,6 +28240,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -461,7 +461,7 @@ index 4708025002..46b6e40a2b 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -34909,6 +34917,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
+@@ -34825,6 +34833,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -602,7 +602,7 @@ index 91b9bec82c..d8ae7435f3 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index ca51c80da0..2a870a0c0a 100644
+index da244904a4..c59000460a 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -334,6 +334,11 @@ static struct timespec timer_idleness_start_time;
@@ -728,7 +728,7 @@ index ca51c80da0..2a870a0c0a 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11935,6 +11994,10 @@ init_keyboard (void)
+@@ -11938,6 +11997,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2412,10 +2412,10 @@ index 12a212a85a..7e4f1f4016 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index ee074c018e..1911b7c240 100644
+index 1f6f35e6c0..5dfdd0c7bc 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13299,8 +13299,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13306,8 +13306,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2439,7 +2439,7 @@ index ee074c018e..1911b7c240 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13547,8 +13562,23 @@ needs_no_redisplay (struct window *w)
+@@ -13554,8 +13569,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
