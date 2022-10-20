@@ -443,10 +443,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index c9502fbb21..fce68f006a 100644
+index b992846b0b..a9f5a18986 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -28272,6 +28272,14 @@ twice for the others.
+@@ -28298,6 +28298,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -461,7 +461,7 @@ index c9502fbb21..fce68f006a 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -34860,6 +34868,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
+@@ -34904,6 +34912,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -478,7 +478,7 @@ index c9502fbb21..fce68f006a 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index c01c827a75..222ee6d061 100644
+index e940a32100..0d771bacfb 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -282,39 +282,47 @@
@@ -2338,7 +2338,7 @@ index 88b7ec22bd..95460e7a36 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 4e8b352e16..234516b2e9 100644
+index f116b9a9d7..2492d6fc4e 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2382,7 +2382,7 @@ index 4e8b352e16..234516b2e9 100644
    return Qnil;
  }
  
-@@ -8366,6 +8386,10 @@ syms_of_window (void)
+@@ -8367,6 +8387,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2393,7 +2393,7 @@ index 4e8b352e16..234516b2e9 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8660,6 +8684,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8661,6 +8685,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
