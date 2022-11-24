@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index b656dba4d9..850ade4e17 100644
+index cc4e59ee5a..f6469aa8fb 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -479,6 +479,10 @@ On by default on macOS.])],[],[with_ns=maybe])
+@@ -480,6 +480,10 @@ On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
  OPTION_DEFAULT_OFF([pgtk], [use GTK to support window systems other than X])
  
@@ -13,7 +13,7 @@ index b656dba4d9..850ade4e17 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6539,6 +6543,42 @@ else
+@@ -6601,6 +6605,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -563,7 +563,7 @@ index 2a9aff4c1f..6a145403ad 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index bfdd03e501..ac95943116 100644
+index b57b296be5..b31383c34c 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1450,8 +1450,24 @@ affects all frames on the same terminal device.  */)
@@ -602,7 +602,7 @@ index bfdd03e501..ac95943116 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 069cf0627b..5ef532619f 100644
+index 811998823c..59ff6e0fcd 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -334,6 +334,11 @@ static struct timespec timer_idleness_start_time;
@@ -644,7 +644,7 @@ index 069cf0627b..5ef532619f 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9777,6 +9794,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9822,6 +9839,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -664,7 +664,7 @@ index 069cf0627b..5ef532619f 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9898,6 +9928,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9943,6 +9973,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -677,7 +677,7 @@ index 069cf0627b..5ef532619f 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -9980,6 +10016,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10025,6 +10061,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -694,7 +694,7 @@ index 069cf0627b..5ef532619f 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10102,6 +10148,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10147,6 +10193,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -705,7 +705,7 @@ index 069cf0627b..5ef532619f 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10673,6 +10723,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10718,6 +10768,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -717,7 +717,7 @@ index 069cf0627b..5ef532619f 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11494,6 +11549,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11539,6 +11594,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -728,7 +728,7 @@ index 069cf0627b..5ef532619f 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11927,6 +11986,10 @@ init_keyboard (void)
+@@ -11972,6 +12031,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -740,7 +740,7 @@ index 069cf0627b..5ef532619f 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index e441665804..131e7533d6 100644
+index 887e5a1f7b..070ee66ce1 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -995,9 +995,9 @@ index e441665804..131e7533d6 100644
        /* Check for messages registered at runtime. */
        if (msg == msh_mousewheel)
  	{
-@@ -5802,6 +5985,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
-                                           Qnil));
+@@ -5796,6 +5979,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
      }
+ 
    gui_default_parameter (f, parms, Qfont, font, "font", "Font", RES_TYPE_STRING);
 +#ifdef USE_W32_IME
 +  gui_default_parameter (f, parms, Qime_font, Qnil,
@@ -1006,7 +1006,7 @@ index e441665804..131e7533d6 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8197,6 +8384,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8191,6 +8378,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -1967,7 +1967,7 @@ index e441665804..131e7533d6 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10561,6 +11702,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10555,6 +11696,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -1977,7 +1977,7 @@ index e441665804..131e7533d6 100644
    0, /* x_set_sticky */
    0, /* x_set_tool_bar_position */
    w32_set_inhibit_double_buffering,
-@@ -10586,6 +11730,10 @@ syms_of_w32fns (void)
+@@ -10580,6 +11724,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -1988,7 +1988,7 @@ index e441665804..131e7533d6 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10917,6 +12065,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -10911,6 +12059,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -2016,7 +2016,7 @@ index e441665804..131e7533d6 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -10971,6 +12140,20 @@ keys when IME input is received.  */);
+@@ -10965,6 +12134,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2412,10 +2412,10 @@ index f116b9a9d7..2492d6fc4e 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 3b4f0b3956..dcc43d1d23 100644
+index 5dcf21dc4c..e94a44b279 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13197,8 +13197,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13191,8 +13191,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2439,7 +2439,7 @@ index 3b4f0b3956..dcc43d1d23 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13454,8 +13469,23 @@ needs_no_redisplay (struct window *w)
+@@ -13448,8 +13463,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
