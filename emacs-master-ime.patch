@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 2770694b9c..2788c16550 100644
+index 6e37d56d31..57d03b6c35 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -480,6 +480,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -443,10 +443,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 1c049107f0..eb1866f870 100644
+index 2639c5cceb..2658fe7dd3 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -28757,6 +28757,14 @@ twice for the others.
+@@ -28852,6 +28852,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -461,7 +461,7 @@ index 1c049107f0..eb1866f870 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -35382,6 +35390,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
+@@ -35674,6 +35682,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -2412,7 +2412,7 @@ index f116b9a9d7..2492d6fc4e 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 4e087bc39b..ef1dfaf54b 100644
+index 66584e4d73..1de426e00f 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13228,8 +13228,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
