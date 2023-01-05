@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index d0217bdcf4..bac5f8b835 100644
+index 7833ed3e46..4bbd82108f 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -480,6 +480,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -443,10 +443,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 2639c5cceb..2658fe7dd3 100644
+index c21955c3f0..27dab3211c 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -28852,6 +28852,14 @@ twice for the others.
+@@ -28882,6 +28882,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -461,7 +461,7 @@ index 2639c5cceb..2658fe7dd3 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -35674,6 +35682,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
+@@ -35743,6 +35751,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -478,7 +478,7 @@ index 2639c5cceb..2658fe7dd3 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 2a9aff4c1f..6a145403ad 100644
+index 5c57686157..21f48bbc88 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -282,39 +282,47 @@
@@ -563,7 +563,7 @@ index 2a9aff4c1f..6a145403ad 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index 7d902dabd4..8fb40aae54 100644
+index 983424b0be..ab197bdb97 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1450,8 +1450,24 @@ affects all frames on the same terminal device.  */)
@@ -602,7 +602,7 @@ index 7d902dabd4..8fb40aae54 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index d68b50428a..f7ba1906f8 100644
+index 0ed2807033..1b68bca75a 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -334,6 +334,11 @@ static struct timespec timer_idleness_start_time;
@@ -617,7 +617,7 @@ index d68b50428a..f7ba1906f8 100644
  /* Predefined strings for core device names.  */
  
  static Lisp_Object virtual_core_pointer_name;
-@@ -1280,6 +1285,14 @@ command_loop_1 (void)
+@@ -1279,6 +1284,14 @@ command_loop_1 (void)
    this_command_key_count = 0;
    this_single_command_key_start = 0;
  
@@ -632,7 +632,7 @@ index d68b50428a..f7ba1906f8 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -4944,7 +4957,11 @@ const char *const lispy_function_keys[] =
+@@ -4943,7 +4956,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -644,7 +644,7 @@ index d68b50428a..f7ba1906f8 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -9826,6 +9843,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9825,6 +9842,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -664,7 +664,7 @@ index d68b50428a..f7ba1906f8 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -9947,6 +9977,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -9946,6 +9976,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -677,7 +677,7 @@ index d68b50428a..f7ba1906f8 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -10029,6 +10065,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10028,6 +10064,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -694,7 +694,7 @@ index d68b50428a..f7ba1906f8 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10151,6 +10197,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10150,6 +10196,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -705,7 +705,7 @@ index d68b50428a..f7ba1906f8 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -10722,6 +10772,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10721,6 +10771,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -717,7 +717,7 @@ index d68b50428a..f7ba1906f8 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -11543,6 +11598,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -11542,6 +11597,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -728,7 +728,7 @@ index d68b50428a..f7ba1906f8 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -11976,6 +12035,10 @@ init_keyboard (void)
+@@ -11975,6 +12034,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -740,7 +740,7 @@ index d68b50428a..f7ba1906f8 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 887e5a1f7b..070ee66ce1 100644
+index 192d3ddf27..dee1663511 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2038,7 +2038,7 @@ index 887e5a1f7b..070ee66ce1 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index 611a0c8965..b02f0834b9 100644
+index 2917fa55f9..e0d72c66bf 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2066,7 +2066,7 @@ index 611a0c8965..b02f0834b9 100644
  {
    Lisp_Object tmp, extra;
 diff --git a/src/w32font.h b/src/w32font.h
-index 9fd4a6c187..bd8f23b1bf 100644
+index 3f1c86adff..3ba1ca2cf3 100644
 --- a/src/w32font.h
 +++ b/src/w32font.h
 @@ -83,6 +83,9 @@ int w32font_draw (struct glyph_string *s, int from, int to,
@@ -2080,7 +2080,7 @@ index 9fd4a6c187..bd8f23b1bf 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index e40e4588fd..181608b593 100644
+index 2899e82b29..46f0810c62 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -5948,6 +5948,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2215,7 +2215,7 @@ index e40e4588fd..181608b593 100644
    w32_get_mouse_wheel_vertical_delta ();
  }
 diff --git a/src/w32term.h b/src/w32term.h
-index 88b7ec22bd..95460e7a36 100644
+index 69ef297cbc..6116b8145d 100644
 --- a/src/w32term.h
 +++ b/src/w32term.h
 @@ -656,6 +656,8 @@ do { \
@@ -2338,7 +2338,7 @@ index 88b7ec22bd..95460e7a36 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index cd43919a7d..74594d84f0 100644
+index 6201a6f4a3..9b84f322a2 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2412,7 +2412,7 @@ index cd43919a7d..74594d84f0 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index db6dd3fab6..477b5abb7b 100644
+index 66c72aea6d..22a1959903 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13231,8 +13231,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
