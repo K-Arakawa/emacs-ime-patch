@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 7833ed3e46..4bbd82108f 100644
+index 8c11414fe0..8cc81f6c09 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -480,6 +480,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -2412,7 +2412,7 @@ index 6201a6f4a3..9b84f322a2 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 66c72aea6d..22a1959903 100644
+index 72d3bfa639..f9df86f04c 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13231,8 +13231,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
