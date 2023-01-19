@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 8c11414fe0..8cc81f6c09 100644
+index d7aec4414e3..7b9b71f0908 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -480,6 +480,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 8c11414fe0..8cc81f6c09 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6564,6 +6568,42 @@ else
+@@ -6566,6 +6570,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -58,7 +58,7 @@ index 8c11414fe0..8cc81f6c09 100644
  Configured for '${canonical}'.
 diff --git a/lisp/international/smart-ime.el b/lisp/international/smart-ime.el
 new file mode 100644
-index 0000000000..e6350c68e9
+index 00000000000..e6350c68e96
 --- /dev/null
 +++ b/lisp/international/smart-ime.el
 @@ -0,0 +1,172 @@
@@ -236,7 +236,7 @@ index 0000000000..e6350c68e9
 +;; -*- mode: Emacs-Lisp; coding: euc-jp-unix -*-
 diff --git a/lisp/international/w32-ime.el b/lisp/international/w32-ime.el
 new file mode 100644
-index 0000000000..66d51b800d
+index 00000000000..66d51b800d6
 --- /dev/null
 +++ b/lisp/international/w32-ime.el
 @@ -0,0 +1,202 @@
@@ -443,10 +443,10 @@ index 0000000000..66d51b800d
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index c21955c3f0..27dab3211c 100644
+index 4d5921582cc..3a449dcbdb3 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -28882,6 +28882,14 @@ twice for the others.
+@@ -28922,6 +28922,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -461,7 +461,7 @@ index c21955c3f0..27dab3211c 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -35743,6 +35751,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
+@@ -35796,6 +35804,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -478,7 +478,7 @@ index c21955c3f0..27dab3211c 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 5c57686157..21f48bbc88 100644
+index 5c576861579..21f48bbc889 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -282,39 +282,47 @@
@@ -563,7 +563,7 @@ index 5c57686157..21f48bbc88 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index 983424b0be..ab197bdb97 100644
+index 983424b0bee..ab197bdb97a 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1450,8 +1450,24 @@ affects all frames on the same terminal device.  */)
@@ -602,7 +602,7 @@ index 983424b0be..ab197bdb97 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 0ed2807033..1b68bca75a 100644
+index 6f0f075e54e..00bae264a7d 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -334,6 +334,11 @@ static struct timespec timer_idleness_start_time;
@@ -740,7 +740,7 @@ index 0ed2807033..1b68bca75a 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 192d3ddf27..dee1663511 100644
+index b4192a5ffa6..5f30d94a9d4 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2038,7 +2038,7 @@ index 192d3ddf27..dee1663511 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index 2917fa55f9..e0d72c66bf 100644
+index 2917fa55f9f..e0d72c66bf0 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2066,7 +2066,7 @@ index 2917fa55f9..e0d72c66bf 100644
  {
    Lisp_Object tmp, extra;
 diff --git a/src/w32font.h b/src/w32font.h
-index 3f1c86adff..3ba1ca2cf3 100644
+index 3f1c86adff9..3ba1ca2cf3f 100644
 --- a/src/w32font.h
 +++ b/src/w32font.h
 @@ -83,6 +83,9 @@ int w32font_draw (struct glyph_string *s, int from, int to,
@@ -2080,7 +2080,7 @@ index 3f1c86adff..3ba1ca2cf3 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 2899e82b29..46f0810c62 100644
+index 2899e82b295..46f0810c62d 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -5948,6 +5948,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2215,7 +2215,7 @@ index 2899e82b29..46f0810c62 100644
    w32_get_mouse_wheel_vertical_delta ();
  }
 diff --git a/src/w32term.h b/src/w32term.h
-index 69ef297cbc..6116b8145d 100644
+index 69ef297cbcc..6116b8145de 100644
 --- a/src/w32term.h
 +++ b/src/w32term.h
 @@ -656,6 +656,8 @@ do { \
@@ -2338,7 +2338,7 @@ index 69ef297cbc..6116b8145d 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 6201a6f4a3..9b84f322a2 100644
+index 6201a6f4a36..9b84f322a2c 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2412,7 +2412,7 @@ index 6201a6f4a3..9b84f322a2 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 72d3bfa639..f9df86f04c 100644
+index 72d3bfa6398..f9df86f04ca 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13231,8 +13231,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
