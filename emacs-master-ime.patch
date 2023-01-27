@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index d7aec4414e3..7b9b71f0908 100644
+index fc17dbd8318..e78a76783f8 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -480,6 +480,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index d7aec4414e3..7b9b71f0908 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6566,6 +6570,42 @@ else
+@@ -6567,6 +6571,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -740,7 +740,7 @@ index 6f0f075e54e..00bae264a7d 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index b4192a5ffa6..5f30d94a9d4 100644
+index 745f561e6b1..d719bea0b06 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
