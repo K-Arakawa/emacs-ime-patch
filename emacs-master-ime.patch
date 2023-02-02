@@ -443,10 +443,10 @@ index 00000000000..66d51b800d6
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 4d5921582cc..3a449dcbdb3 100644
+index 73d47804e5d..a22b7677397 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -28922,6 +28922,14 @@ twice for the others.
+@@ -28966,6 +28966,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -461,7 +461,7 @@ index 4d5921582cc..3a449dcbdb3 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -35796,6 +35804,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
+@@ -35839,6 +35847,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
