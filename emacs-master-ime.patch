@@ -443,10 +443,10 @@ index 00000000000..66d51b800d6
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 404bad56a59..2583cc6cf52 100644
+index 65b990682c1..b0c2c5ac3b8 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -28991,6 +28991,14 @@ twice for the others.
+@@ -29006,6 +29006,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -461,7 +461,7 @@ index 404bad56a59..2583cc6cf52 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -35864,6 +35872,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
+@@ -35894,6 +35902,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -2412,7 +2412,7 @@ index bf89261e79c..75f721f9db9 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index c5c4321af77..b067dece407 100644
+index 7a4f683c973..c3e372b4baf 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13231,8 +13231,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
