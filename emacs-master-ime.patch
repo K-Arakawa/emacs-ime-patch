@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index b484ebdc8ba..2bb3a15e514 100644
+index 25afe3a6981..3c8a20693e6 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -480,6 +480,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index b484ebdc8ba..2bb3a15e514 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6577,6 +6581,42 @@ else
+@@ -6596,6 +6600,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -2338,7 +2338,7 @@ index 69ef297cbcc..6116b8145de 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index bf89261e79c..75f721f9db9 100644
+index f4e09f49eae..ff18e9b6c8b 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2363,7 +2363,7 @@ index bf89261e79c..75f721f9db9 100644
    return window;
  }
  
-@@ -4228,6 +4236,18 @@ This function runs `window-scroll-functions' before running
+@@ -4231,6 +4239,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2382,7 +2382,7 @@ index bf89261e79c..75f721f9db9 100644
    return Qnil;
  }
  
-@@ -8408,6 +8428,10 @@ syms_of_window (void)
+@@ -8411,6 +8431,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2393,7 +2393,7 @@ index bf89261e79c..75f721f9db9 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8702,6 +8726,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8705,6 +8729,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
