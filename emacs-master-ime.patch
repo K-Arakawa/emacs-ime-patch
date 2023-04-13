@@ -563,7 +563,7 @@ index 1cc70348267..de6205463c1 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index 2cea96d4a32..b66174d61ea 100644
+index 2cea96d4a32..3f9d2907f96 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1450,8 +1450,24 @@ affects all frames on the same terminal device.  */)
@@ -573,8 +573,8 @@ index 2cea96d4a32..b66174d61ea 100644
 +#ifdef USE_W32_IME
 +Lisp_Object
 +do_switch_frame_0 (Lisp_Object frame, int for_deletion, Lisp_Object norecord);
- Lisp_Object
- do_switch_frame (Lisp_Object frame, int for_deletion, Lisp_Object norecord)
++Lisp_Object
++do_switch_frame (Lisp_Object frame, int for_deletion, Lisp_Object norecord)
 +{
 +  specpdl_ref count = SPECPDL_INDEX ();
 +
@@ -585,8 +585,8 @@ index 2cea96d4a32..b66174d61ea 100644
 +Lisp_Object
 +do_switch_frame_0 (Lisp_Object frame, int for_deletion, Lisp_Object norecord)
 +#else  /* !USE_W32_IME */
-+Lisp_Object
-+do_switch_frame (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
+ Lisp_Object
+ do_switch_frame (Lisp_Object frame, int for_deletion, Lisp_Object norecord)
 +#endif /* !USE_W32_IME */
  {
    struct frame *sf = SELECTED_FRAME (), *f;
