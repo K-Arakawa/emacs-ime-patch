@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 55396bdd6ff..3bdeaa2f629 100644
+index dd247e144f4..a531a6712be 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -480,6 +480,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 55396bdd6ff..3bdeaa2f629 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6597,6 +6601,42 @@ else
+@@ -6591,6 +6595,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -443,10 +443,10 @@ index 00000000000..66d51b800d6
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index acf8a1d2556..8b13c2528e5 100644
+index ddaa3f83fbb..0fbccdffcf8 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -29002,6 +29002,14 @@ twice for the others.
+@@ -28986,6 +28986,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -461,7 +461,7 @@ index acf8a1d2556..8b13c2528e5 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -35890,6 +35898,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
+@@ -35888,6 +35896,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
