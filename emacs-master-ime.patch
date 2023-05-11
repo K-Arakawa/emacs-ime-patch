@@ -2412,10 +2412,10 @@ index f4e09f49eae..ff18e9b6c8b 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 2817fc45993..fa890164f62 100644
+index 28f8e8128c5..49805a097ae 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13246,8 +13246,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13254,8 +13254,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2439,7 +2439,7 @@ index 2817fc45993..fa890164f62 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13504,8 +13519,23 @@ needs_no_redisplay (struct window *w)
+@@ -13512,8 +13527,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
