@@ -478,7 +478,7 @@ index ddaa3f83fbb..0fbccdffcf8 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 1cc70348267..de6205463c1 100644
+index 532d2ca176d..d7b46e65cf7 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -282,39 +282,47 @@
