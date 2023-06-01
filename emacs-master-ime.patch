@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index 95167329c28..28deb55c6ad 100644
+index d6592ded8ea..497002dc50d 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -480,6 +480,10 @@ On by default on macOS.])],[],[with_ns=maybe])
+@@ -481,6 +481,10 @@ On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
  OPTION_DEFAULT_OFF([pgtk], [use GTK to support window systems other than X])
  
@@ -13,7 +13,7 @@ index 95167329c28..28deb55c6ad 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6585,6 +6589,42 @@ else
+@@ -6586,6 +6590,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -2412,7 +2412,7 @@ index f4e09f49eae..ff18e9b6c8b 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index e31533b3680..2a6f7cadbd6 100644
+index a6ec966ea3c..041818b3765 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13380,8 +13380,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
