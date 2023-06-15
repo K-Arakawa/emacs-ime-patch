@@ -2338,7 +2338,7 @@ index 69ef297cbcc..6116b8145de 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 3802efb992a..379ec905005 100644
+index e22fea0bb7a..2e229efb0e8 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2382,7 +2382,7 @@ index 3802efb992a..379ec905005 100644
    return Qnil;
  }
  
-@@ -8457,6 +8477,10 @@ syms_of_window (void)
+@@ -8467,6 +8487,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2393,7 +2393,7 @@ index 3802efb992a..379ec905005 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8751,6 +8775,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8761,6 +8785,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2412,7 +2412,7 @@ index 3802efb992a..379ec905005 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 5e25857322f..561d5a6314e 100644
+index 1830d1965a6..7e0593ca682 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13386,8 +13386,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
