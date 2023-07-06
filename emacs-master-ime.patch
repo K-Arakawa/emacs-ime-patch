@@ -563,7 +563,7 @@ index 532d2ca176d..d7b46e65cf7 100644
          (load "dos-w32"))))
  (if (eq system-type 'ms-dos)
 diff --git a/src/frame.c b/src/frame.c
-index 8ac62b284a0..50d904d2e86 100644
+index 83925d4742a..783ac5e2649 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1452,8 +1452,24 @@ affects all frames on the same terminal device.  */)
@@ -2412,10 +2412,10 @@ index 2a0c62f5d53..b5b7c17e5b2 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 85ece901111..f1f16151245 100644
+index a3464c2c375..7ed3cdccb45 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13380,8 +13380,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13381,8 +13381,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2439,7 +2439,7 @@ index 85ece901111..f1f16151245 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13638,8 +13653,23 @@ needs_no_redisplay (struct window *w)
+@@ -13639,8 +13654,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
