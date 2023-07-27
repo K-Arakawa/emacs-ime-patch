@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 38ff6e18daf..fdbd8100ad4 100644
+index 79f5a468dd9..3235da04ae3 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -481,6 +481,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 38ff6e18daf..fdbd8100ad4 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -6595,6 +6599,42 @@ else
+@@ -6598,6 +6602,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -602,7 +602,7 @@ index 83925d4742a..c38779fd0d1 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 41cda2e65de..b78f0048d29 100644
+index 2e850b74b9b..2bd78b1a279 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -343,6 +343,11 @@ static struct timespec timer_idleness_start_time;
@@ -2412,10 +2412,10 @@ index 2a0c62f5d53..b5b7c17e5b2 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index da6e0afa8e1..7bb3d7250aa 100644
+index aa49749edf9..d5b49b062b2 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13423,8 +13423,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13435,8 +13435,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2439,7 +2439,7 @@ index da6e0afa8e1..7bb3d7250aa 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13681,8 +13696,23 @@ needs_no_redisplay (struct window *w)
+@@ -13693,8 +13708,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
