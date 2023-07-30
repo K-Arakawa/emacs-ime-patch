@@ -1,6 +1,6 @@
-diff -ruN emacs-29.0.92.orig/configure emacs-29.0.92/configure
---- emacs-29.0.92.orig/configure	2023-06-18 19:50:23.000000000 +0900
-+++ emacs-29.0.92/configure	2023-06-19 03:13:11.221721900 +0900
+diff -ruN emacs-29.1.orig/configure emacs-29.1/configure
+--- emacs-29.1.orig/configure	2023-07-23 16:58:47.000000000 +0900
++++ emacs-29.1/configure	2023-07-31 07:23:34.802159300 +0900
 @@ -2765,6 +2765,9 @@
    --with-ns               use Nextstep (macOS Cocoa or GNUstep) windowing
                            system. On by default on macOS.
@@ -43,7 +43,7 @@ diff -ruN emacs-29.0.92.orig/configure emacs-29.0.92/configure
  # Check whether --with-gpm was given.
  if test ${with_gpm+y}
  then :
-@@ -43917,6 +43945,80 @@
+@@ -43921,6 +43949,80 @@
    HAVE_GMP=no
  fi
  
@@ -124,9 +124,9 @@ diff -ruN emacs-29.0.92.orig/configure emacs-29.0.92/configure
  emacs_standard_dirs='Standard dirs'
  printf "%s\n" "
  Configured for '${canonical}'.
-diff -ruN emacs-29.0.92.orig/lisp/international/smart-ime.el emacs-29.0.92/lisp/international/smart-ime.el
---- emacs-29.0.92.orig/lisp/international/smart-ime.el	1970-01-01 09:00:00.000000000 +0900
-+++ emacs-29.0.92/lisp/international/smart-ime.el	2023-06-19 03:13:11.283256500 +0900
+diff -ruN emacs-29.1.orig/lisp/international/smart-ime.el emacs-29.1/lisp/international/smart-ime.el
+--- emacs-29.1.orig/lisp/international/smart-ime.el	1970-01-01 09:00:00.000000000 +0900
++++ emacs-29.1/lisp/international/smart-ime.el	2023-07-31 07:23:34.892204900 +0900
 @@ -0,0 +1,172 @@
 +;;; smart-ime.el - smart Input Method -*- lexical-binding: t -*-
 +;;
@@ -300,9 +300,9 @@ diff -ruN emacs-29.0.92.orig/lisp/international/smart-ime.el emacs-29.0.92/lisp/
 +
 +(provide 'smart-ime)
 +;; -*- mode: Emacs-Lisp; coding: euc-jp-unix -*-
-diff -ruN emacs-29.0.92.orig/lisp/international/w32-ime.el emacs-29.0.92/lisp/international/w32-ime.el
---- emacs-29.0.92.orig/lisp/international/w32-ime.el	1970-01-01 09:00:00.000000000 +0900
-+++ emacs-29.0.92/lisp/international/w32-ime.el	2023-06-19 03:13:11.294255300 +0900
+diff -ruN emacs-29.1.orig/lisp/international/w32-ime.el emacs-29.1/lisp/international/w32-ime.el
+--- emacs-29.1.orig/lisp/international/w32-ime.el	1970-01-01 09:00:00.000000000 +0900
++++ emacs-29.1/lisp/international/w32-ime.el	2023-07-31 07:23:34.907617100 +0900
 @@ -0,0 +1,202 @@
 +;;;;; w32-ime.el ---- Meadow features for NTEmacs. -*- lexical-binding: t -*-
 +;;
@@ -506,9 +506,9 @@ diff -ruN emacs-29.0.92.orig/lisp/international/w32-ime.el emacs-29.0.92/lisp/in
 +		       "W32 System IME")
 +
 +(provide 'w32-ime)
-diff -ruN emacs-29.0.92.orig/lisp/loadup.el emacs-29.0.92/lisp/loadup.el
---- emacs-29.0.92.orig/lisp/loadup.el	2023-04-01 16:28:00.000000000 +0900
-+++ emacs-29.0.92/lisp/loadup.el	2023-06-19 03:13:11.320378200 +0900
+diff -ruN emacs-29.1.orig/lisp/loadup.el emacs-29.1/lisp/loadup.el
+--- emacs-29.1.orig/lisp/loadup.el	2023-04-01 16:28:00.000000000 +0900
++++ emacs-29.1/lisp/loadup.el	2023-07-31 07:23:34.937622300 +0900
 @@ -313,6 +313,7 @@
        (load "w32-vars")
        (load "term/w32-win")
@@ -517,9 +517,9 @@ diff -ruN emacs-29.0.92.orig/lisp/loadup.el emacs-29.0.92/lisp/loadup.el
        (when (eq system-type 'windows-nt)
          (load "w32-fns")
          (load "ls-lisp")
-diff -ruN emacs-29.0.92.orig/lisp/Makefile.in emacs-29.0.92/lisp/Makefile.in
---- emacs-29.0.92.orig/lisp/Makefile.in	2023-01-01 22:46:42.000000000 +0900
-+++ emacs-29.0.92/lisp/Makefile.in	2023-06-19 03:13:11.340375900 +0900
+diff -ruN emacs-29.1.orig/lisp/Makefile.in emacs-29.1/lisp/Makefile.in
+--- emacs-29.1.orig/lisp/Makefile.in	2023-06-22 20:49:11.000000000 +0900
++++ emacs-29.1/lisp/Makefile.in	2023-07-31 07:23:34.964950300 +0900
 @@ -281,7 +281,7 @@
  ifeq ($(HAVE_NATIVE_COMP),yes)
  	$(AM_V_ELC)$(emacs) $(BYTE_COMPILE_FLAGS) \
@@ -529,9 +529,9 @@ diff -ruN emacs-29.0.92.orig/lisp/Makefile.in emacs-29.0.92/lisp/Makefile.in
  else
  	$(AM_V_ELC)$(emacs) $(BYTE_COMPILE_FLAGS) \
  		-l bytecomp -f byte-compile-refresh-preloaded \
-diff -ruN emacs-29.0.92.orig/src/config.in emacs-29.0.92/src/config.in
---- emacs-29.0.92.orig/src/config.in	2023-06-18 19:50:26.000000000 +0900
-+++ emacs-29.0.92/src/config.in	2023-06-19 03:13:11.358378700 +0900
+diff -ruN emacs-29.1.orig/src/config.in emacs-29.1/src/config.in
+--- emacs-29.1.orig/src/config.in	2023-07-23 16:58:50.000000000 +0900
++++ emacs-29.1/src/config.in	2023-07-31 07:23:34.985889100 +0900
 @@ -97,6 +97,9 @@
  #endif
  
@@ -582,35 +582,35 @@ diff -ruN emacs-29.0.92.orig/src/config.in emacs-29.0.92/src/config.in
  /* Define to 1 if you have the XCB library and X11-XCB library for mixed
     X11/XCB programming. */
  #undef USE_XCB
-diff -ruN emacs-29.0.92.orig/src/frame.c emacs-29.0.92/src/frame.c
---- emacs-29.0.92.orig/src/frame.c	2023-01-01 22:46:43.000000000 +0900
-+++ emacs-29.0.92/src/frame.c	2023-06-19 03:13:11.374042400 +0900
-@@ -1450,8 +1450,24 @@
+diff -ruN emacs-29.1.orig/src/frame.c emacs-29.1/src/frame.c
+--- emacs-29.1.orig/src/frame.c	2023-06-22 20:49:11.000000000 +0900
++++ emacs-29.1/src/frame.c	2023-07-31 07:27:30.787856300 +0900
+@@ -1454,8 +1454,24 @@
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
 +#ifdef USE_W32_IME
+ Lisp_Object
++do_switch_frame_0 (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord);
 +Lisp_Object
-+do_switch_frame_0 (Lisp_Object frame, int for_deletion, Lisp_Object norecord);
-+Lisp_Object
-+do_switch_frame (Lisp_Object frame, int for_deletion, Lisp_Object norecord)
++do_switch_frame (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
 +{
 +  specpdl_ref count = SPECPDL_INDEX ();
 +
 +  specbind (Qw32_ime_buffer_switch_p, Qnil);
-+  do_switch_frame_0 (frame, for_deletion, norecord);
++  do_switch_frame_0 (frame, track, for_deletion, norecord);
 +  unbind_to (count, Qnil);
 +}
 +Lisp_Object
-+do_switch_frame_0 (Lisp_Object frame, int for_deletion, Lisp_Object norecord)
++do_switch_frame_0 (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
 +#else  /* !USE_W32_IME */
- Lisp_Object
- do_switch_frame (Lisp_Object frame, int for_deletion, Lisp_Object norecord)
++isp_Object
+ do_switch_frame (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
 +#endif /* !USE_W32_IME */
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -3916,6 +3932,9 @@
+@@ -3958,6 +3974,9 @@
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -620,9 +620,9 @@ diff -ruN emacs-29.0.92.orig/src/frame.c emacs-29.0.92/src/frame.c
    {"sticky",			SYMBOL_INDEX (Qsticky)},
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
-diff -ruN emacs-29.0.92.orig/src/keyboard.c emacs-29.0.92/src/keyboard.c
---- emacs-29.0.92.orig/src/keyboard.c	2023-05-13 19:59:53.000000000 +0900
-+++ emacs-29.0.92/src/keyboard.c	2023-06-19 03:13:11.393051700 +0900
+diff -ruN emacs-29.1.orig/src/keyboard.c emacs-29.1/src/keyboard.c
+--- emacs-29.1.orig/src/keyboard.c	2023-06-22 20:49:11.000000000 +0900
++++ emacs-29.1/src/keyboard.c	2023-07-31 07:23:35.044468000 +0900
 @@ -348,6 +348,11 @@
  static Lisp_Object virtual_core_pointer_name;
  static Lisp_Object virtual_core_keyboard_name;
@@ -757,9 +757,9 @@ diff -ruN emacs-29.0.92.orig/src/keyboard.c emacs-29.0.92/src/keyboard.c
  
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
-diff -ruN emacs-29.0.92.orig/src/w32fns.c emacs-29.0.92/src/w32fns.c
---- emacs-29.0.92.orig/src/w32fns.c	2023-01-28 23:13:48.000000000 +0900
-+++ emacs-29.0.92/src/w32fns.c	2023-06-19 03:13:11.417223100 +0900
+diff -ruN emacs-29.1.orig/src/w32fns.c emacs-29.1/src/w32fns.c
+--- emacs-29.1.orig/src/w32fns.c	2023-01-28 23:13:48.000000000 +0900
++++ emacs-29.1/src/w32fns.c	2023-07-31 07:23:35.069854500 +0900
 @@ -87,18 +87,86 @@
  #define DWMWA_USE_IMMERSIVE_DARK_MODE 20
  #endif
@@ -2093,9 +2093,9 @@ diff -ruN emacs-29.0.92.orig/src/w32fns.c emacs-29.0.92/src/w32fns.c
  #ifdef WINDOWSNT
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
-diff -ruN emacs-29.0.92.orig/src/w32font.c emacs-29.0.92/src/w32font.c
---- emacs-29.0.92.orig/src/w32font.c	2023-01-01 22:46:43.000000000 +0900
-+++ emacs-29.0.92/src/w32font.c	2023-06-19 03:13:11.434847600 +0900
+diff -ruN emacs-29.1.orig/src/w32font.c emacs-29.1/src/w32font.c
+--- emacs-29.1.orig/src/w32font.c	2023-01-01 22:46:43.000000000 +0900
++++ emacs-29.1/src/w32font.c	2023-07-31 07:23:35.087838700 +0900
 @@ -55,7 +55,10 @@
  #define JOHAB_CHARSET 130
  #endif
@@ -2120,9 +2120,9 @@ diff -ruN emacs-29.0.92.orig/src/w32font.c emacs-29.0.92/src/w32font.c
  fill_in_logfont (struct frame *f, LOGFONT *logfont, Lisp_Object font_spec)
  {
    Lisp_Object tmp, extra;
-diff -ruN emacs-29.0.92.orig/src/w32font.h emacs-29.0.92/src/w32font.h
---- emacs-29.0.92.orig/src/w32font.h	2023-01-01 22:46:43.000000000 +0900
-+++ emacs-29.0.92/src/w32font.h	2023-06-19 03:13:11.448860100 +0900
+diff -ruN emacs-29.1.orig/src/w32font.h emacs-29.1/src/w32font.h
+--- emacs-29.1.orig/src/w32font.h	2023-01-01 22:46:43.000000000 +0900
++++ emacs-29.1/src/w32font.h	2023-07-31 07:23:35.102830400 +0900
 @@ -83,6 +83,9 @@
  int uniscribe_check_otf (LOGFONT *font, Lisp_Object otf_spec);
  
@@ -2133,9 +2133,9 @@ diff -ruN emacs-29.0.92.orig/src/w32font.h emacs-29.0.92/src/w32font.h
  
  extern void globals_of_w32font (void);
  
-diff -ruN emacs-29.0.92.orig/src/w32term.c emacs-29.0.92/src/w32term.c
---- emacs-29.0.92.orig/src/w32term.c	2023-01-01 22:46:43.000000000 +0900
-+++ emacs-29.0.92/src/w32term.c	2023-06-19 03:13:11.464854400 +0900
+diff -ruN emacs-29.1.orig/src/w32term.c emacs-29.1/src/w32term.c
+--- emacs-29.1.orig/src/w32term.c	2023-01-01 22:46:43.000000000 +0900
++++ emacs-29.1/src/w32term.c	2023-07-31 07:23:35.119828000 +0900
 @@ -5948,6 +5948,107 @@
  	  break;
  #endif
@@ -2267,9 +2267,9 @@ diff -ruN emacs-29.0.92.orig/src/w32term.c emacs-29.0.92/src/w32term.c
  
    /* It is desirable that mainThread should have the same notion of
       focus window and active window as windowsThread.  Unfortunately, the
-diff -ruN emacs-29.0.92.orig/src/w32term.h emacs-29.0.92/src/w32term.h
---- emacs-29.0.92.orig/src/w32term.h	2023-01-01 22:46:43.000000000 +0900
-+++ emacs-29.0.92/src/w32term.h	2023-06-19 03:13:11.480380400 +0900
+diff -ruN emacs-29.1.orig/src/w32term.h emacs-29.1/src/w32term.h
+--- emacs-29.1.orig/src/w32term.h	2023-01-01 22:46:43.000000000 +0900
++++ emacs-29.1/src/w32term.h	2023-07-31 07:23:35.138835400 +0900
 @@ -656,6 +656,8 @@
  #endif /* WM_MOUSEHWHEEL  */
  #ifndef WM_APPCOMMAND
@@ -2389,9 +2389,9 @@ diff -ruN emacs-29.0.92.orig/src/w32term.h emacs-29.0.92/src/w32term.h
 +extern void w32_set_ime_logfont (HWND, struct frame *);
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
-diff -ruN emacs-29.0.92.orig/src/window.c emacs-29.0.92/src/window.c
---- emacs-29.0.92.orig/src/window.c	2023-03-05 00:45:04.000000000 +0900
-+++ emacs-29.0.92/src/window.c	2023-06-19 03:13:11.497897500 +0900
+diff -ruN emacs-29.1.orig/src/window.c emacs-29.1/src/window.c
+--- emacs-29.1.orig/src/window.c	2023-06-22 20:49:11.000000000 +0900
++++ emacs-29.1/src/window.c	2023-07-31 07:23:35.159357000 +0900
 @@ -515,6 +515,9 @@
    struct frame *sf;
    Lisp_Object frame;
@@ -2462,10 +2462,10 @@ diff -ruN emacs-29.0.92.orig/src/window.c emacs-29.0.92/src/window.c
    defsubr (&Sselected_window);
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
-diff -ruN emacs-29.0.92.orig/src/xdisp.c emacs-29.0.92/src/xdisp.c
---- emacs-29.0.92.orig/src/xdisp.c	2023-06-17 17:53:09.000000000 +0900
-+++ emacs-29.0.92/src/xdisp.c	2023-06-19 03:13:11.520897200 +0900
-@@ -13365,9 +13365,24 @@
+diff -ruN emacs-29.1.orig/src/xdisp.c emacs-29.1/src/xdisp.c
+--- emacs-29.1.orig/src/xdisp.c	2023-07-22 21:03:39.000000000 +0900
++++ emacs-29.1/src/xdisp.c	2023-07-31 07:23:35.187356300 +0900
+@@ -13400,9 +13400,24 @@
    return vector;
  }
  
@@ -2490,7 +2490,7 @@ diff -ruN emacs-29.0.92.orig/src/xdisp.c emacs-29.0.92/src/xdisp.c
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
    Lisp_Object old_top_frame = AREF (vector, 9);
-@@ -13623,8 +13638,23 @@
+@@ -13658,8 +13673,23 @@
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
@@ -2514,9 +2514,9 @@ diff -ruN emacs-29.0.92.orig/src/xdisp.c emacs-29.0.92/src/xdisp.c
  {
    bool all_windows = windows_or_buffers_changed || update_mode_lines;
    bool some_windows = REDISPLAY_SOME_P ();
-diff -ruN emacs-29.0.92.orig/test/manual/noverlay/Makefile emacs-29.0.92/test/manual/noverlay/Makefile
---- emacs-29.0.92.orig/test/manual/noverlay/Makefile	1970-01-01 09:00:00.000000000 +0900
-+++ emacs-29.0.92/test/manual/noverlay/Makefile	2023-06-19 03:13:11.530476600 +0900
+diff -ruN emacs-29.1.orig/test/manual/noverlay/Makefile emacs-29.1/test/manual/noverlay/Makefile
+--- emacs-29.1.orig/test/manual/noverlay/Makefile	1970-01-01 09:00:00.000000000 +0900
++++ emacs-29.1/test/manual/noverlay/Makefile	2023-07-31 07:23:35.199359000 +0900
 @@ -0,0 +1,47 @@
 +### test/manual/noverlay/Makefile.  Generated from Makefile.in by configure.
 +
