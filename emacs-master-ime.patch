@@ -58,10 +58,10 @@ index 0236dbd89d8..e7f729a41dc 100644
  Configured for '${canonical}'.
 diff --git a/lisp/international/smart-ime.el b/lisp/international/smart-ime.el
 new file mode 100644
-index 00000000000..e6350c68e96
+index 00000000000..e38a16f0b7f
 --- /dev/null
 +++ b/lisp/international/smart-ime.el
-@@ -0,0 +1,172 @@
+@@ -0,0 +1,166 @@
 +;;; smart-ime.el - smart Input Method -*- lexical-binding: t -*-
 +;;
 +;; Copyright (C) 2011 HIROSHI OOTA
@@ -123,20 +123,20 @@ index 00000000000..e6350c68e96
 +
 +;;
 +;; query-replace, query-replace-regexp, query-replace-regexp-eval ...
-+(defadvice perform-replace
-+  (around sime-ad-perform-replace compile activate)
++(define-advice perform-replace
++    (:around (orig-fun &rest args))
 +  (let ((im current-input-method))
 +    (if (or (not im)
-+	    (not (ad-get-arg 2)))
-+	ad-do-it
++	    (not (nth 2 args)))
++	(apply orig-fun args)
 +      (deactivate-input-method)
-+      ad-do-it
++      (apply orig-fun args)
 +      (activate-input-method im))))
 +
 +;;
 +;; read-passwd
-+(defadvice read-passwd
-+  (around sime-ad-read-passwd compile activate)
++(define-advice read-passwd
++  (:around (orig-fun &rest args))
 +  (let ((sime-ad-toggle-ime-mapped-key-list nil)
 +	(im current-input-method))
 +    (dolist (k (where-is-internal
@@ -146,21 +146,17 @@ index 00000000000..e6350c68e96
 +	(setq sime-ad-toggle-ime-mapped-key-list
 +	      (cons (aref k 0) sime-ad-toggle-ime-mapped-key-list))))
 +
-+    (ad-enable-advice 'read-key 'around 'sime-ad-read-key)
-+    (ad-activate 'read-key)
++    (advice-add 'read-key :around #'sime-ad-read-key)
 +    (deactivate-input-method)
-+    ad-do-it
++    (apply orig-fun args)
 +    (activate-input-method im)
-+    (ad-disable-advice 'read-key 'around 'sime-ad-read-key)
-+    (ad-activate 'read-key)))
++    (advice-remove 'read-key #'sime-ad-read-key)))
 +
-+(defadvice read-key
-+  (around sime-ad-read-key compile)
++(defun sime-ad-read-key (orig-fun &rest args)
 +  (let ((flag t)
 +	(msg (current-message)))
 +    (while flag
-+      ad-do-it
-+      (if (not (memq ad-return-value
++      (if (not (memq (apply orig-fun args)
 +                     sime-ad-toggle-ime-mapped-key-list))
 +	  (setq flag nil)
 +	(toggle-input-method)
@@ -168,8 +164,8 @@ index 00000000000..e6350c68e96
 +
 +;;
 +;; universal-argument
-+(defadvice universal-argument
-+    (before sime-ad-universal-argument compile activate)
++(define-advice universal-argument
++    (:before ())
 +  (setq sime-saved-input-method
 +        (or sime-saved-input-method
 +            (list current-input-method)))
@@ -195,12 +191,10 @@ index 00000000000..e6350c68e96
 +;;
 +;; others
 +(defmacro wrap-function-to-control-input-method (fcn)
-+  `(defadvice ,fcn (around
-+                    ,(make-symbol (concat "sime-ad-" (symbol-name fcn)))
-+                    compile activate)
++  `(define-advice ,fcn (:around (orig-fun &rest args))
 +     (let ((im current-input-method))
 +       (deactivate-input-method)
-+       ad-do-it
++       (apply orig-fun args)
 +       (activate-input-method im))))
 +
 +(wrap-function-to-control-input-method map-y-or-n-p)
@@ -208,10 +202,10 @@ index 00000000000..e6350c68e96
 +(wrap-function-to-control-input-method read-key-sequence)
 +
 +;; disable W32-IME control during processing the timer handler
-+(defadvice timer-event-handler
-+  (around sime-ad-timer-event-handler compile activate)
++(define-advice timer-event-handler
++    (:around (orig-fun &rest args))
 +  (let ((w32-ime-buffer-switch-p nil))
-+    ad-do-it))
++    (apply orig-fun args)))
 +
 +;; turn IME off when specifying a register
 +(eval-when-compile (require 'cl-macs))
