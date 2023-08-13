@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index 0236dbd89d8..e7f729a41dc 100644
+index 46836073aa0..9bd87997d4e 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -576,6 +576,10 @@ On by default on macOS.])],[],[with_ns=maybe])
+@@ -567,6 +567,10 @@ On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
  OPTION_DEFAULT_OFF([pgtk], [use GTK to support window systems other than X])
  
@@ -13,7 +13,7 @@ index 0236dbd89d8..e7f729a41dc 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7600,6 +7604,42 @@ else
+@@ -7585,6 +7589,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -58,10 +58,10 @@ index 0236dbd89d8..e7f729a41dc 100644
  Configured for '${canonical}'.
 diff --git a/lisp/international/smart-ime.el b/lisp/international/smart-ime.el
 new file mode 100644
-index 00000000000..e38a16f0b7f
+index 00000000000..e6350c68e96
 --- /dev/null
 +++ b/lisp/international/smart-ime.el
-@@ -0,0 +1,166 @@
+@@ -0,0 +1,172 @@
 +;;; smart-ime.el - smart Input Method -*- lexical-binding: t -*-
 +;;
 +;; Copyright (C) 2011 HIROSHI OOTA
@@ -123,20 +123,20 @@ index 00000000000..e38a16f0b7f
 +
 +;;
 +;; query-replace, query-replace-regexp, query-replace-regexp-eval ...
-+(define-advice perform-replace
-+    (:around (orig-fun &rest args))
++(defadvice perform-replace
++  (around sime-ad-perform-replace compile activate)
 +  (let ((im current-input-method))
 +    (if (or (not im)
-+	    (not (nth 2 args)))
-+	(apply orig-fun args)
++	    (not (ad-get-arg 2)))
++	ad-do-it
 +      (deactivate-input-method)
-+      (apply orig-fun args)
++      ad-do-it
 +      (activate-input-method im))))
 +
 +;;
 +;; read-passwd
-+(define-advice read-passwd
-+  (:around (orig-fun &rest args))
++(defadvice read-passwd
++  (around sime-ad-read-passwd compile activate)
 +  (let ((sime-ad-toggle-ime-mapped-key-list nil)
 +	(im current-input-method))
 +    (dolist (k (where-is-internal
@@ -146,17 +146,21 @@ index 00000000000..e38a16f0b7f
 +	(setq sime-ad-toggle-ime-mapped-key-list
 +	      (cons (aref k 0) sime-ad-toggle-ime-mapped-key-list))))
 +
-+    (advice-add 'read-key :around #'sime-ad-read-key)
++    (ad-enable-advice 'read-key 'around 'sime-ad-read-key)
++    (ad-activate 'read-key)
 +    (deactivate-input-method)
-+    (apply orig-fun args)
++    ad-do-it
 +    (activate-input-method im)
-+    (advice-remove 'read-key #'sime-ad-read-key)))
++    (ad-disable-advice 'read-key 'around 'sime-ad-read-key)
++    (ad-activate 'read-key)))
 +
-+(defun sime-ad-read-key (orig-fun &rest args)
++(defadvice read-key
++  (around sime-ad-read-key compile)
 +  (let ((flag t)
 +	(msg (current-message)))
 +    (while flag
-+      (if (not (memq (apply orig-fun args)
++      ad-do-it
++      (if (not (memq ad-return-value
 +                     sime-ad-toggle-ime-mapped-key-list))
 +	  (setq flag nil)
 +	(toggle-input-method)
@@ -164,8 +168,8 @@ index 00000000000..e38a16f0b7f
 +
 +;;
 +;; universal-argument
-+(define-advice universal-argument
-+    (:before ())
++(defadvice universal-argument
++    (before sime-ad-universal-argument compile activate)
 +  (setq sime-saved-input-method
 +        (or sime-saved-input-method
 +            (list current-input-method)))
@@ -191,10 +195,12 @@ index 00000000000..e38a16f0b7f
 +;;
 +;; others
 +(defmacro wrap-function-to-control-input-method (fcn)
-+  `(define-advice ,fcn (:around (orig-fun &rest args))
++  `(defadvice ,fcn (around
++                    ,(make-symbol (concat "sime-ad-" (symbol-name fcn)))
++                    compile activate)
 +     (let ((im current-input-method))
 +       (deactivate-input-method)
-+       (apply orig-fun args)
++       ad-do-it
 +       (activate-input-method im))))
 +
 +(wrap-function-to-control-input-method map-y-or-n-p)
@@ -202,10 +208,10 @@ index 00000000000..e38a16f0b7f
 +(wrap-function-to-control-input-method read-key-sequence)
 +
 +;; disable W32-IME control during processing the timer handler
-+(define-advice timer-event-handler
-+    (:around (orig-fun &rest args))
++(defadvice timer-event-handler
++  (around sime-ad-timer-event-handler compile activate)
 +  (let ((w32-ime-buffer-switch-p nil))
-+    (apply orig-fun args)))
++    ad-do-it))
 +
 +;; turn IME off when specifying a register
 +(eval-when-compile (require 'cl-macs))
@@ -472,7 +478,7 @@ index f062f3bf8de..9ed8f6cea0e 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 9947c2482c3..a7496a85b92 100644
+index 3ac1224a0ec..ef940bc232b 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -326,6 +326,7 @@
@@ -2333,10 +2339,10 @@ index 968b982c135..183fb5af487 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index d055bb3bf6a..c1077d333a6 100644
+index 8970d5aaaf2..ee9ac8f7439 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13435,8 +13435,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13443,8 +13443,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2360,7 +2366,7 @@ index d055bb3bf6a..c1077d333a6 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13693,8 +13708,23 @@ needs_no_redisplay (struct window *w)
+@@ -13701,8 +13716,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
