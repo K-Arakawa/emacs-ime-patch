@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 46836073aa0..9bd87997d4e 100644
+index 4cf6751ab82..a667fb785cb 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -567,6 +567,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 46836073aa0..9bd87997d4e 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7585,6 +7589,42 @@ else
+@@ -7569,6 +7573,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -478,7 +478,7 @@ index f062f3bf8de..9ed8f6cea0e 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 3ac1224a0ec..ef940bc232b 100644
+index 38fb0fc1fa9..e10794269f9 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -326,6 +326,7 @@
