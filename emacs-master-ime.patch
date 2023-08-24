@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 4cf6751ab82..a667fb785cb 100644
+index f92339225b5..6f340b92fd9 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -567,6 +567,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 4cf6751ab82..a667fb785cb 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7569,6 +7573,42 @@ else
+@@ -7572,6 +7576,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -490,7 +490,7 @@ index 38fb0fc1fa9..e10794269f9 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index da00cbf4bce..da37b2f7d16 100644
+index 4be9f06bd3c..02790af2b4c 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1475,8 +1475,24 @@ affects all frames on the same terminal device.  */)
@@ -2007,7 +2007,7 @@ index 3f1c86adff9..3ba1ca2cf3f 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 57dc6b465e4..a8ced6ea895 100644
+index a5f17a18213..b38baac14e7 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -5948,6 +5948,107 @@ w32_read_socket (struct terminal *terminal,
