@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index f92339225b5..6f340b92fd9 100644
+index 7ca75be996d..9c3a211fc1c 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -567,6 +567,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index f92339225b5..6f340b92fd9 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7572,6 +7576,42 @@ else
+@@ -7573,6 +7577,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -58,10 +58,10 @@ index f92339225b5..6f340b92fd9 100644
  Configured for '${canonical}'.
 diff --git a/lisp/international/smart-ime.el b/lisp/international/smart-ime.el
 new file mode 100644
-index 00000000000..e6350c68e96
+index 00000000000..eaa5eaf920f
 --- /dev/null
 +++ b/lisp/international/smart-ime.el
-@@ -0,0 +1,172 @@
+@@ -0,0 +1,177 @@
 +;;; smart-ime.el - smart Input Method -*- lexical-binding: t -*-
 +;;
 +;; Copyright (C) 2011 HIROSHI OOTA
@@ -123,57 +123,61 @@ index 00000000000..e6350c68e96
 +
 +;;
 +;; query-replace, query-replace-regexp, query-replace-regexp-eval ...
-+(defadvice perform-replace
-+  (around sime-ad-perform-replace compile activate)
-+  (let ((im current-input-method))
-+    (if (or (not im)
-+	    (not (ad-get-arg 2)))
-+	ad-do-it
-+      (deactivate-input-method)
-+      ad-do-it
-+      (activate-input-method im))))
++(advice-add 'perform-replace :around
++            (lambda (orig-fun &rest args)
++              (let ((im current-input-method)
++		    retval)
++                (if (or (not im)
++	                (not (nth 2 args)))
++	            (apply orig-fun args)
++                  (deactivate-input-method)
++                  (setq retval (apply orig-fun args))
++                  (activate-input-method im)
++		  retval))))
 +
 +;;
 +;; read-passwd
-+(defadvice read-passwd
-+  (around sime-ad-read-passwd compile activate)
-+  (let ((sime-ad-toggle-ime-mapped-key-list nil)
-+	(im current-input-method))
-+    (dolist (k (where-is-internal
-+                'toggle-input-method overriding-local-map nil nil
-+                (command-remapping 'toggle-input-method)))
-+      (when (integerp (aref k 0))
-+	(setq sime-ad-toggle-ime-mapped-key-list
-+	      (cons (aref k 0) sime-ad-toggle-ime-mapped-key-list))))
++(defvar sime-ad-toggle-ime-mapped-key-list)
++(advice-add 'read-passwd :around
++            (lambda (orig-fun &rest args)
++              (let ((im current-input-method)
++		    retval)
++                (setq sime-ad-toggle-ime-mapped-key-list nil)
++                (dolist (k (where-is-internal
++                            'toggle-input-method overriding-local-map nil nil
++                            (command-remapping 'toggle-input-method)))
++                  (when (integerp (aref k 0))
++	            (setq sime-ad-toggle-ime-mapped-key-list
++	                  (cons (aref k 0) sime-ad-toggle-ime-mapped-key-list))))
 +
-+    (ad-enable-advice 'read-key 'around 'sime-ad-read-key)
-+    (ad-activate 'read-key)
-+    (deactivate-input-method)
-+    ad-do-it
-+    (activate-input-method im)
-+    (ad-disable-advice 'read-key 'around 'sime-ad-read-key)
-+    (ad-activate 'read-key)))
++		(advice-add 'read-key :around #'sime-ad-read-key)
++                (deactivate-input-method)
++                (setq retval (apply orig-fun args))
++                (activate-input-method im)
++		(advice-remove 'read-key #'sime-ad-read-key)
++		retval)))
 +
-+(defadvice read-key
-+  (around sime-ad-read-key compile)
++(defun sime-ad-read-key (orig-fun &rest args)
 +  (let ((flag t)
-+	(msg (current-message)))
++	(msg (current-message))
++	retval)
 +    (while flag
-+      ad-do-it
-+      (if (not (memq ad-return-value
++      (setq retval (apply orig-fun args))
++      (if (not (memq retval
 +                     sime-ad-toggle-ime-mapped-key-list))
 +	  (setq flag nil)
 +	(toggle-input-method)
-+	(message msg)))))
++	(message msg)))
++    retval))
 +
 +;;
 +;; universal-argument
-+(defadvice universal-argument
-+    (before sime-ad-universal-argument compile activate)
-+  (setq sime-saved-input-method
-+        (or sime-saved-input-method
-+            (list current-input-method)))
-+  (deactivate-input-method))
++(advice-add 'universal-argument :before
++            (lambda ()
++              (setq sime-saved-input-method
++                    (or sime-saved-input-method
++                        (list current-input-method)))
++              (deactivate-input-method)))
 +
 +(defun universal-argument--mode ()
 +  (setq sime-saved-input-method
@@ -195,23 +199,24 @@ index 00000000000..e6350c68e96
 +;;
 +;; others
 +(defmacro wrap-function-to-control-input-method (fcn)
-+  `(defadvice ,fcn (around
-+                    ,(make-symbol (concat "sime-ad-" (symbol-name fcn)))
-+                    compile activate)
-+     (let ((im current-input-method))
-+       (deactivate-input-method)
-+       ad-do-it
-+       (activate-input-method im))))
++  `(advice-add ,fcn :around
++               (lambda (orig-fun &rest args)
++                 (let ((im current-input-method)
++		       retval)
++                   (deactivate-input-method)
++                   (setq retval (apply orig-fun args))
++                   (activate-input-method im)
++		   retval))))
 +
-+(wrap-function-to-control-input-method map-y-or-n-p)
-+(wrap-function-to-control-input-method y-or-n-p)
-+(wrap-function-to-control-input-method read-key-sequence)
++(wrap-function-to-control-input-method 'map-y-or-n-p)
++(wrap-function-to-control-input-method 'y-or-n-p)
++(wrap-function-to-control-input-method 'read-key-sequence)
 +
 +;; disable W32-IME control during processing the timer handler
-+(defadvice timer-event-handler
-+  (around sime-ad-timer-event-handler compile activate)
-+  (let ((w32-ime-buffer-switch-p nil))
-+    ad-do-it))
++(advice-add 'timer-event-handler :around
++            (lambda (orig-fun &rest args)
++              (let ((w32-ime-buffer-switch-p nil))
++                (apply orig-fun args))))
 +
 +;; turn IME off when specifying a register
 +(eval-when-compile (require 'cl-macs))
@@ -478,7 +483,7 @@ index f062f3bf8de..9ed8f6cea0e 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 38fb0fc1fa9..e10794269f9 100644
+index 35c59dba453..ae34a7f7fea 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -326,6 +326,7 @@
@@ -490,7 +495,7 @@ index 38fb0fc1fa9..e10794269f9 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index 4be9f06bd3c..02790af2b4c 100644
+index 38ac316ce87..0a546cd68b6 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1475,8 +1475,24 @@ affects all frames on the same terminal device.  */)
@@ -518,7 +523,7 @@ index 4be9f06bd3c..02790af2b4c 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -4035,6 +4051,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4038,6 +4054,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -529,7 +534,7 @@ index 4be9f06bd3c..02790af2b4c 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 78c88a2859b..984d7543534 100644
+index 6ab1cdebc12..e5b7113fb9e 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -363,6 +363,11 @@ static struct timespec timer_idleness_start_time;
@@ -559,7 +564,7 @@ index 78c88a2859b..984d7543534 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -5086,7 +5099,11 @@ const char *const lispy_function_keys[] =
+@@ -5087,7 +5100,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -571,7 +576,7 @@ index 78c88a2859b..984d7543534 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -10288,6 +10305,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10289,6 +10306,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -591,7 +596,7 @@ index 78c88a2859b..984d7543534 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -10426,6 +10456,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10427,6 +10457,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -604,7 +609,7 @@ index 78c88a2859b..984d7543534 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -10520,6 +10556,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10521,6 +10557,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -621,7 +626,7 @@ index 78c88a2859b..984d7543534 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10679,6 +10725,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10680,6 +10726,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -632,7 +637,7 @@ index 78c88a2859b..984d7543534 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -11258,6 +11308,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -11259,6 +11309,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -644,7 +649,7 @@ index 78c88a2859b..984d7543534 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -12098,6 +12153,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -12099,6 +12154,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -655,7 +660,7 @@ index 78c88a2859b..984d7543534 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -12531,6 +12590,10 @@ init_keyboard (void)
+@@ -12532,6 +12591,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -1965,7 +1970,7 @@ index 07b389df84a..d4fe75a7a22 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index 0371b24e1d1..0cc1757e0ee 100644
+index 45b6c499745..710a8f44692 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2339,7 +2344,7 @@ index 968b982c135..183fb5af487 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 8970d5aaaf2..ee9ac8f7439 100644
+index a9119788663..37c61c44e6b 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13443,8 +13443,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
