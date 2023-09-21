@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 7ca75be996d..9c3a211fc1c 100644
+index 855c4ec7df1..5d1ced3f527 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -567,6 +567,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 7ca75be996d..9c3a211fc1c 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7573,6 +7577,42 @@ else
+@@ -7572,6 +7576,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -2344,10 +2344,10 @@ index 968b982c135..183fb5af487 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index a9119788663..37c61c44e6b 100644
+index f1980c4f20c..688856e3db7 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13443,8 +13443,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13442,8 +13442,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index a9119788663..37c61c44e6b 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13701,8 +13716,23 @@ needs_no_redisplay (struct window *w)
+@@ -13700,8 +13715,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
