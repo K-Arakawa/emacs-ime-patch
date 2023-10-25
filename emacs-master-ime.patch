@@ -483,7 +483,7 @@ index f062f3bf8de..9ed8f6cea0e 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 35c59dba453..ae34a7f7fea 100644
+index 07895228d0d..a0d07fef207 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -326,6 +326,7 @@
@@ -534,7 +534,7 @@ index 38ac316ce87..0a546cd68b6 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 76dec637cb1..c031aeae710 100644
+index dc2f78a7c26..435a5170608 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -363,6 +363,11 @@ static struct timespec timer_idleness_start_time;
@@ -576,7 +576,7 @@ index 76dec637cb1..c031aeae710 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -10303,6 +10320,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10366,6 +10383,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -596,7 +596,7 @@ index 76dec637cb1..c031aeae710 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -10441,6 +10471,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10504,6 +10534,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -609,7 +609,7 @@ index 76dec637cb1..c031aeae710 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -10535,6 +10571,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10598,6 +10634,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -626,7 +626,7 @@ index 76dec637cb1..c031aeae710 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10694,6 +10740,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10757,6 +10803,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -637,7 +637,7 @@ index 76dec637cb1..c031aeae710 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -11273,6 +11323,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -11336,6 +11386,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -649,7 +649,7 @@ index 76dec637cb1..c031aeae710 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -12113,6 +12168,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -12176,6 +12231,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -660,7 +660,7 @@ index 76dec637cb1..c031aeae710 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -12546,6 +12605,10 @@ init_keyboard (void)
+@@ -12609,6 +12668,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
