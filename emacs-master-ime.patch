@@ -534,7 +534,7 @@ index 38ac316ce87..0a546cd68b6 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 13cb7835dff..b17c075c0cf 100644
+index 81605e75ba2..ce8002cea47 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -363,6 +363,11 @@ static struct timespec timer_idleness_start_time;
@@ -2344,10 +2344,10 @@ index e802ffb3fe2..830465712a0 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 041c7adfc50..2f482603784 100644
+index 2dbe85f0f04..ffb3416e540 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13442,8 +13442,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13460,8 +13460,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 041c7adfc50..2f482603784 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13700,8 +13715,23 @@ needs_no_redisplay (struct window *w)
+@@ -13718,8 +13733,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
