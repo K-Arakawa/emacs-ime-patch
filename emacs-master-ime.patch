@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 4456cd89b7a..51bde4d616e 100644
+index debc6d1078f..3f87b21edc4 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -567,6 +567,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 4456cd89b7a..51bde4d616e 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7574,6 +7578,42 @@ else
+@@ -7622,6 +7626,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -672,7 +672,7 @@ index 81605e75ba2..ce8002cea47 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 07b389df84a..d4fe75a7a22 100644
+index 01644eff826..f630c478162 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -781,7 +781,7 @@ index 07b389df84a..d4fe75a7a22 100644
  
  
  /* Store the screen positions of frame F into XPTR and YPTR.
-@@ -4412,9 +4489,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4417,9 +4494,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				  w32_get_key_modifiers (wParam, lParam));
  	  windows_translate = 1;
  	  break;
@@ -801,7 +801,7 @@ index 07b389df84a..d4fe75a7a22 100644
  	  windows_translate = 1;
  	  break;
  	case VK_CANCEL:
-@@ -4556,6 +4642,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4561,6 +4647,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  	  TranslateMessage (&windows_msg);
  	  goto dflt;
  	}
@@ -826,7 +826,7 @@ index 07b389df84a..d4fe75a7a22 100644
        /* Fall through */
        FALLTHROUGH;
  
-@@ -4575,6 +4679,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4580,6 +4684,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				w32_get_key_modifiers (wParam, lParam));
        break;
  
@@ -834,7 +834,7 @@ index 07b389df84a..d4fe75a7a22 100644
      case WM_UNICHAR:
        /* WM_UNICHAR looks promising from the docs, but the exact
  	 circumstances in which TranslateMessage sends it is one of those
-@@ -4702,6 +4807,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4707,6 +4812,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
      case WM_IME_ENDCOMPOSITION:
        ignore_ime_char = 0;
        goto dflt;
@@ -842,7 +842,7 @@ index 07b389df84a..d4fe75a7a22 100644
  
        /* Simulate middle mouse button events when left and right buttons
  	 are used together, but only if user has two button mouse. */
-@@ -5533,7 +5639,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -5538,7 +5644,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
        my_post_msg (&wmsg, hwnd, msg, wParam, lParam);
        return 1;
  
@@ -927,7 +927,7 @@ index 07b389df84a..d4fe75a7a22 100644
        /* Check for messages registered at runtime. */
        if (msg == msh_mousewheel)
  	{
-@@ -5829,6 +6012,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
+@@ -5834,6 +6017,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
      }
  
    gui_default_parameter (f, parms, Qfont, font, "font", "Font", RES_TYPE_STRING);
@@ -938,7 +938,7 @@ index 07b389df84a..d4fe75a7a22 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8224,6 +8411,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8229,6 +8416,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -1899,7 +1899,7 @@ index 07b389df84a..d4fe75a7a22 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10591,6 +11732,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10596,6 +11737,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -1909,7 +1909,7 @@ index 07b389df84a..d4fe75a7a22 100644
    0, /* x_set_sticky */
    w32_set_tool_bar_position,
    w32_set_inhibit_double_buffering,
-@@ -10616,6 +11760,10 @@ syms_of_w32fns (void)
+@@ -10621,6 +11765,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -1920,7 +1920,7 @@ index 07b389df84a..d4fe75a7a22 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -10947,6 +12095,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -10952,6 +12100,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -1948,7 +1948,7 @@ index 07b389df84a..d4fe75a7a22 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -11001,6 +12170,20 @@ keys when IME input is received.  */);
+@@ -11006,6 +12175,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
