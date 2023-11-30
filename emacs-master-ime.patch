@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index debc6d1078f..3f87b21edc4 100644
+index 759dcd14d50..a5d3d38cb54 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -567,6 +567,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index debc6d1078f..3f87b21edc4 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7622,6 +7626,42 @@ else
+@@ -7625,6 +7629,42 @@ else
    HAVE_GMP=no
  fi
  
