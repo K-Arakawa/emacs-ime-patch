@@ -483,10 +483,10 @@ index f062f3bf8de..9ed8f6cea0e 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 07895228d0d..a0d07fef207 100644
+index ef4203917d4..29bca8a5f4b 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
-@@ -326,6 +326,7 @@
+@@ -324,6 +324,7 @@
        (load "w32-vars")
        (load "term/w32-win")
        (load "disp-table")
@@ -2344,10 +2344,10 @@ index e802ffb3fe2..830465712a0 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 2dbe85f0f04..ffb3416e540 100644
+index 75d769600c4..1c0db49ee44 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13460,8 +13460,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13477,8 +13477,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 2dbe85f0f04..ffb3416e540 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13718,8 +13733,23 @@ needs_no_redisplay (struct window *w)
+@@ -13735,8 +13750,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
