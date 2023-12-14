@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 759dcd14d50..a5d3d38cb54 100644
+index 0224c9c32eb..47c870c57af 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -567,6 +567,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 759dcd14d50..a5d3d38cb54 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7625,6 +7629,42 @@ else
+@@ -7630,6 +7634,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -448,10 +448,10 @@ index 00000000000..66d51b800d6
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index f062f3bf8de..9ed8f6cea0e 100644
+index 814507b3d04..eaf02eae969 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -29140,6 +29140,14 @@ twice for the others.
+@@ -29386,6 +29386,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -466,7 +466,7 @@ index f062f3bf8de..9ed8f6cea0e 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -36082,6 +36090,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
+@@ -36342,6 +36350,15 @@ Turn on Viper emulation of Vi in Emacs.  See Info node `(viper)Top'." t)
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -483,7 +483,7 @@ index f062f3bf8de..9ed8f6cea0e 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index ef4203917d4..29bca8a5f4b 100644
+index 1f959464b23..cd74db6e175 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -324,6 +324,7 @@
@@ -2270,7 +2270,7 @@ index 68237bfff1d..b7e3c36e8e2 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index e802ffb3fe2..830465712a0 100644
+index 3d18d48bfb7..ae8fe85ae7f 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
