@@ -495,7 +495,7 @@ index d2a4c6a7cf7..8e1859b1735 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index 38ac316ce87..0a546cd68b6 100644
+index b6f92d6f9f5..e1be07baee9 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1475,8 +1475,24 @@ affects all frames on the same terminal device.  */)
@@ -534,7 +534,7 @@ index 38ac316ce87..0a546cd68b6 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 81605e75ba2..ce8002cea47 100644
+index 39abe07e5dc..9925031b8c9 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -363,6 +363,11 @@ static struct timespec timer_idleness_start_time;
@@ -2270,7 +2270,7 @@ index 68237bfff1d..b7e3c36e8e2 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 3d18d48bfb7..ae8fe85ae7f 100644
+index d6b2dd1d959..6911a7a91fd 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2344,10 +2344,10 @@ index 3d18d48bfb7..ae8fe85ae7f 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 75d769600c4..1c0db49ee44 100644
+index 2a979c5cb9e..9954a6622b7 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13477,8 +13477,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13434,8 +13434,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 75d769600c4..1c0db49ee44 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13735,8 +13750,23 @@ needs_no_redisplay (struct window *w)
+@@ -13692,8 +13707,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
