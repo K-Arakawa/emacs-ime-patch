@@ -2012,7 +2012,7 @@ index 3f780c1d866..724d158a69d 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 816584a13be..4852c942043 100644
+index f5611772637..501bb32f736 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -5948,6 +5948,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2344,7 +2344,7 @@ index 3a54f7ce7b1..564b6025648 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index f8670c6ecb5..d74e0d7f095 100644
+index 14cf030ca4e..e4a5ea37466 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13448,8 +13448,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
