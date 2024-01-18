@@ -495,10 +495,10 @@ index c498c0e53af..f09e15f8c48 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index f5b07e212f2..50d267b6697 100644
+index abd6ef00901..6f0bb3b83dc 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1475,8 +1475,24 @@ affects all frames on the same terminal device.  */)
+@@ -1474,8 +1474,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -523,7 +523,7 @@ index f5b07e212f2..50d267b6697 100644
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -4038,6 +4054,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4037,6 +4053,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
