@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 90b3cde0d18..05544675e4d 100644
+index fa8b04ec685..6a10fff0bfb 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -567,6 +567,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 90b3cde0d18..05544675e4d 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7630,6 +7634,42 @@ else
+@@ -7629,6 +7633,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -534,7 +534,7 @@ index abd6ef00901..6f0bb3b83dc 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index e1d738dd6ef..1cc813370f0 100644
+index 1f7253a7da1..3885b5b47a7 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -363,6 +363,11 @@ static struct timespec timer_idleness_start_time;
@@ -672,7 +672,7 @@ index e1d738dd6ef..1cc813370f0 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index f8de45da7c9..2f04da15eab 100644
+index 8d4bd00b91c..6dece6e1553 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -73,6 +73,11 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -1970,7 +1970,7 @@ index f8de45da7c9..2f04da15eab 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index c4718053a34..598e894a226 100644
+index 56061c0d9ce..2f53f20fbe9 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2012,10 +2012,10 @@ index 3f780c1d866..724d158a69d 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index f5611772637..501bb32f736 100644
+index 7afd1303b4d..cc0016cb51f 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
-@@ -5948,6 +5948,107 @@ w32_read_socket (struct terminal *terminal,
+@@ -5949,6 +5949,107 @@ w32_read_socket (struct terminal *terminal,
  	  break;
  #endif
  
@@ -2123,7 +2123,7 @@ index f5611772637..501bb32f736 100644
  	default:
  	  /* Check for messages registered at runtime.  */
  	  if (msg.msg.message == msh_mousewheel)
-@@ -6320,7 +6421,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
+@@ -6321,7 +6422,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
  	    + WINDOW_HEADER_LINE_HEIGHT (w);
  	  w32_system_caret_mode_height = WINDOW_MODE_LINE_HEIGHT (w);
  
@@ -2136,7 +2136,7 @@ index f5611772637..501bb32f736 100644
  
  	  /* If the size of the active cursor changed, destroy the old
  	     system caret.  */
-@@ -7804,6 +7910,9 @@ w32_initialize (void)
+@@ -7805,6 +7911,9 @@ w32_initialize (void)
      horizontal_scroll_bar_left_border = horizontal_scroll_bar_right_border
        = GetSystemMetrics (SM_CYHSCROLL);
    }
@@ -2270,7 +2270,7 @@ index 29ace0b2797..24f75cc3969 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 3a54f7ce7b1..564b6025648 100644
+index 915f591221d..42120bb134d 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2314,7 +2314,7 @@ index 3a54f7ce7b1..564b6025648 100644
    return Qnil;
  }
  
-@@ -8433,6 +8453,10 @@ syms_of_window (void)
+@@ -8443,6 +8463,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2325,7 +2325,7 @@ index 3a54f7ce7b1..564b6025648 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8727,6 +8751,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8737,6 +8761,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2344,10 +2344,10 @@ index 3a54f7ce7b1..564b6025648 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 14cf030ca4e..e4a5ea37466 100644
+index 4ff689b2df7..0e2b66a4a9e 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13448,8 +13448,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13501,8 +13501,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 14cf030ca4e..e4a5ea37466 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13706,8 +13721,23 @@ needs_no_redisplay (struct window *w)
+@@ -13759,8 +13774,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
