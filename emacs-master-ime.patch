@@ -483,7 +483,7 @@ index ef672d6c2e5..225554b2891 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index c498c0e53af..f09e15f8c48 100644
+index c6a8dcbb909..dec55b33022 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -324,6 +324,7 @@
@@ -2344,7 +2344,7 @@ index 565ad00804f..cdb815ff840 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 6087a25afcc..3739a4155b0 100644
+index 4d60915f31c..63b1d072e8e 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13623,8 +13623,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
