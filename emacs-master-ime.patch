@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index bd678ea52a3..9a9194b3dea 100644
+index b1dbaa13155..ff3587690cf 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -566,6 +566,10 @@ On by default on macOS.])],[],[with_ns=maybe])
+@@ -565,6 +565,10 @@ On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
  OPTION_DEFAULT_OFF([pgtk], [use GTK to support window systems other than X])
  
@@ -13,7 +13,7 @@ index bd678ea52a3..9a9194b3dea 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7637,6 +7641,42 @@ else
+@@ -7608,6 +7612,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -2270,7 +2270,7 @@ index 3120c8bd71f..308fa6e4437 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 748ad9e77d4..87dd1883909 100644
+index fe26311fbb2..e31b4b27bd7 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2314,7 +2314,7 @@ index 748ad9e77d4..87dd1883909 100644
    return Qnil;
  }
  
-@@ -8483,6 +8503,10 @@ syms_of_window (void)
+@@ -8486,6 +8506,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2325,7 +2325,7 @@ index 748ad9e77d4..87dd1883909 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8836,6 +8860,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8839,6 +8863,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
