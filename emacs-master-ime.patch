@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index b1dbaa13155..ff3587690cf 100644
+index d3effc0f4f3..2470be744a2 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -565,6 +565,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index b1dbaa13155..ff3587690cf 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7608,6 +7612,42 @@ else
+@@ -7625,6 +7629,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -448,10 +448,10 @@ index 00000000000..66d51b800d6
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index b434ee0e37f..5f9096667a6 100644
+index 8f9b11e3df1..8b6e658cc1d 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -29487,6 +29487,14 @@ twice for the others.
+@@ -29558,6 +29558,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -466,7 +466,7 @@ index b434ee0e37f..5f9096667a6 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -36537,6 +36545,15 @@ Visual-Wrap-Prefix mode.
+@@ -36590,6 +36598,15 @@ Visual-Wrap-Prefix mode.
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -534,7 +534,7 @@ index abd6ef00901..6f0bb3b83dc 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 91faf4582fa..fcf1a9026c4 100644
+index a06c9116d24..7b3e3da1928 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -363,6 +363,11 @@ static struct timespec timer_idleness_start_time;
@@ -576,7 +576,7 @@ index 91faf4582fa..fcf1a9026c4 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -10394,6 +10411,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10403,6 +10420,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -596,7 +596,7 @@ index 91faf4582fa..fcf1a9026c4 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -10529,6 +10559,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10538,6 +10568,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -609,7 +609,7 @@ index 91faf4582fa..fcf1a9026c4 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -10623,6 +10659,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10632,6 +10668,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -626,7 +626,7 @@ index 91faf4582fa..fcf1a9026c4 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10790,6 +10836,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10799,6 +10845,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -637,7 +637,7 @@ index 91faf4582fa..fcf1a9026c4 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -11355,6 +11405,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -11364,6 +11414,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -649,7 +649,7 @@ index 91faf4582fa..fcf1a9026c4 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -12201,6 +12256,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -12210,6 +12265,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -660,7 +660,7 @@ index 91faf4582fa..fcf1a9026c4 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -12634,6 +12693,10 @@ init_keyboard (void)
+@@ -12643,6 +12702,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
