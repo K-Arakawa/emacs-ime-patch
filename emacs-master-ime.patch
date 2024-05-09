@@ -495,7 +495,7 @@ index c6a8dcbb909..dec55b33022 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index a671dbaa31d..e991914083e 100644
+index 80aa4a4a2e8..2f3328a36e2 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1475,8 +1475,24 @@ affects all frames on the same terminal device.  */)
@@ -534,7 +534,7 @@ index a671dbaa31d..e991914083e 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 69d29ededc0..c0413f6bc38 100644
+index bd1bb3bb4be..d5f430ea23d 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -364,6 +364,11 @@ static struct timespec timer_idleness_start_time;
@@ -672,7 +672,7 @@ index 69d29ededc0..c0413f6bc38 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index ace8d1016a5..d08b10ce54d 100644
+index 8b61b54bdc5..d88b319a796 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -81,6 +81,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
@@ -938,7 +938,7 @@ index ace8d1016a5..d08b10ce54d 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8306,6 +8493,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8305,6 +8492,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -1899,7 +1899,7 @@ index ace8d1016a5..d08b10ce54d 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10673,6 +11814,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10672,6 +11813,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -1909,7 +1909,7 @@ index ace8d1016a5..d08b10ce54d 100644
    0, /* x_set_sticky */
    w32_set_tool_bar_position,
    w32_set_inhibit_double_buffering,
-@@ -10698,6 +11842,10 @@ syms_of_w32fns (void)
+@@ -10697,6 +11841,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -1970,7 +1970,7 @@ index ace8d1016a5..d08b10ce54d 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index 56061c0d9ce..2f53f20fbe9 100644
+index 1c2da1b26fc..14f73262a9e 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2012,7 +2012,7 @@ index 3f780c1d866..724d158a69d 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 64dbafab3fd..c71a1aeb163 100644
+index 9b10e4c3342..e6d65623d26 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -5963,6 +5963,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2344,7 +2344,7 @@ index cf12841bd51..8a5815867d5 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 8829c617f29..c35db257389 100644
+index a7cae804006..ee5aaaba989 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13624,8 +13624,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
