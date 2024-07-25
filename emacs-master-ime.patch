@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 909f5786c9a..45b1ad4fa09 100644
+index 67da852667d..5cc011077cd 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -577,6 +577,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 909f5786c9a..45b1ad4fa09 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7691,6 +7695,42 @@ else
+@@ -7714,6 +7718,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -534,7 +534,7 @@ index 7f4bf274ad9..4a40f40fee7 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index c75e80d2a05..8a355303162 100644
+index b312d529e59..9669936d011 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -364,6 +364,11 @@ static struct timespec timer_idleness_start_time;
@@ -564,7 +564,7 @@ index c75e80d2a05..8a355303162 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -5145,7 +5158,11 @@ const char *const lispy_function_keys[] =
+@@ -5138,7 +5151,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -576,7 +576,7 @@ index c75e80d2a05..8a355303162 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -10424,6 +10441,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10417,6 +10434,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -596,7 +596,7 @@ index c75e80d2a05..8a355303162 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -10559,6 +10589,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10552,6 +10582,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -609,7 +609,7 @@ index c75e80d2a05..8a355303162 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -10653,6 +10689,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10646,6 +10682,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -626,7 +626,7 @@ index c75e80d2a05..8a355303162 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10820,6 +10866,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10813,6 +10859,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -637,7 +637,7 @@ index c75e80d2a05..8a355303162 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -11385,6 +11435,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -11378,6 +11428,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -649,7 +649,7 @@ index c75e80d2a05..8a355303162 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -12231,6 +12286,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -12224,6 +12279,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -660,7 +660,7 @@ index c75e80d2a05..8a355303162 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -12680,6 +12739,10 @@ init_keyboard (void)
+@@ -12673,6 +12732,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -672,7 +672,7 @@ index c75e80d2a05..8a355303162 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 7fc2f598b3e..f1b044564d2 100644
+index 86161601ba4..8c044f7579f 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -81,6 +81,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
@@ -2270,7 +2270,7 @@ index 47be542f570..2f0eb4a3ccd 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index ff28bac5306..387dc0fa3e0 100644
+index 4bb36b6733a..6c3ad753ab2 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2344,10 +2344,10 @@ index ff28bac5306..387dc0fa3e0 100644
    defsubr (&Sold_selected_window);
    defsubr (&Sminibuffer_window);
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 8c7e8e5cb43..7fa4853a50e 100644
+index 45317cc9f5d..66734810702 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13637,8 +13637,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13663,8 +13663,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 8c7e8e5cb43..7fa4853a50e 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13895,8 +13910,23 @@ needs_no_redisplay (struct window *w)
+@@ -13921,8 +13936,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
