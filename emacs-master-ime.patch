@@ -448,10 +448,10 @@ index 00000000000..66d51b800d6
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index ab791da3271..d08051d59fe 100644
+index 6320af1e79f..74b3776933f 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -29641,6 +29641,14 @@ twice for the others.
+@@ -29628,6 +29628,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -466,7 +466,7 @@ index ab791da3271..d08051d59fe 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -36733,6 +36741,15 @@ Visual-Wrap-Prefix mode.
+@@ -36778,6 +36786,15 @@ Visual-Wrap-Prefix mode.
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -672,7 +672,7 @@ index b312d529e59..9669936d011 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 86161601ba4..8c044f7579f 100644
+index bd65aa48a14..e4da4700c01 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -81,6 +81,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
@@ -1970,7 +1970,7 @@ index 86161601ba4..8c044f7579f 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index ccbd3837afb..d901ab468ce 100644
+index efb42d80336..064239bb51a 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -1985,7 +1985,7 @@ index ccbd3837afb..d901ab468ce 100644
  
  static BYTE w32_antialias_type (Lisp_Object);
  static Lisp_Object lispy_antialias_type (BYTE);
-@@ -2027,7 +2030,10 @@ w32_to_fc_weight (int n)
+@@ -2133,7 +2136,10 @@ w32_to_fc_weight (int n)
  }
  
  /* Fill in all the available details of LOGFONT from FONT_SPEC.  */
@@ -2270,7 +2270,7 @@ index 47be542f570..2f0eb4a3ccd 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 4bb36b6733a..6c3ad753ab2 100644
+index 559919689a3..882b48eec25 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2295,7 +2295,7 @@ index 4bb36b6733a..6c3ad753ab2 100644
    return window;
  }
  
-@@ -4256,6 +4264,18 @@ This function runs `window-scroll-functions' before running
+@@ -4366,6 +4374,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2314,7 +2314,7 @@ index 4bb36b6733a..6c3ad753ab2 100644
    return Qnil;
  }
  
-@@ -8564,6 +8584,10 @@ syms_of_window (void)
+@@ -8694,6 +8714,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2325,7 +2325,7 @@ index 4bb36b6733a..6c3ad753ab2 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -8917,6 +8941,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -9049,6 +9073,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2340,14 +2340,14 @@ index 4bb36b6733a..6c3ad753ab2 100644
 +  Vselect_window_functions = Qnil;
 +#endif /* USE_W32_IME */
 +
-   defsubr (&Sselected_window);
-   defsubr (&Sold_selected_window);
-   defsubr (&Sminibuffer_window);
+   DEFVAR_LISP ("window-dead-windows-table", window_dead_windows_table,
+     doc: /* Hash table of dead windows.
+ Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 45317cc9f5d..66734810702 100644
+index 30771a1c83d..3281eb30bee 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13663,8 +13663,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13675,8 +13675,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 45317cc9f5d..66734810702 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13921,8 +13936,23 @@ needs_no_redisplay (struct window *w)
+@@ -13933,8 +13948,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
