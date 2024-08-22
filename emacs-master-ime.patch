@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 67da852667d..5cc011077cd 100644
+index d1a5b63b924..a329c831916 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -577,6 +577,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -534,10 +534,10 @@ index 7f4bf274ad9..4a40f40fee7 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index b312d529e59..9669936d011 100644
+index 0992fab653b..67f03359a89 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
-@@ -364,6 +364,11 @@ static struct timespec timer_idleness_start_time;
+@@ -359,6 +359,11 @@ static struct timespec timer_idleness_start_time;
  
  static struct timespec timer_last_idleness_start_time;
  
@@ -549,7 +549,7 @@ index b312d529e59..9669936d011 100644
  /* Predefined strings for core device names.  */
  
  static Lisp_Object virtual_core_pointer_name;
-@@ -1334,6 +1339,14 @@ command_loop_1 (void)
+@@ -1329,6 +1334,14 @@ command_loop_1 (void)
    this_command_key_count = 0;
    this_single_command_key_start = 0;
  
@@ -564,7 +564,7 @@ index b312d529e59..9669936d011 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -5138,7 +5151,11 @@ const char *const lispy_function_keys[] =
+@@ -5149,7 +5162,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -576,7 +576,7 @@ index b312d529e59..9669936d011 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -10417,6 +10434,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10428,6 +10445,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -596,7 +596,7 @@ index b312d529e59..9669936d011 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -10552,6 +10582,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10563,6 +10593,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -609,7 +609,7 @@ index b312d529e59..9669936d011 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -10646,6 +10682,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10657,6 +10693,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -626,7 +626,7 @@ index b312d529e59..9669936d011 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10813,6 +10859,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10824,6 +10870,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -637,7 +637,7 @@ index b312d529e59..9669936d011 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -11378,6 +11428,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -11389,6 +11439,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -649,7 +649,7 @@ index b312d529e59..9669936d011 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -12224,6 +12279,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -12235,6 +12290,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -660,7 +660,7 @@ index b312d529e59..9669936d011 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -12673,6 +12732,10 @@ init_keyboard (void)
+@@ -12684,6 +12743,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
