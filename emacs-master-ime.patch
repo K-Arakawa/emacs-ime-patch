@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index d1a5b63b924..a329c831916 100644
+index 3612cb8de78..c6a8eb07cd0 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -577,6 +577,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index d1a5b63b924..a329c831916 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7714,6 +7718,42 @@ else
+@@ -7713,6 +7717,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -2270,7 +2270,7 @@ index 47be542f570..2f0eb4a3ccd 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 559919689a3..882b48eec25 100644
+index 35092ddd582..8223c8b981b 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2295,7 +2295,7 @@ index 559919689a3..882b48eec25 100644
    return window;
  }
  
-@@ -4366,6 +4374,18 @@ This function runs `window-scroll-functions' before running
+@@ -4369,6 +4377,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2314,7 +2314,7 @@ index 559919689a3..882b48eec25 100644
    return Qnil;
  }
  
-@@ -8694,6 +8714,10 @@ syms_of_window (void)
+@@ -8697,6 +8717,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2325,7 +2325,7 @@ index 559919689a3..882b48eec25 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -9049,6 +9073,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -9052,6 +9076,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2344,10 +2344,10 @@ index 559919689a3..882b48eec25 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 30771a1c83d..3281eb30bee 100644
+index f9a10267bad..85d60679d81 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13675,8 +13675,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13720,8 +13720,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 30771a1c83d..3281eb30bee 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13933,8 +13948,23 @@ needs_no_redisplay (struct window *w)
+@@ -13978,8 +13993,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
