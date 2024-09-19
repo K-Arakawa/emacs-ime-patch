@@ -672,7 +672,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index bd65aa48a14..e4da4700c01 100644
+index 0a3f5c38a58..19c06f1f4f0 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -81,6 +81,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
