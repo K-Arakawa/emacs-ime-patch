@@ -1,19 +1,49 @@
-diff --git a/configure.ac b/configure.ac
-index 8a5ba7db3d1..2782a337f75 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -577,6 +577,10 @@ On by default on macOS.])],[],[with_ns=maybe])
- OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
- OPTION_DEFAULT_OFF([pgtk], [use GTK to support window systems other than X])
+diff -ruN emacs-30.0.91.orig/configure emacs-30.0.91/configure
+--- emacs-30.0.91.orig/configure	2024-09-12 06:18:50.000000000 +0900
++++ emacs-30.0.91/configure	2024-09-24 06:41:27.709745800 +0900
+@@ -2906,6 +2906,9 @@
+   --with-ns               use Nextstep (macOS Cocoa or GNUstep) windowing
+                           system. On by default on macOS.
+   --with-w32              use native MS Windows GUI in a Cygwin build
++  --without-w32-ime       don't compile with W32-IME support
++  --without-reconversion  don't compile with RECONVERSION support
++  --without-documentfeed  don't compile with DOCUMENTFEED support
+   --with-pgtk             use GTK to support window systems other than X
+   --without-gpm           don't use -lgpm for mouse support on a GNU/Linux
+                           console
+@@ -7046,6 +7049,31 @@
  
-+OPTION_DEFAULT_ON([w32-ime], [don't compile with W32-IME support])
-+OPTION_DEFAULT_ON([reconversion], [don't compile with RECONVERSION support])
-+OPTION_DEFAULT_ON([documentfeed], [don't compile with DOCUMENTFEED support])
+ 
+ 
++# Check whether --with-w32-ime was given.
++if test "${with_w32_ime+set}" = set; then :
++  withval=$with_w32_ime;
++else
++     with_w32_ime=$with_features
++fi
 +
- OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
- OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
- AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7727,6 +7731,42 @@ else
++
++# Check whether --with-reconversion was given.
++if test "${with_reconversion+set}" = set; then :
++  withval=$with_reconversion;
++else
++     with_reconversion=$with_features
++fi
++
++
++# Check whether --with-documentfeed was given.
++if test "${with_documentfeed+set}" = set; then :
++  withval=$with_documentfeed;
++else
++     with_documentfeed=$with_features
++fi
++
++
++
+ # Check whether --with-gpm was given.
+ if test ${with_gpm+y}
+ then :
+@@ -54773,6 +54801,80 @@
    HAVE_GMP=no
  fi
  
@@ -21,31 +51,69 @@ index 8a5ba7db3d1..2782a337f75 100644
 +if test "${HAVE_W32}" = "yes"; then
 +  if test "${with_w32_ime}" != "no"; then
 +    USE_W32_IME=yes
-+    AC_DEFINE(USE_W32_IME, 1, [Define to support W32-IME.])
++
++$as_echo "#define USE_W32_IME 1" >>confdefs.h
++
 +
 +    RECONVERSION=no
 +    if test "${with_reconversion}" != "no"; then
-+      AC_CACHE_CHECK([whether RECONVERTSTRING is declared],
-+        emacs_cv_have_reconvertstring,
-+        [AC_LINK_IFELSE([AC_LANG_PROGRAM([[
++      { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether RECONVERTSTRING is declared" >&5
++$as_echo_n "checking whether RECONVERTSTRING is declared... " >&6; }
++if ${emacs_cv_have_reconvertstring+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++/* end confdefs.h.  */
++
 +#include <windows.h>
-+#include <imm.h>]], [[RECONVERTSTRING]])],
-+        emacs_cv_have_reconvertstring=yes, emacs_cv_have_reconvertstring=no)])
++#include <imm.h>
++int
++main ()
++{
++RECONVERTSTRING
++  ;
++  return 0;
++}
++_ACEOF
++if ac_fn_c_try_link "$LINENO"; then :
++  emacs_cv_have_reconvertstring=yes
++else
++  emacs_cv_have_reconvertstring=no
++fi
++rm -f core conftest.err conftest.$ac_objext \
++    conftest$ac_exeext conftest.$ac_ext
++fi
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $emacs_cv_have_reconvertstring" >&5
++$as_echo "$emacs_cv_have_reconvertstring" >&6; }
 +      if test "$emacs_cv_have_reconvertstring" = "yes"; then
 +        RECONVERSION=yes
-+        AC_DEFINE(RECONVERSION, 1, [Define to support RECONVERSION.])
-+        AC_DEFINE(HAVE_RECONVERTSTRING, 1, [Define to 1 if you have RECONVERTSTRING.])
++
++$as_echo "#define RECONVERSION 1" >>confdefs.h
++
++
++$as_echo "#define HAVE_RECONVERTSTRING 1" >>confdefs.h
++
 +
 +        DOCUMENTFEED=no
 +        if test "${with_documentfeed}" != "no"; then
-+          AC_CHECK_DECL(IMR_DOCUMENTFEED, HAVE_IMR_DOCUMENTFEED=yes,
-+            HAVE_IMR_DOCUMENTFEED=no,[[
++          ac_fn_c_check_decl "$LINENO" "IMR_DOCUMENTFEED" "ac_cv_have_decl_IMR_DOCUMENTFEED" "
 +#include <windows.h>
-+#include <imm.h>]])
++#include <imm.h>
++"
++if test "x$ac_cv_have_decl_IMR_DOCUMENTFEED" = xyes; then :
++  HAVE_IMR_DOCUMENTFEED=yes
++else
++  HAVE_IMR_DOCUMENTFEED=no
++fi
++
 +          if test "$ac_cv_have_decl_IMR_DOCUMENTFEED" = "yes"; then
 +            DOCUMENTFEED=yes
-+            AC_DEFINE(DOCUMENTFEED, 1, [Define to support DOCUMENTFEED.])
-+            AC_DEFINE(HAVE_IMR_DOCUMENTFEED, 1, [Define to 1 if you have IMR_DOCUMENTFEED.])
++
++$as_echo "#define DOCUMENTFEED 1" >>confdefs.h
++
++
++$as_echo "#define HAVE_IMR_DOCUMENTFEED 1" >>confdefs.h
++
 +          fi
 +        fi
 +      fi
@@ -54,14 +122,12 @@ index 8a5ba7db3d1..2782a337f75 100644
 +fi
 +
  emacs_standard_dirs='Standard dirs'
- AS_ECHO(["
+ printf "%s\n" "
  Configured for '${canonical}'.
-diff --git a/lisp/international/smart-ime.el b/lisp/international/smart-ime.el
-new file mode 100644
-index 00000000000..eaa5eaf920f
---- /dev/null
-+++ b/lisp/international/smart-ime.el
-@@ -0,0 +1,177 @@
+diff -ruN emacs-30.0.91.orig/lisp/international/smart-ime.el emacs-30.0.91/lisp/international/smart-ime.el
+--- emacs-30.0.91.orig/lisp/international/smart-ime.el	1970-01-01 09:00:00.000000000 +0900
++++ emacs-30.0.91/lisp/international/smart-ime.el	2024-09-24 06:41:27.819742700 +0900
+@@ -0,0 +1,172 @@
 +;;; smart-ime.el - smart Input Method -*- lexical-binding: t -*-
 +;;
 +;; Copyright (C) 2011 HIROSHI OOTA
@@ -123,61 +189,57 @@ index 00000000000..eaa5eaf920f
 +
 +;;
 +;; query-replace, query-replace-regexp, query-replace-regexp-eval ...
-+(advice-add 'perform-replace :around
-+            (lambda (orig-fun &rest args)
-+              (let ((im current-input-method)
-+		    retval)
-+                (if (or (not im)
-+	                (not (nth 2 args)))
-+	            (apply orig-fun args)
-+                  (deactivate-input-method)
-+                  (setq retval (apply orig-fun args))
-+                  (activate-input-method im)
-+		  retval))))
++(defadvice perform-replace
++  (around sime-ad-perform-replace compile activate)
++  (let ((im current-input-method))
++    (if (or (not im)
++	    (not (ad-get-arg 2)))
++	ad-do-it
++      (deactivate-input-method)
++      ad-do-it
++      (activate-input-method im))))
 +
 +;;
 +;; read-passwd
-+(defvar sime-ad-toggle-ime-mapped-key-list)
-+(advice-add 'read-passwd :around
-+            (lambda (orig-fun &rest args)
-+              (let ((im current-input-method)
-+		    retval)
-+                (setq sime-ad-toggle-ime-mapped-key-list nil)
-+                (dolist (k (where-is-internal
-+                            'toggle-input-method overriding-local-map nil nil
-+                            (command-remapping 'toggle-input-method)))
-+                  (when (integerp (aref k 0))
-+	            (setq sime-ad-toggle-ime-mapped-key-list
-+	                  (cons (aref k 0) sime-ad-toggle-ime-mapped-key-list))))
++(defadvice read-passwd
++  (around sime-ad-read-passwd compile activate)
++  (let ((sime-ad-toggle-ime-mapped-key-list nil)
++	(im current-input-method))
++    (dolist (k (where-is-internal
++                'toggle-input-method overriding-local-map nil nil
++                (command-remapping 'toggle-input-method)))
++      (when (integerp (aref k 0))
++	(setq sime-ad-toggle-ime-mapped-key-list
++	      (cons (aref k 0) sime-ad-toggle-ime-mapped-key-list))))
 +
-+		(advice-add 'read-key :around #'sime-ad-read-key)
-+                (deactivate-input-method)
-+                (setq retval (apply orig-fun args))
-+                (activate-input-method im)
-+		(advice-remove 'read-key #'sime-ad-read-key)
-+		retval)))
++    (ad-enable-advice 'read-key 'around 'sime-ad-read-key)
++    (ad-activate 'read-key)
++    (deactivate-input-method)
++    ad-do-it
++    (activate-input-method im)
++    (ad-disable-advice 'read-key 'around 'sime-ad-read-key)
++    (ad-activate 'read-key)))
 +
-+(defun sime-ad-read-key (orig-fun &rest args)
++(defadvice read-key
++  (around sime-ad-read-key compile)
 +  (let ((flag t)
-+	(msg (current-message))
-+	retval)
++	(msg (current-message)))
 +    (while flag
-+      (setq retval (apply orig-fun args))
-+      (if (not (memq retval
++      ad-do-it
++      (if (not (memq ad-return-value
 +                     sime-ad-toggle-ime-mapped-key-list))
 +	  (setq flag nil)
 +	(toggle-input-method)
-+	(message msg)))
-+    retval))
++	(message msg)))))
 +
 +;;
 +;; universal-argument
-+(advice-add 'universal-argument :before
-+            (lambda ()
-+              (setq sime-saved-input-method
-+                    (or sime-saved-input-method
-+                        (list current-input-method)))
-+              (deactivate-input-method)))
++(defadvice universal-argument
++    (before sime-ad-universal-argument compile activate)
++  (setq sime-saved-input-method
++        (or sime-saved-input-method
++            (list current-input-method)))
++  (deactivate-input-method))
 +
 +(defun universal-argument--mode ()
 +  (setq sime-saved-input-method
@@ -199,24 +261,23 @@ index 00000000000..eaa5eaf920f
 +;;
 +;; others
 +(defmacro wrap-function-to-control-input-method (fcn)
-+  `(advice-add ,fcn :around
-+               (lambda (orig-fun &rest args)
-+                 (let ((im current-input-method)
-+		       retval)
-+                   (deactivate-input-method)
-+                   (setq retval (apply orig-fun args))
-+                   (activate-input-method im)
-+		   retval))))
++  `(defadvice ,fcn (around
++                    ,(make-symbol (concat "sime-ad-" (symbol-name fcn)))
++                    compile activate)
++     (let ((im current-input-method))
++       (deactivate-input-method)
++       ad-do-it
++       (activate-input-method im))))
 +
-+(wrap-function-to-control-input-method 'map-y-or-n-p)
-+(wrap-function-to-control-input-method 'y-or-n-p)
-+(wrap-function-to-control-input-method 'read-key-sequence)
++(wrap-function-to-control-input-method map-y-or-n-p)
++(wrap-function-to-control-input-method y-or-n-p)
++(wrap-function-to-control-input-method read-key-sequence)
 +
 +;; disable W32-IME control during processing the timer handler
-+(advice-add 'timer-event-handler :around
-+            (lambda (orig-fun &rest args)
-+              (let ((w32-ime-buffer-switch-p nil))
-+                (apply orig-fun args))))
++(defadvice timer-event-handler
++  (around sime-ad-timer-event-handler compile activate)
++  (let ((w32-ime-buffer-switch-p nil))
++    ad-do-it))
 +
 +;; turn IME off when specifying a register
 +(eval-when-compile (require 'cl-macs))
@@ -239,11 +300,9 @@ index 00000000000..eaa5eaf920f
 +
 +(provide 'smart-ime)
 +;; -*- mode: Emacs-Lisp; coding: euc-jp-unix -*-
-diff --git a/lisp/international/w32-ime.el b/lisp/international/w32-ime.el
-new file mode 100644
-index 00000000000..66d51b800d6
---- /dev/null
-+++ b/lisp/international/w32-ime.el
+diff -ruN emacs-30.0.91.orig/lisp/international/w32-ime.el emacs-30.0.91/lisp/international/w32-ime.el
+--- emacs-30.0.91.orig/lisp/international/w32-ime.el	1970-01-01 09:00:00.000000000 +0900
++++ emacs-30.0.91/lisp/international/w32-ime.el	2024-09-24 06:41:27.834744800 +0900
 @@ -0,0 +1,202 @@
 +;;;;; w32-ime.el ---- Meadow features for NTEmacs. -*- lexical-binding: t -*-
 +;;
@@ -315,12 +374,12 @@ index 00000000000..66d51b800d6
 +	     (when interactive-p
 +	       (list 'interactive interactive-arg))
 +	     `(cond
-+		((and (w32-get-ime-open-status)
++		((and (ime-get-mode)
 +		      (equal current-input-method "W32-IME"))
 +		 (ime-force-off)
 +		 (unwind-protect
 +		     (apply ',original-function arguments)
-+		   (when (and (not (w32-get-ime-open-status))
++		   (when (and (not (ime-get-mode))
 +			      (equal current-input-method "W32-IME"))
 +		     (ime-force-on))))
 +		(t
@@ -346,7 +405,7 @@ index 00000000000..66d51b800d6
 +(defun w32-ime-sync-state (window)
 +  (when w32-ime-buffer-switch-p
 +    (with-current-buffer (window-buffer window)
-+      (let* ((ime-state (w32-get-ime-open-status)))
++      (let* ((ime-state (ime-get-mode)))
 +	(cond
 +	 ((and (not ime-state)
 +	       (equal current-input-method "W32-IME"))
@@ -371,7 +430,7 @@ index 00000000000..66d51b800d6
 +   (w32-ime-show-mode-line
 +    (unless (window-minibuffer-p (selected-window))
 +      (setq w32-ime-mode-line-state-indicator
-+	    (nth (if (w32-get-ime-open-status) 1 2)
++	    (nth (if (ime-get-mode) 1 2)
 +		 w32-ime-mode-line-state-indicator-list))))
 +   (t
 +    (setq w32-ime-mode-line-state-indicator
@@ -447,45 +506,9 @@ index 00000000000..66d51b800d6
 +		       "W32 System IME")
 +
 +(provide 'w32-ime)
-diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 6320af1e79f..74b3776933f 100644
---- a/lisp/ldefs-boot.el
-+++ b/lisp/ldefs-boot.el
-@@ -29628,6 +29628,14 @@ twice for the others.
- (fn ARG)" t)
- (register-definition-prefixes "skeleton" '("skeleton-"))
- 
-+
-+;;;### (autoloads nil "smart-ime" "international/smart-ime.el" (0
-+;;;;;;  0 0 0))
-+;;; Generated autoloads from international/smart-ime.el
-+
-+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "smart-ime" '("wrap-function-to-control-input-method" "universal-argument--mode" "sime-")))
-+
-+;;;***
- 
- ;;; Generated autoloads from vc/smerge-mode.el
- 
-@@ -36778,6 +36786,15 @@ Visual-Wrap-Prefix mode.
- (register-definition-prefixes "w32-fns" '("w32-"))
- 
- 
-+;;;### (autoloads nil "w32-ime" "international/w32-ime.el" (0 0 0
-+;;;;;;  0))
-+;;; Generated autoloads from international/w32-ime.el
-+
-+(if (fboundp 'register-definition-prefixes) (register-definition-prefixes "w32-ime" '("wrap-function-to-control-ime" "w32-")))
-+
-+;;;***
-+
-+;;;### (autoloads nil "w32-vars" "w32-vars.el" (0 0 0 0))
- ;;; Generated autoloads from w32-vars.el
- 
- (register-definition-prefixes "w32-vars" '("w32-"))
-diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 6d1e13f44bf..af9764f0828 100644
---- a/lisp/loadup.el
-+++ b/lisp/loadup.el
+diff -ruN emacs-30.0.91.orig/lisp/loadup.el emacs-30.0.91/lisp/loadup.el
+--- emacs-30.0.91.orig/lisp/loadup.el	2024-09-12 06:10:33.000000000 +0900
++++ emacs-30.0.91/lisp/loadup.el	2024-09-24 06:41:27.870742700 +0900
 @@ -341,6 +341,7 @@
        (load "w32-vars")
        (load "term/w32-win")
@@ -494,16 +517,80 @@ index 6d1e13f44bf..af9764f0828 100644
        (when (eq system-type 'windows-nt)
          (load "w32-fns")
          (load "ls-lisp")
-diff --git a/src/frame.c b/src/frame.c
-index 7f4bf274ad9..4a40f40fee7 100644
---- a/src/frame.c
-+++ b/src/frame.c
-@@ -1477,8 +1477,24 @@ affects all frames on the same terminal device.  */)
+diff -ruN emacs-30.0.91.orig/lisp/Makefile.in emacs-30.0.91/lisp/Makefile.in
+--- emacs-30.0.91.orig/lisp/Makefile.in	2024-09-12 06:10:33.000000000 +0900
++++ emacs-30.0.91/lisp/Makefile.in	2024-09-24 06:41:27.899743500 +0900
+@@ -284,7 +284,7 @@
+ ifeq ($(HAVE_NATIVE_COMP),yes)
+ 	$(AM_V_ELC)$(emacs) $(BYTE_COMPILE_FLAGS) \
+ 		-l comp -f byte-compile-refresh-preloaded \
+-		-f batch-byte+native-compile $(THEFILE)
++		-f batch-byte-compile $(THEFILE)
+ else
+ 	$(AM_V_ELC)$(emacs) $(BYTE_COMPILE_FLAGS) \
+ 		-l bytecomp -f byte-compile-refresh-preloaded \
+diff -ruN emacs-30.0.91.orig/src/config.in emacs-30.0.91/src/config.in
+--- emacs-30.0.91.orig/src/config.in	2024-09-12 06:18:52.000000000 +0900
++++ emacs-30.0.91/src/config.in	2024-09-24 06:41:27.922746000 +0900
+@@ -104,6 +104,9 @@
+ #endif
+ 
+ 
++/* Define to support DOCUMENTFEED. */
++#undef DOCUMENTFEED
++
+ /* Define if process.c does not need to close a pty to make it a controlling
+    terminal (it is already a controlling terminal of the subprocess, because
+    we did ioctl TIOCSCTTY). */
+@@ -862,6 +865,9 @@
+ /* Define to 1 if using ImageMagick7. */
+ #undef HAVE_IMAGEMAGICK7
+ 
++/* Define to 1 if you have IMR_DOCUMENTFEED. */
++#undef HAVE_IMR_DOCUMENTFEED
++
+ /* Define to 1 to use inotify. */
+ #undef HAVE_INOTIFY
+ 
+@@ -1217,6 +1223,9 @@
+ /* Define to 1 if you have the `realpath' function. */
+ #undef HAVE_REALPATH
+ 
++/* Define to 1 if you have RECONVERTSTRING. */
++#undef HAVE_RECONVERTSTRING
++
+ /* Define to 1 if you have the `recvfrom' function. */
+ #undef HAVE_RECVFROM
+ 
+@@ -2146,6 +2155,9 @@
+    */
+ #undef READLINK_TRUNCATE_BUG
+ 
++/* Define to support RECONVERSION. */
++#undef RECONVERSION
++
+ /* Define REL_ALLOC if you want to use the relocating allocator for buffer
+    space. */
+ #undef REL_ALLOC
+@@ -2430,6 +2442,9 @@
+ /* Define to 1 to use the Linux extended attributes library. */
+ #undef USE_XATTR
+ 
++/* Define to support W32-IME. */
++#undef USE_W32_IME
++
+ /* Define to 1 if you have the XCB library and X11-XCB library for mixed
+    X11/XCB programming. */
+ #undef USE_XCB
+diff -ruN emacs-30.0.91.orig/src/frame.c emacs-30.0.91/src/frame.c
+--- emacs-30.0.91.orig/src/frame.c	2024-09-12 06:10:33.000000000 +0900
++++ emacs-30.0.91/src/frame.c	2024-09-24 06:41:27.953749800 +0900
+@@ -1477,8 +1477,24 @@
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
 +#ifdef USE_W32_IME
-+Lisp_Object
+ Lisp_Object
 +do_switch_frame_0 (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord);
 +Lisp_Object
 +do_switch_frame (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
@@ -517,13 +604,13 @@ index 7f4bf274ad9..4a40f40fee7 100644
 +Lisp_Object
 +do_switch_frame_0 (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
 +#else  /* !USE_W32_IME */
- Lisp_Object
++isp_Object
  do_switch_frame (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
 +#endif /* !USE_W32_IME */
  {
    struct frame *sf = SELECTED_FRAME (), *f;
  
-@@ -4040,6 +4056,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4040,6 +4056,9 @@
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -533,23 +620,22 @@ index 7f4bf274ad9..4a40f40fee7 100644
    {"sticky",			SYMBOL_INDEX (Qsticky)},
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
-diff --git a/src/keyboard.c b/src/keyboard.c
-index 6d28dca9aeb..0ca910b3bd6 100644
---- a/src/keyboard.c
-+++ b/src/keyboard.c
-@@ -359,6 +359,11 @@ static struct timespec timer_idleness_start_time;
- 
- static struct timespec timer_last_idleness_start_time;
+diff -ruN emacs-30.0.91.orig/src/keyboard.c emacs-30.0.91/src/keyboard.c
+--- emacs-30.0.91.orig/src/keyboard.c	2024-09-12 06:10:33.000000000 +0900
++++ emacs-30.0.91/src/keyboard.c	2024-09-24 06:41:28.005743000 +0900
+@@ -373,6 +373,11 @@
+    menu bar.  */
+ static Lisp_Object menu_bar_touch_id;
  
 +#ifdef USE_W32_IME
 +static Lisp_Object IME_command_off_flag;
 +static Lisp_Object IME_interrupt_flag;
 +#endif /* USE_W32_IME */
 +
- /* Predefined strings for core device names.  */
+ 
+ /* Global variable declarations.  */
  
- static Lisp_Object virtual_core_pointer_name;
-@@ -1329,6 +1334,14 @@ command_loop_1 (void)
+@@ -1334,6 +1339,14 @@
    this_command_key_count = 0;
    this_single_command_key_start = 0;
  
@@ -564,7 +650,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -5149,7 +5162,11 @@ const char *const lispy_function_keys[] =
+@@ -5145,7 +5158,11 @@
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -576,7 +662,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -10428,6 +10445,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10424,6 +10441,19 @@
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -596,7 +682,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -10563,6 +10593,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10559,6 +10589,12 @@
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -609,14 +695,14 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -10657,6 +10693,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10653,6 +10689,16 @@
  	  goto replay_sequence;
  	}
  
 +#ifdef USE_W32_IME
 +      if (!NILP (IME_command_loop_flag) && NILP (IME_command_off_flag))
 +	{
-+	  IME_command_off_flag = Fw32_get_ime_open_status ();
++	  IME_command_off_flag = Fime_get_mode ();
 +	  if (!NILP (IME_command_off_flag))
 +	    Fime_force_off (Qnil);
 +	}
@@ -626,7 +712,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10824,6 +10870,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10820,6 +10866,10 @@
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -637,7 +723,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -11389,6 +11439,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -11385,6 +11435,11 @@
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -649,7 +735,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -12240,6 +12295,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -12236,6 +12291,10 @@
  
    Vunread_command_events = Qnil;
  
@@ -660,7 +746,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -12689,6 +12748,10 @@ init_keyboard (void)
+@@ -12685,6 +12744,10 @@
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -671,23 +757,19 @@ index 6d28dca9aeb..0ca910b3bd6 100644
  
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
-diff --git a/src/w32fns.c b/src/w32fns.c
-index 0a3f5c38a58..19c06f1f4f0 100644
---- a/src/w32fns.c
-+++ b/src/w32fns.c
-@@ -81,6 +81,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
- #include <imm.h>
- #include <windowsx.h>
+diff -ruN emacs-30.0.91.orig/src/w32fns.c emacs-30.0.91/src/w32fns.c
+--- emacs-30.0.91.orig/src/w32fns.c	2024-09-12 06:10:33.000000000 +0900
++++ emacs-30.0.91/src/w32fns.c	2024-09-24 06:41:28.049743100 +0900
+@@ -95,18 +95,86 @@
+ #define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+ #endif
  
 +#ifdef USE_W32_IME
 +#include "fontset.h"
 +#include "w32font.h"
 +#endif /* USE_W32_IME */
 +
- /*
-   Internal/undocumented constants for Windows Dark mode.
-   See: https://github.com/microsoft/WindowsAppSDK/issues/41
-@@ -99,14 +104,75 @@ typedef enum _WTS_VIRTUAL_CLASS {
+ #ifndef FOF_NO_CONNECTED_ELEMENTS
  #define FOF_NO_CONNECTED_ELEMENTS 0x2000
  #endif
  
@@ -734,6 +816,8 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +static int set_ime_font = 0;
 +static LOGFONT ime_logfont = {0};
 +static int IME_event_off_count;
++const char * const ImmGetOpenStatus_Name = "ImmGetOpenStatus";
++const char * const ImmSetOpenStatus_Name = "ImmSetOpenStatus";
 +const char * const ImmGetConversionStatus_Name = "ImmGetConversionStatus";
 +const char * const ImmSetConversionStatus_Name = "ImmSetConversionStatus";
 +const char * const ImmNotifyIME_Name = "ImmNotifyIME";
@@ -763,7 +847,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  /* Prefix for system colors.  */
  #define SYSTEM_COLOR_PREFIX "System"
  #define SYSTEM_COLOR_PREFIX_LEN (sizeof (SYSTEM_COLOR_PREFIX) - 1)
-@@ -436,6 +502,17 @@ static void w32_set_icon_type (struct frame *, Lisp_Object, Lisp_Object);
+@@ -436,6 +504,17 @@
  static void w32_set_icon_name (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_explicitly_set_name (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_set_title (struct frame *, Lisp_Object, Lisp_Object);
@@ -781,7 +865,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  
  
  /* Store the screen positions of frame F into XPTR and YPTR.
-@@ -4538,9 +4615,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4538,9 +4617,18 @@
  				  w32_get_key_modifiers (wParam, lParam));
  	  windows_translate = 1;
  	  break;
@@ -801,7 +885,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  	  windows_translate = 1;
  	  break;
  	case VK_CANCEL:
-@@ -4682,6 +4768,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4682,6 +4770,24 @@
  	  TranslateMessage (&windows_msg);
  	  goto dflt;
  	}
@@ -826,7 +910,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
        /* Fall through */
        FALLTHROUGH;
  
-@@ -4701,6 +4805,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4701,6 +4807,7 @@
  				w32_get_key_modifiers (wParam, lParam));
        break;
  
@@ -834,7 +918,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
      case WM_UNICHAR:
        /* WM_UNICHAR looks promising from the docs, but the exact
  	 circumstances in which TranslateMessage sends it is one of those
-@@ -4828,6 +4933,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4828,6 +4935,7 @@
      case WM_IME_ENDCOMPOSITION:
        ignore_ime_char = 0;
        goto dflt;
@@ -842,7 +926,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  
        /* Simulate middle mouse button events when left and right buttons
  	 are used together, but only if user has two button mouse. */
-@@ -5693,7 +5799,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -5693,7 +5801,84 @@
        my_post_msg (&wmsg, hwnd, msg, wParam, lParam);
        return 1;
  
@@ -927,7 +1011,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
        /* Check for messages registered at runtime. */
        if (msg == msh_mousewheel)
  	{
-@@ -5974,6 +6157,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
+@@ -5974,6 +6159,10 @@
      }
  
    gui_default_parameter (f, parms, Qfont, font, "font", "Font", RES_TYPE_STRING);
@@ -938,16 +1022,20 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8374,6 +8561,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8376,6 +8565,999 @@
  
- #endif /* WINDOWSNT */
- 
-+
-+/***********************************************************************
+ 
+ /***********************************************************************
 +			  Input Method Editor
 + ***********************************************************************/
 +#ifdef USE_W32_IME
 +BOOL fIME = FALSE;
++
++typedef BOOL (WINAPI *IMMGETOPENSTATUSPROC)(HIMC);
++IMMGETOPENSTATUSPROC ImmGetOpenStatusProc;
++
++typedef BOOL (WINAPI *IMMSETOPENSTATUSPROC)(HIMC, BOOL);
++IMMSETOPENSTATUSPROC ImmSetOpenStatusProc;
 +
 +typedef LONG (WINAPI *IMMSETCOMPOSITIONSTRINGPROC)
 +  (HIMC, DWORD, LPCVOID, DWORD, LPCVOID, DWORD);
@@ -1048,7 +1136,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +  HIMC himc;
 +
 +  himc = get_ime_context_fn (hwnd);
-+  set_ime_open_status_fn (himc, openp);
++  (ImmSetOpenStatusProc) (himc, openp);
 +  release_ime_context_fn (hwnd, himc);
 +}
 +
@@ -1059,7 +1147,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +  int ret;
 +
 +  himc = get_ime_context_fn (hwnd);
-+  ret = get_ime_open_status_fn (himc);
++  ret = (ImmGetOpenStatusProc) (himc);
 +  release_ime_context_fn (hwnd, himc);
 +
 +  return ret;
@@ -1334,6 +1422,14 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +
 +  if (hImm32)
 +    {
++      ImmGetOpenStatusProc =
++	(IMMGETOPENSTATUSPROC)
++	GetProcAddress (hImm32,
++			ImmGetOpenStatus_Name);
++      ImmSetOpenStatusProc =
++	(IMMSETOPENSTATUSPROC)
++	GetProcAddress (hImm32,
++			ImmSetOpenStatus_Name);
 +      ImmGetConversionStatusProc =
 +	(IMMGETCONVERSIONSTATUSPROC)
 +	GetProcAddress (hImm32,
@@ -1388,7 +1484,9 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +	GetProcAddress (hImm32,
 +			ImmGetCandidateListCount_Name);
 +
-+      if (ImmSetCompositionStringProc &&
++      if (ImmGetOpenStatusProc &&
++	  ImmSetOpenStatusProc &&
++	  ImmSetCompositionStringProc &&
 +	  ImmSetCompositionFontProc &&
 +	  ImmGetPropertyProc &&
 +	  ImmGetConversionStatusProc &&
@@ -1589,7 +1687,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +      HIMC himc;
 +      HWND hwnd;
 +
-+      if (!NILP (Fw32_get_ime_open_status ()))
++      if (!NILP (Fime_get_mode ()))
 +	return Qnil;
 +#ifdef HAVE_NTGUI
 +      if (NILP (eventp))
@@ -1612,7 +1710,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +      HIMC himc;
 +      HWND hwnd;
 +
-+      if (NILP (Fw32_get_ime_open_status ()))
++      if (NILP (Fime_get_mode ()))
 +	return Qnil;
 +#ifdef HAVE_NTGUI
 +      if (NILP (eventp))
@@ -1624,6 +1722,29 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +      SendMessage (hwnd, WM_MULE_IMM_SET_STATUS, 0, 0);
 +    }
 +  return Qnil;
++}
++
++DEFUN ("ime-get-mode", Fime_get_mode, Sime_get_mode, 0, 0, "",
++       doc: /* Get IME status.
++t means status of IME is open.  nil means it is close.  */)
++  (void)
++{
++  if (fIME && !NILP (Vime_control))
++    {
++      HWND hwnd;
++      int result;
++
++#ifdef HAVE_NTGUI
++      hwnd = FRAME_W32_WINDOW (SELECTED_FRAME ());
++#else
++      hwnd = hwndConsole;
++#endif
++      result = SendMessage (hwnd, WM_MULE_IMM_GET_STATUS, 0, 0);
++
++      return result ? Qt : Qnil;
++    }
++  else
++    return Qnil;
 +}
 +
 +DEFUN ("w32-set-ime-mode",
@@ -1862,7 +1983,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +  RECONVERTSTRING *reconv;
 +
 +  if (!ime_enable_reconversion ||
-+      NILP(Fw32_get_ime_open_status ()))
++      NILP(Fime_get_mode()))
 +    return Qnil;
 +
 +  if ((size = get_reconversion_string (hwnd, NULL, NULL))
@@ -1896,10 +2017,12 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +#endif
 +
 +#endif /* USE_W32_IME */
- 
- /***********************************************************************
++
++/***********************************************************************
  			 w32 specialized functions
-@@ -10754,6 +11895,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+  ***********************************************************************/
+ 
+@@ -10754,6 +11936,9 @@
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -1909,7 +2032,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
    0, /* x_set_sticky */
    w32_set_tool_bar_position,
    w32_set_inhibit_double_buffering,
-@@ -10779,6 +11923,10 @@ syms_of_w32fns (void)
+@@ -10779,6 +11964,10 @@
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -1920,7 +2043,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -11111,6 +12259,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -11111,6 +12300,27 @@
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -1948,7 +2071,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -11165,6 +12334,20 @@ keys when IME input is received.  */);
+@@ -11165,6 +12375,21 @@
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -1957,6 +2080,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
 +  defsubr (&Sw32_ime_register_word_dialog);
 +  defsubr (&Sime_force_on);
 +  defsubr (&Sime_force_off);
++  defsubr (&Sime_get_mode);
 +  defsubr (&Sime_get_property);
 +#ifdef RECONVERSION
 +  defsubr (&Sw32_ime_perform_reconversion);
@@ -1969,11 +2093,10 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  #ifdef WINDOWSNT
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
-diff --git a/src/w32font.c b/src/w32font.c
-index efb42d80336..064239bb51a 100644
---- a/src/w32font.c
-+++ b/src/w32font.c
-@@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
+diff -ruN emacs-30.0.91.orig/src/w32font.c emacs-30.0.91/src/w32font.c
+--- emacs-30.0.91.orig/src/w32font.c	2024-09-12 06:10:33.000000000 +0900
++++ emacs-30.0.91/src/w32font.c	2024-09-24 06:41:28.080750000 +0900
+@@ -55,7 +55,10 @@
  #define JOHAB_CHARSET 130
  #endif
  
@@ -1985,7 +2108,7 @@ index efb42d80336..064239bb51a 100644
  
  static BYTE w32_antialias_type (Lisp_Object);
  static Lisp_Object lispy_antialias_type (BYTE);
-@@ -2133,7 +2136,10 @@ w32_to_fc_weight (int n)
+@@ -2027,7 +2030,10 @@
  }
  
  /* Fill in all the available details of LOGFONT from FONT_SPEC.  */
@@ -1997,11 +2120,10 @@ index efb42d80336..064239bb51a 100644
  fill_in_logfont (struct frame *f, LOGFONT *logfont, Lisp_Object font_spec)
  {
    Lisp_Object tmp, extra;
-diff --git a/src/w32font.h b/src/w32font.h
-index 3f780c1d866..724d158a69d 100644
---- a/src/w32font.h
-+++ b/src/w32font.h
-@@ -83,6 +83,9 @@ int w32font_draw (struct glyph_string *s, int from, int to,
+diff -ruN emacs-30.0.91.orig/src/w32font.h emacs-30.0.91/src/w32font.h
+--- emacs-30.0.91.orig/src/w32font.h	2024-09-12 06:10:33.000000000 +0900
++++ emacs-30.0.91/src/w32font.h	2024-09-24 06:41:28.106744200 +0900
+@@ -83,6 +83,9 @@
  int uniscribe_check_otf (LOGFONT *font, Lisp_Object otf_spec);
  
  Lisp_Object intern_font_name (char *);
@@ -2011,13 +2133,12 @@ index 3f780c1d866..724d158a69d 100644
  
  extern void globals_of_w32font (void);
  
-diff --git a/src/w32term.c b/src/w32term.c
-index 62037e3b2cd..4153d2f5293 100644
---- a/src/w32term.c
-+++ b/src/w32term.c
-@@ -6094,6 +6094,107 @@ w32_read_socket (struct terminal *terminal,
+diff -ruN emacs-30.0.91.orig/src/w32term.c emacs-30.0.91/src/w32term.c
+--- emacs-30.0.91.orig/src/w32term.c	2024-09-12 06:10:33.000000000 +0900
++++ emacs-30.0.91/src/w32term.c	2024-09-24 06:41:28.137783800 +0900
+@@ -6325,6 +6325,107 @@
+ 	  (*pfnCloseTouchInputHandle) ((HANDLE) msg.msg.lParam);
  	  break;
- #endif
  
 +#ifdef USE_W32_IME
 +	case WM_MULE_IME_STATUS:
@@ -2120,10 +2241,10 @@ index 62037e3b2cd..4153d2f5293 100644
 +	  break;
 +#endif /* USE_W32_IME */
 +
- #if 0
- 	  /* These messages existed in prerelease versions of Windows 7,
- 	     yet, though superseded by just WM_TOUCHMOVE (renamed
-@@ -6697,7 +6798,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
+ 	default:
+ 	  /* Check for messages registered at runtime.  */
+ 	  if (msg.msg.message == msh_mousewheel)
+@@ -6697,7 +6798,12 @@
  	    + WINDOW_HEADER_LINE_HEIGHT (w);
  	  w32_system_caret_mode_height = WINDOW_MODE_LINE_HEIGHT (w);
  
@@ -2136,21 +2257,20 @@ index 62037e3b2cd..4153d2f5293 100644
  
  	  /* If the size of the active cursor changed, destroy the old
  	     system caret.  */
-@@ -8182,6 +8288,9 @@ w32_initialize (void)
-     horizontal_scroll_bar_left_border = horizontal_scroll_bar_right_border
-       = GetSystemMetrics (SM_CYHSCROLL);
+@@ -8142,6 +8248,9 @@
+ 
+     GetMessage (&msg, NULL, WM_EMACS_DONE, WM_EMACS_DONE);
    }
 +#ifdef USE_W32_IME
 +  w32_ime_control_init ();
 +#endif /* USE_W32_IME */
  
-   w32_get_mouse_wheel_vertical_delta ();
- }
-diff --git a/src/w32term.h b/src/w32term.h
-index 47be542f570..2f0eb4a3ccd 100644
---- a/src/w32term.h
-+++ b/src/w32term.h
-@@ -673,6 +673,8 @@ do { \
+   /* It is desirable that mainThread should have the same notion of
+      focus window and active window as windowsThread.  Unfortunately, the
+diff -ruN emacs-30.0.91.orig/src/w32term.h emacs-30.0.91/src/w32term.h
+--- emacs-30.0.91.orig/src/w32term.h	2024-09-12 06:10:33.000000000 +0900
++++ emacs-30.0.91/src/w32term.h	2024-09-24 06:41:28.168346300 +0900
+@@ -673,6 +673,8 @@
  #endif /* WM_MOUSEHWHEEL  */
  #ifndef WM_APPCOMMAND
  #define WM_APPCOMMAND 0x319
@@ -2159,7 +2279,7 @@ index 47be542f570..2f0eb4a3ccd 100644
  #define GET_APPCOMMAND_LPARAM(lParam)  (HIWORD(lParam) & 0x7fff)
  #endif
  #ifndef WM_UNICHAR
-@@ -712,6 +714,100 @@ do { \
+@@ -712,6 +714,100 @@
  #define WM_EMACS_IME_STATUS            (WM_EMACS_START + 26)
  #define WM_EMACS_END                   (WM_EMACS_START + 27)
  
@@ -2260,7 +2380,7 @@ index 47be542f570..2f0eb4a3ccd 100644
  #define WND_FONTWIDTH_INDEX    (0)
  #define WND_LINEHEIGHT_INDEX   (4)
  #define WND_BORDER_INDEX       (8)
-@@ -934,3 +1030,8 @@ extern void w32_init_main_thread (void);
+@@ -934,3 +1030,8 @@
  #ifdef CYGWIN
  extern int w32_message_fd;
  #endif /* CYGWIN */
@@ -2269,11 +2389,10 @@ index 47be542f570..2f0eb4a3ccd 100644
 +extern void w32_set_ime_logfont (HWND, struct frame *);
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
-diff --git a/src/window.c b/src/window.c
-index 34968ac824f..edc614130e8 100644
---- a/src/window.c
-+++ b/src/window.c
-@@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
+diff -ruN emacs-30.0.91.orig/src/window.c emacs-30.0.91/src/window.c
+--- emacs-30.0.91.orig/src/window.c	2024-09-12 06:10:33.000000000 +0900
++++ emacs-30.0.91/src/window.c	2024-09-24 06:41:28.197351100 +0900
+@@ -515,6 +515,9 @@
    struct frame *sf;
    Lisp_Object frame;
    struct frame *f;
@@ -2283,7 +2402,7 @@ index 34968ac824f..edc614130e8 100644
  
    CHECK_LIVE_WINDOW (window);
  
-@@ -579,6 +582,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
+@@ -579,6 +582,11 @@
        record_buffer (w->contents);
      }
  
@@ -2295,7 +2414,7 @@ index 34968ac824f..edc614130e8 100644
    return window;
  }
  
-@@ -4377,6 +4385,18 @@ This function runs `window-scroll-functions' before running
+@@ -4259,6 +4267,18 @@
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2314,7 +2433,7 @@ index 34968ac824f..edc614130e8 100644
    return Qnil;
  }
  
-@@ -8705,6 +8725,10 @@ syms_of_window (void)
+@@ -8567,6 +8587,10 @@
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2325,7 +2444,7 @@ index 34968ac824f..edc614130e8 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -9060,6 +9084,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -8920,6 +8944,17 @@
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2340,14 +2459,13 @@ index 34968ac824f..edc614130e8 100644
 +  Vselect_window_functions = Qnil;
 +#endif /* USE_W32_IME */
 +
-   DEFVAR_LISP ("window-dead-windows-table", window_dead_windows_table,
-     doc: /* Hash table of dead windows.
- Each entry in this table maps a window number to a window object.
-diff --git a/src/xdisp.c b/src/xdisp.c
-index 7883c579815..5c405c202f0 100644
---- a/src/xdisp.c
-+++ b/src/xdisp.c
-@@ -13720,8 +13720,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+   defsubr (&Sselected_window);
+   defsubr (&Sold_selected_window);
+   defsubr (&Sminibuffer_window);
+diff -ruN emacs-30.0.91.orig/src/xdisp.c emacs-30.0.91/src/xdisp.c
+--- emacs-30.0.91.orig/src/xdisp.c	2024-09-12 06:10:34.000000000 +0900
++++ emacs-30.0.91/src/xdisp.c	2024-09-24 06:41:28.236346300 +0900
+@@ -13625,9 +13625,24 @@
    return vector;
  }
  
@@ -2355,7 +2473,7 @@ index 7883c579815..5c405c202f0 100644
 +static void unwind_format_mode_line_0 (Lisp_Object vector);
  static void
  unwind_format_mode_line (Lisp_Object vector)
-+{
+ {
 +  specpdl_ref count = SPECPDL_INDEX ();
 +
 +  specbind (Qw32_ime_buffer_switch_p, Qnil);
@@ -2368,10 +2486,11 @@ index 7883c579815..5c405c202f0 100644
 +static void
 +unwind_format_mode_line (Lisp_Object vector)
 +#endif /* !USE_W32_IME */
- {
++{
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13978,8 +13993,23 @@ needs_no_redisplay (struct window *w)
+   Lisp_Object old_top_frame = AREF (vector, 9);
+@@ -13883,8 +13898,23 @@
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
@@ -2395,3 +2514,54 @@ index 7883c579815..5c405c202f0 100644
  {
    bool all_windows = windows_or_buffers_changed || update_mode_lines;
    bool some_windows = REDISPLAY_SOME_P ();
+diff -ruN emacs-30.0.91.orig/test/manual/noverlay/Makefile emacs-30.0.91/test/manual/noverlay/Makefile
+--- emacs-30.0.91.orig/test/manual/noverlay/Makefile	1970-01-01 09:00:00.000000000 +0900
++++ emacs-30.0.91/test/manual/noverlay/Makefile	2024-09-24 06:41:28.256349500 +0900
+@@ -0,0 +1,47 @@
++### test/manual/noverlay/Makefile.  Generated from Makefile.in by configure.
++
++# Copyright (C) 2017-2023 Free Software Foundation, Inc.
++
++# This file is part of GNU Emacs.
++
++# GNU Emacs is free software: you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation, either version 3 of the License, or
++# (at your option) any later version.
++
++# GNU Emacs is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++
++# You should have received a copy of the GNU General Public License
++# along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
++
++PROGRAM = itree-tests
++PACKAGES = check
++top_srcdir = ../../..
++top_builddir = ../../..
++CPPFLAGS += -I $(top_srcdir)/src
++CFLAGS += -O0 -g3 $(shell pkg-config --cflags $(PACKAGES))
++LDLIBS += $(shell pkg-config --libs $(PACKAGES)) -lm
++OBJECTS = itree-tests.o
++CC = gcc
++EMACS ?= $(top_builddir)/src/emacs
++
++.PHONY: all check clean distclean perf
++
++all: check
++
++check: $(PROGRAM)
++	./check-sanitize.sh ./$(PROGRAM)
++
++itree-tests.o: emacs-compat.h $(top_srcdir)/src/itree.c $(top_srcdir)/src/itree.h
++
++perf:
++	-$(EMACS) -Q -l ./overlay-perf.el -f perf-run-batch
++
++clean:
++	rm -f -- $(OBJECTS) $(PROGRAM)
++
++distclean: clean
++	rm -f -- Makefile
