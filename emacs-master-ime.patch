@@ -2344,10 +2344,10 @@ index 34968ac824f..edc614130e8 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 7883c579815..5c405c202f0 100644
+index c74e81a3933..ede1651caa0 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13720,8 +13720,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13731,8 +13731,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 7883c579815..5c405c202f0 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13978,8 +13993,23 @@ needs_no_redisplay (struct window *w)
+@@ -13989,8 +14004,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
