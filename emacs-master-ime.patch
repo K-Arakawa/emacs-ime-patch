@@ -672,10 +672,10 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 0a3f5c38a58..19c06f1f4f0 100644
+index 3ee13dcbbdd..3a5d7dd854d 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
-@@ -81,6 +81,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
+@@ -87,6 +87,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
  #include <imm.h>
  #include <windowsx.h>
  
@@ -687,7 +687,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  /*
    Internal/undocumented constants for Windows Dark mode.
    See: https://github.com/microsoft/WindowsAppSDK/issues/41
-@@ -99,14 +104,75 @@ typedef enum _WTS_VIRTUAL_CLASS {
+@@ -105,14 +110,75 @@ typedef enum _WTS_VIRTUAL_CLASS {
  #define FOF_NO_CONNECTED_ELEMENTS 0x2000
  #endif
  
@@ -763,7 +763,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  /* Prefix for system colors.  */
  #define SYSTEM_COLOR_PREFIX "System"
  #define SYSTEM_COLOR_PREFIX_LEN (sizeof (SYSTEM_COLOR_PREFIX) - 1)
-@@ -436,6 +502,17 @@ static void w32_set_icon_type (struct frame *, Lisp_Object, Lisp_Object);
+@@ -445,6 +511,17 @@ static void w32_set_icon_type (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_set_icon_name (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_explicitly_set_name (struct frame *, Lisp_Object, Lisp_Object);
  static void w32_set_title (struct frame *, Lisp_Object, Lisp_Object);
@@ -781,7 +781,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  
  
  /* Store the screen positions of frame F into XPTR and YPTR.
-@@ -4538,9 +4615,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4748,9 +4825,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				  w32_get_key_modifiers (wParam, lParam));
  	  windows_translate = 1;
  	  break;
@@ -801,7 +801,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  	  windows_translate = 1;
  	  break;
  	case VK_CANCEL:
-@@ -4682,6 +4768,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4892,6 +4978,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  	  TranslateMessage (&windows_msg);
  	  goto dflt;
  	}
@@ -826,7 +826,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
        /* Fall through */
        FALLTHROUGH;
  
-@@ -4701,6 +4805,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4911,6 +5015,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				w32_get_key_modifiers (wParam, lParam));
        break;
  
@@ -834,7 +834,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
      case WM_UNICHAR:
        /* WM_UNICHAR looks promising from the docs, but the exact
  	 circumstances in which TranslateMessage sends it is one of those
-@@ -4828,6 +4933,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -5038,6 +5143,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
      case WM_IME_ENDCOMPOSITION:
        ignore_ime_char = 0;
        goto dflt;
@@ -842,7 +842,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  
        /* Simulate middle mouse button events when left and right buttons
  	 are used together, but only if user has two button mouse. */
-@@ -5693,7 +5799,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -5902,7 +6008,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
        my_post_msg (&wmsg, hwnd, msg, wParam, lParam);
        return 1;
  
@@ -927,7 +927,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
        /* Check for messages registered at runtime. */
        if (msg == msh_mousewheel)
  	{
-@@ -5974,6 +6157,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
+@@ -6183,6 +6366,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
      }
  
    gui_default_parameter (f, parms, Qfont, font, "font", "Font", RES_TYPE_STRING);
@@ -938,7 +938,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8374,6 +8561,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8583,6 +8770,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -1899,7 +1899,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10754,6 +11895,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10963,6 +12104,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -1909,7 +1909,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
    0, /* x_set_sticky */
    w32_set_tool_bar_position,
    w32_set_inhibit_double_buffering,
-@@ -10779,6 +11923,10 @@ syms_of_w32fns (void)
+@@ -10988,6 +12132,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -1920,7 +1920,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -11111,6 +12259,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -11320,6 +12468,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -1948,7 +1948,7 @@ index 0a3f5c38a58..19c06f1f4f0 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -11165,6 +12334,20 @@ keys when IME input is received.  */);
+@@ -11374,6 +12543,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2012,10 +2012,10 @@ index 3f780c1d866..724d158a69d 100644
  extern void globals_of_w32font (void);
  
 diff --git a/src/w32term.c b/src/w32term.c
-index 62037e3b2cd..4153d2f5293 100644
+index 3a627308137..6c63bc3d884 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
-@@ -6094,6 +6094,107 @@ w32_read_socket (struct terminal *terminal,
+@@ -6034,6 +6034,107 @@ w32_read_socket (struct terminal *terminal,
  	  break;
  #endif
  
@@ -2123,7 +2123,7 @@ index 62037e3b2cd..4153d2f5293 100644
  #if 0
  	  /* These messages existed in prerelease versions of Windows 7,
  	     yet, though superseded by just WM_TOUCHMOVE (renamed
-@@ -6697,7 +6798,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
+@@ -6637,7 +6738,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
  	    + WINDOW_HEADER_LINE_HEIGHT (w);
  	  w32_system_caret_mode_height = WINDOW_MODE_LINE_HEIGHT (w);
  
@@ -2136,7 +2136,7 @@ index 62037e3b2cd..4153d2f5293 100644
  
  	  /* If the size of the active cursor changed, destroy the old
  	     system caret.  */
-@@ -8182,6 +8288,9 @@ w32_initialize (void)
+@@ -8122,6 +8228,9 @@ w32_initialize (void)
      horizontal_scroll_bar_left_border = horizontal_scroll_bar_right_border
        = GetSystemMetrics (SM_CYHSCROLL);
    }
@@ -2147,10 +2147,10 @@ index 62037e3b2cd..4153d2f5293 100644
    w32_get_mouse_wheel_vertical_delta ();
  }
 diff --git a/src/w32term.h b/src/w32term.h
-index 47be542f570..2f0eb4a3ccd 100644
+index 39e2262e2a8..0e6bcf5e8d3 100644
 --- a/src/w32term.h
 +++ b/src/w32term.h
-@@ -673,6 +673,8 @@ do { \
+@@ -674,6 +674,8 @@ do { \
  #endif /* WM_MOUSEHWHEEL  */
  #ifndef WM_APPCOMMAND
  #define WM_APPCOMMAND 0x319
@@ -2159,9 +2159,9 @@ index 47be542f570..2f0eb4a3ccd 100644
  #define GET_APPCOMMAND_LPARAM(lParam)  (HIWORD(lParam) & 0x7fff)
  #endif
  #ifndef WM_UNICHAR
-@@ -712,6 +714,100 @@ do { \
- #define WM_EMACS_IME_STATUS            (WM_EMACS_START + 26)
- #define WM_EMACS_END                   (WM_EMACS_START + 27)
+@@ -714,6 +716,100 @@ do { \
+ #define WM_EMACS_DROP                  (WM_EMACS_START + 27)
+ #define WM_EMACS_END                   (WM_EMACS_START + 28)
  
 +#ifdef USE_W32_IME
 +#undef IME_UNICODE
@@ -2260,7 +2260,7 @@ index 47be542f570..2f0eb4a3ccd 100644
  #define WND_FONTWIDTH_INDEX    (0)
  #define WND_LINEHEIGHT_INDEX   (4)
  #define WND_BORDER_INDEX       (8)
-@@ -934,3 +1030,8 @@ extern void w32_init_main_thread (void);
+@@ -936,3 +1032,8 @@ extern void w32_init_main_thread (void);
  #ifdef CYGWIN
  extern int w32_message_fd;
  #endif /* CYGWIN */
