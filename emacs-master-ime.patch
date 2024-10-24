@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 8a5ba7db3d1..2782a337f75 100644
+index 947c2827b8e..33398fd754f 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -577,6 +577,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 8a5ba7db3d1..2782a337f75 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7727,6 +7731,42 @@ else
+@@ -7730,6 +7734,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -448,7 +448,7 @@ index 00000000000..66d51b800d6
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 6320af1e79f..74b3776933f 100644
+index 38df2a23cac..0af83abc127 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
 @@ -29628,6 +29628,14 @@ twice for the others.
@@ -2270,7 +2270,7 @@ index 39e2262e2a8..0e6bcf5e8d3 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 34968ac824f..edc614130e8 100644
+index 7f157911685..743fc959090 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
