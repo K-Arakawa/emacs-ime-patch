@@ -672,7 +672,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index eb42d3b61b2..9f0c21dea78 100644
+index e2455b9271e..dfaaab0ff67 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -87,6 +87,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
@@ -781,7 +781,7 @@ index eb42d3b61b2..9f0c21dea78 100644
  
  
  /* Store the screen positions of frame F into XPTR and YPTR.
-@@ -4763,9 +4840,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4782,9 +4859,18 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				  w32_get_key_modifiers (wParam, lParam));
  	  windows_translate = 1;
  	  break;
@@ -801,7 +801,7 @@ index eb42d3b61b2..9f0c21dea78 100644
  	  windows_translate = 1;
  	  break;
  	case VK_CANCEL:
-@@ -4907,6 +4993,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4926,6 +5012,24 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  	  TranslateMessage (&windows_msg);
  	  goto dflt;
  	}
@@ -826,7 +826,7 @@ index eb42d3b61b2..9f0c21dea78 100644
        /* Fall through */
        FALLTHROUGH;
  
-@@ -4926,6 +5030,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -4945,6 +5049,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
  				w32_get_key_modifiers (wParam, lParam));
        break;
  
@@ -834,7 +834,7 @@ index eb42d3b61b2..9f0c21dea78 100644
      case WM_UNICHAR:
        /* WM_UNICHAR looks promising from the docs, but the exact
  	 circumstances in which TranslateMessage sends it is one of those
-@@ -5053,6 +5158,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -5072,6 +5177,7 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
      case WM_IME_ENDCOMPOSITION:
        ignore_ime_char = 0;
        goto dflt;
@@ -842,7 +842,7 @@ index eb42d3b61b2..9f0c21dea78 100644
  
        /* Simulate middle mouse button events when left and right buttons
  	 are used together, but only if user has two button mouse. */
-@@ -5917,7 +6023,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+@@ -5936,7 +6042,84 @@ w32_wnd_proc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
        my_post_msg (&wmsg, hwnd, msg, wParam, lParam);
        return 1;
  
@@ -927,7 +927,7 @@ index eb42d3b61b2..9f0c21dea78 100644
        /* Check for messages registered at runtime. */
        if (msg == msh_mousewheel)
  	{
-@@ -6198,6 +6381,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
+@@ -6217,6 +6400,10 @@ w32_default_font_parameter (struct frame *f, Lisp_Object parms)
      }
  
    gui_default_parameter (f, parms, Qfont, font, "font", "Font", RES_TYPE_STRING);
@@ -938,7 +938,7 @@ index eb42d3b61b2..9f0c21dea78 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8598,6 +8785,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8617,6 +8804,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -1899,7 +1899,7 @@ index eb42d3b61b2..9f0c21dea78 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10978,6 +12119,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10997,6 +12138,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -1909,7 +1909,7 @@ index eb42d3b61b2..9f0c21dea78 100644
    0, /* x_set_sticky */
    w32_set_tool_bar_position,
    w32_set_inhibit_double_buffering,
-@@ -11003,6 +12147,10 @@ syms_of_w32fns (void)
+@@ -11022,6 +12166,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -1920,7 +1920,7 @@ index eb42d3b61b2..9f0c21dea78 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -11335,6 +12483,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -11354,6 +12502,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -1948,7 +1948,7 @@ index eb42d3b61b2..9f0c21dea78 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -11389,6 +12558,20 @@ keys when IME input is received.  */);
+@@ -11408,6 +12577,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2344,7 +2344,7 @@ index 7f157911685..743fc959090 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index c74e81a3933..ede1651caa0 100644
+index 1f28ac43d8b..36259cf695c 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13731,8 +13731,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
