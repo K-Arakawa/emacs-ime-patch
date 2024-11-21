@@ -1970,7 +1970,7 @@ index e2455b9271e..dfaaab0ff67 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index 48968a28fbd..8ac50abcb23 100644
+index 2e6f8bed3e7..f4b36f0433f 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -2344,10 +2344,10 @@ index 7f157911685..743fc959090 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 1f28ac43d8b..36259cf695c 100644
+index 0fa3c34c314..265cd3f2085 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13731,8 +13731,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13733,8 +13733,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 1f28ac43d8b..36259cf695c 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13989,8 +14004,23 @@ needs_no_redisplay (struct window *w)
+@@ -13991,8 +14006,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
