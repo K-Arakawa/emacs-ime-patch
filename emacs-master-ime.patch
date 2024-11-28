@@ -448,10 +448,10 @@ index 00000000000..66d51b800d6
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 38df2a23cac..0af83abc127 100644
+index 648633004c9..036d1bde280 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -29628,6 +29628,14 @@ twice for the others.
+@@ -29724,6 +29724,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -466,7 +466,7 @@ index 38df2a23cac..0af83abc127 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -36778,6 +36786,15 @@ Visual-Wrap-Prefix mode.
+@@ -36898,6 +36906,15 @@ Visual-Wrap-Prefix mode.
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
