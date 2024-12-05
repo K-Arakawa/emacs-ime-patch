@@ -495,7 +495,7 @@ index bd74a9d6aff..3e42a41d105 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index 7f4bf274ad9..4a40f40fee7 100644
+index f6053fca3ef..f4f85d88c88 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1477,8 +1477,24 @@ affects all frames on the same terminal device.  */)
