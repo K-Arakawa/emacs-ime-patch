@@ -483,7 +483,7 @@ index 648633004c9..036d1bde280 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index bd74a9d6aff..3e42a41d105 100644
+index 613833c4184..2180f03971f 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -341,6 +341,7 @@
@@ -2344,7 +2344,7 @@ index 7f157911685..743fc959090 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 0fa3c34c314..265cd3f2085 100644
+index 7b0e2644078..4b5b86116cf 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13733,8 +13733,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
