@@ -495,10 +495,10 @@ index 613833c4184..2180f03971f 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index f6053fca3ef..f4f85d88c88 100644
+index 547ad0da962..5b87e6ad5b2 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1477,8 +1477,24 @@ affects all frames on the same terminal device.  */)
+@@ -1641,8 +1641,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -521,9 +521,9 @@ index f6053fca3ef..f4f85d88c88 100644
  do_switch_frame (Lisp_Object frame, int track, int for_deletion, Lisp_Object norecord)
 +#endif /* !USE_W32_IME */
  {
-   struct frame *sf = SELECTED_FRAME (), *f;
- 
-@@ -4040,6 +4056,9 @@ static const struct frame_parm_table frame_parms[] =
+   /* If FRAME is a switch-frame event, extract the frame we should
+      switch to.  */
+@@ -4282,6 +4298,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -534,7 +534,7 @@ index f6053fca3ef..f4f85d88c88 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 6d28dca9aeb..0ca910b3bd6 100644
+index fe485a3efd6..0dc7a0047bb 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -359,6 +359,11 @@ static struct timespec timer_idleness_start_time;
@@ -564,7 +564,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -5149,7 +5162,11 @@ const char *const lispy_function_keys[] =
+@@ -5148,7 +5161,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -576,7 +576,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -10428,6 +10445,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10427,6 +10444,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -596,7 +596,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -10563,6 +10593,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10562,6 +10592,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -609,7 +609,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -10657,6 +10693,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10656,6 +10692,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -626,7 +626,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10824,6 +10870,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10823,6 +10869,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -637,7 +637,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -11389,6 +11439,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -11388,6 +11438,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -649,7 +649,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -12240,6 +12295,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -12239,6 +12294,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -660,7 +660,7 @@ index 6d28dca9aeb..0ca910b3bd6 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -12689,6 +12748,10 @@ init_keyboard (void)
+@@ -12688,6 +12747,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2012,7 +2012,7 @@ index 74552a5bee5..7b155ffb176 100644
  /* Function prototypes for DirectWrite.  */
  void w32_initialize_direct_write (void);
 diff --git a/src/w32term.c b/src/w32term.c
-index e18f39dd2a8..7252894f8fd 100644
+index aceb721f92b..93c077f4afd 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -6092,6 +6092,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2123,7 +2123,7 @@ index e18f39dd2a8..7252894f8fd 100644
  #if 0
  	  /* These messages existed in prerelease versions of Windows 7,
  	     yet, though superseded by just WM_TOUCHMOVE (renamed
-@@ -6695,7 +6796,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
+@@ -6676,7 +6777,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
  	    + WINDOW_HEADER_LINE_HEIGHT (w);
  	  w32_system_caret_mode_height = WINDOW_MODE_LINE_HEIGHT (w);
  
@@ -2136,7 +2136,7 @@ index e18f39dd2a8..7252894f8fd 100644
  
  	  /* If the size of the active cursor changed, destroy the old
  	     system caret.  */
-@@ -8180,6 +8286,9 @@ w32_initialize (void)
+@@ -8161,6 +8267,9 @@ w32_initialize (void)
      horizontal_scroll_bar_left_border = horizontal_scroll_bar_right_border
        = GetSystemMetrics (SM_CYHSCROLL);
    }
@@ -2344,10 +2344,10 @@ index 7f157911685..743fc959090 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 7b0e2644078..4b5b86116cf 100644
+index 08016a6e2a5..a121c7de381 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13733,8 +13733,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13721,8 +13721,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 7b0e2644078..4b5b86116cf 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13991,8 +14006,23 @@ needs_no_redisplay (struct window *w)
+@@ -13979,8 +13994,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
