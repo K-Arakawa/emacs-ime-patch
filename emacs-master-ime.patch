@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 1c7545ef984..4cd8faf56f2 100644
+index 18cbb42b0ef..2aed713d7e9 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -577,6 +577,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -11,9 +11,9 @@ index 1c7545ef984..4cd8faf56f2 100644
 +OPTION_DEFAULT_ON([documentfeed], [don't compile with DOCUMENTFEED support])
 +
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
- OPTION_DEFAULT_ON([dbus],[don't compile with D-Bus support])
+ OPTION_DEFAULT_IFAVAILABLE([dbus],[compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7730,6 +7734,42 @@ else
+@@ -7735,6 +7739,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -495,10 +495,10 @@ index 613833c4184..2180f03971f 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index 547ad0da962..5b87e6ad5b2 100644
+index 36b314c075e..c53e8bf8db3 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1641,8 +1641,24 @@ affects all frames on the same terminal device.  */)
+@@ -1659,8 +1659,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -523,7 +523,7 @@ index 547ad0da962..5b87e6ad5b2 100644
  {
    /* If FRAME is a switch-frame event, extract the frame we should
       switch to.  */
-@@ -4282,6 +4298,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4300,6 +4316,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -1970,7 +1970,7 @@ index e2455b9271e..dfaaab0ff67 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index 2e6f8bed3e7..f4b36f0433f 100644
+index d0e837520c9..3a473cb2879 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -1985,7 +1985,7 @@ index 2e6f8bed3e7..f4b36f0433f 100644
  
  static BYTE w32_antialias_type (Lisp_Object);
  static Lisp_Object lispy_antialias_type (BYTE);
-@@ -2146,7 +2149,10 @@ w32_to_fc_weight (int n)
+@@ -2138,7 +2141,10 @@ w32_to_fc_weight (int n)
  }
  
  /* Fill in all the available details of LOGFONT from FONT_SPEC.  */
@@ -2344,7 +2344,7 @@ index 7f157911685..743fc959090 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 08016a6e2a5..a121c7de381 100644
+index ceb727d1135..0f47c0223ca 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13721,8 +13721,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
