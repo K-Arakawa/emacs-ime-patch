@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 18cbb42b0ef..2aed713d7e9 100644
+index f78997ede24..d1fa262cf30 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -577,6 +577,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 18cbb42b0ef..2aed713d7e9 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_IFAVAILABLE([dbus],[compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7735,6 +7739,42 @@ else
+@@ -7702,6 +7706,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -483,7 +483,7 @@ index 648633004c9..036d1bde280 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 613833c4184..2180f03971f 100644
+index 6f8e7036999..6f02058f8b9 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -341,6 +341,7 @@
@@ -495,7 +495,7 @@ index 613833c4184..2180f03971f 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index 36b314c075e..c53e8bf8db3 100644
+index 7c07100e944..3586eb4b1dd 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1659,8 +1659,24 @@ affects all frames on the same terminal device.  */)
@@ -534,7 +534,7 @@ index 36b314c075e..c53e8bf8db3 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index fe485a3efd6..0dc7a0047bb 100644
+index f36243dd442..b2243873b16 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -359,6 +359,11 @@ static struct timespec timer_idleness_start_time;
@@ -672,7 +672,7 @@ index fe485a3efd6..0dc7a0047bb 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index e2455b9271e..dfaaab0ff67 100644
+index c7963d2c616..e8bbbf92e5d 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -87,6 +87,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
@@ -1970,7 +1970,7 @@ index e2455b9271e..dfaaab0ff67 100644
    defsubr (&Sw32_read_registry);
    defsubr (&Sfile_system_info);
 diff --git a/src/w32font.c b/src/w32font.c
-index d0e837520c9..3a473cb2879 100644
+index f44a7c124c9..c51b8ed062c 100644
 --- a/src/w32font.c
 +++ b/src/w32font.c
 @@ -55,7 +55,10 @@ along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.  */
@@ -1998,7 +1998,7 @@ index d0e837520c9..3a473cb2879 100644
  {
    Lisp_Object tmp, extra;
 diff --git a/src/w32font.h b/src/w32font.h
-index 74552a5bee5..7b155ffb176 100644
+index 9447dc27d1a..f07ac0b01d6 100644
 --- a/src/w32font.h
 +++ b/src/w32font.h
 @@ -103,6 +103,9 @@ int w32font_draw (struct glyph_string *s, int from, int to,
@@ -2012,7 +2012,7 @@ index 74552a5bee5..7b155ffb176 100644
  /* Function prototypes for DirectWrite.  */
  void w32_initialize_direct_write (void);
 diff --git a/src/w32term.c b/src/w32term.c
-index aceb721f92b..93c077f4afd 100644
+index c81779b8517..d6c5a0a4781 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -6092,6 +6092,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2147,7 +2147,7 @@ index aceb721f92b..93c077f4afd 100644
    w32_get_mouse_wheel_vertical_delta ();
  }
 diff --git a/src/w32term.h b/src/w32term.h
-index cad9fcf8cb1..89f8c9c0f33 100644
+index 2483ca9036c..4c4bdc0e139 100644
 --- a/src/w32term.h
 +++ b/src/w32term.h
 @@ -674,6 +674,8 @@ do { \
@@ -2270,7 +2270,7 @@ index cad9fcf8cb1..89f8c9c0f33 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 7f157911685..743fc959090 100644
+index 17bbe213e05..6103b83a049 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2295,7 +2295,7 @@ index 7f157911685..743fc959090 100644
    return window;
  }
  
-@@ -4377,6 +4385,18 @@ This function runs `window-scroll-functions' before running
+@@ -4410,6 +4418,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2314,7 +2314,7 @@ index 7f157911685..743fc959090 100644
    return Qnil;
  }
  
-@@ -8705,6 +8725,10 @@ syms_of_window (void)
+@@ -8738,6 +8758,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2325,7 +2325,7 @@ index 7f157911685..743fc959090 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -9060,6 +9084,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -9093,6 +9117,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2344,7 +2344,7 @@ index 7f157911685..743fc959090 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index ceb727d1135..0f47c0223ca 100644
+index 4087ff975ee..339b3626cfe 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13721,8 +13721,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
