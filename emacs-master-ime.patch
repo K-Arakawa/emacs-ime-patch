@@ -495,10 +495,10 @@ index 6f8e7036999..6f02058f8b9 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index 7c07100e944..3586eb4b1dd 100644
+index 4559bc41ab8..75731a60627 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1659,8 +1659,24 @@ affects all frames on the same terminal device.  */)
+@@ -1704,8 +1704,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -523,7 +523,7 @@ index 7c07100e944..3586eb4b1dd 100644
  {
    /* If FRAME is a switch-frame event, extract the frame we should
       switch to.  */
-@@ -4300,6 +4316,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4387,6 +4403,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -672,7 +672,7 @@ index f36243dd442..b2243873b16 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index c7963d2c616..e8bbbf92e5d 100644
+index 452740f46ca..47e1f68fbb1 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -87,6 +87,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
@@ -938,7 +938,7 @@ index c7963d2c616..e8bbbf92e5d 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8617,6 +8804,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8615,6 +8802,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -1899,7 +1899,7 @@ index c7963d2c616..e8bbbf92e5d 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10997,6 +12138,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -10995,6 +12136,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -1909,7 +1909,7 @@ index c7963d2c616..e8bbbf92e5d 100644
    0, /* x_set_sticky */
    w32_set_tool_bar_position,
    w32_set_inhibit_double_buffering,
-@@ -11022,6 +12166,10 @@ syms_of_w32fns (void)
+@@ -11020,6 +12164,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -1920,7 +1920,7 @@ index c7963d2c616..e8bbbf92e5d 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -11354,6 +12502,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -11352,6 +12500,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -1948,7 +1948,7 @@ index c7963d2c616..e8bbbf92e5d 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -11408,6 +12577,20 @@ keys when IME input is received.  */);
+@@ -11406,6 +12575,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2012,7 +2012,7 @@ index 9447dc27d1a..f07ac0b01d6 100644
  /* Function prototypes for DirectWrite.  */
  void w32_initialize_direct_write (void);
 diff --git a/src/w32term.c b/src/w32term.c
-index c81779b8517..d6c5a0a4781 100644
+index cb7bc7e4540..4c96d408eb3 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
 @@ -6092,6 +6092,107 @@ w32_read_socket (struct terminal *terminal,
@@ -2270,7 +2270,7 @@ index 2483ca9036c..4c4bdc0e139 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 17bbe213e05..6103b83a049 100644
+index d7e6cd00c99..1600a79fe48 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2295,7 +2295,7 @@ index 17bbe213e05..6103b83a049 100644
    return window;
  }
  
-@@ -4410,6 +4418,18 @@ This function runs `window-scroll-functions' before running
+@@ -4443,6 +4451,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2314,7 +2314,7 @@ index 17bbe213e05..6103b83a049 100644
    return Qnil;
  }
  
-@@ -8738,6 +8758,10 @@ syms_of_window (void)
+@@ -8844,6 +8864,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2325,7 +2325,7 @@ index 17bbe213e05..6103b83a049 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -9093,6 +9117,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -9199,6 +9223,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
