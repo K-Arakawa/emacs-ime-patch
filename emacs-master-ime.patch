@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index f78997ede24..d1fa262cf30 100644
+index ba39074c83a..7475477d10d 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -577,6 +577,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index f78997ede24..d1fa262cf30 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_IFAVAILABLE([dbus],[compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7702,6 +7706,42 @@ else
+@@ -7722,6 +7726,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -495,7 +495,7 @@ index 6f8e7036999..6f02058f8b9 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index 4559bc41ab8..75731a60627 100644
+index c77b016b709..60ebfed4abc 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1704,8 +1704,24 @@ affects all frames on the same terminal device.  */)
@@ -523,7 +523,7 @@ index 4559bc41ab8..75731a60627 100644
  {
    /* If FRAME is a switch-frame event, extract the frame we should
       switch to.  */
-@@ -4387,6 +4403,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4396,6 +4412,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -534,7 +534,7 @@ index 4559bc41ab8..75731a60627 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index f36243dd442..b2243873b16 100644
+index 6208b333e9c..b3f6b2613ac 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -359,6 +359,11 @@ static struct timespec timer_idleness_start_time;
@@ -672,7 +672,7 @@ index f36243dd442..b2243873b16 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 452740f46ca..47e1f68fbb1 100644
+index 225a3a0999e..cfd8322523b 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -87,6 +87,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
@@ -938,7 +938,7 @@ index 452740f46ca..47e1f68fbb1 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8615,6 +8802,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8614,6 +8801,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -2270,7 +2270,7 @@ index 2483ca9036c..4c4bdc0e139 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index d7e6cd00c99..1600a79fe48 100644
+index 0ed1b53d866..786f4ce4eb1 100644
 --- a/src/window.c
 +++ b/src/window.c
 @@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
@@ -2344,7 +2344,7 @@ index d7e6cd00c99..1600a79fe48 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 4087ff975ee..339b3626cfe 100644
+index ba8ba1b72e3..ec559b4cc3c 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13721,8 +13721,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
