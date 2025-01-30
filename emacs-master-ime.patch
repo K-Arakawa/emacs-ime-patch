@@ -495,10 +495,10 @@ index 6f8e7036999..6f02058f8b9 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index c77b016b709..60ebfed4abc 100644
+index 4f3c1efc4a7..051c9b98990 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1704,8 +1704,24 @@ affects all frames on the same terminal device.  */)
+@@ -1703,8 +1703,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -523,7 +523,7 @@ index c77b016b709..60ebfed4abc 100644
  {
    /* If FRAME is a switch-frame event, extract the frame we should
       switch to.  */
-@@ -4396,6 +4412,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4387,6 +4403,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -534,7 +534,7 @@ index c77b016b709..60ebfed4abc 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 6208b333e9c..b3f6b2613ac 100644
+index 850b5e06480..d4863e57fd5 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -359,6 +359,11 @@ static struct timespec timer_idleness_start_time;
@@ -2012,10 +2012,10 @@ index 9447dc27d1a..f07ac0b01d6 100644
  /* Function prototypes for DirectWrite.  */
  void w32_initialize_direct_write (void);
 diff --git a/src/w32term.c b/src/w32term.c
-index cb7bc7e4540..4c96d408eb3 100644
+index 5613ade01ce..1bf9a9e4d5c 100644
 --- a/src/w32term.c
 +++ b/src/w32term.c
-@@ -6092,6 +6092,107 @@ w32_read_socket (struct terminal *terminal,
+@@ -6091,6 +6091,107 @@ w32_read_socket (struct terminal *terminal,
  	  break;
  #endif
  
@@ -2123,7 +2123,7 @@ index cb7bc7e4540..4c96d408eb3 100644
  #if 0
  	  /* These messages existed in prerelease versions of Windows 7,
  	     yet, though superseded by just WM_TOUCHMOVE (renamed
-@@ -6676,7 +6777,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
+@@ -6675,7 +6776,12 @@ w32_draw_window_cursor (struct window *w, struct glyph_row *glyph_row,
  	    + WINDOW_HEADER_LINE_HEIGHT (w);
  	  w32_system_caret_mode_height = WINDOW_MODE_LINE_HEIGHT (w);
  
@@ -2136,7 +2136,7 @@ index cb7bc7e4540..4c96d408eb3 100644
  
  	  /* If the size of the active cursor changed, destroy the old
  	     system caret.  */
-@@ -8161,6 +8267,9 @@ w32_initialize (void)
+@@ -8160,6 +8266,9 @@ w32_initialize (void)
      horizontal_scroll_bar_left_border = horizontal_scroll_bar_right_border
        = GetSystemMetrics (SM_CYHSCROLL);
    }
@@ -2270,10 +2270,10 @@ index 2483ca9036c..4c4bdc0e139 100644
 +extern void w32_ime_control_init (void);
 +#endif /* USE_W32_IME */
 diff --git a/src/window.c b/src/window.c
-index 0ed1b53d866..786f4ce4eb1 100644
+index 330a95a716f..153dc969585 100644
 --- a/src/window.c
 +++ b/src/window.c
-@@ -515,6 +515,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
+@@ -518,6 +518,9 @@ select_window (Lisp_Object window, Lisp_Object norecord,
    struct frame *sf;
    Lisp_Object frame;
    struct frame *f;
@@ -2283,7 +2283,7 @@ index 0ed1b53d866..786f4ce4eb1 100644
  
    CHECK_LIVE_WINDOW (window);
  
-@@ -579,6 +582,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
+@@ -582,6 +585,11 @@ select_window (Lisp_Object window, Lisp_Object norecord,
        record_buffer (w->contents);
      }
  
@@ -2295,7 +2295,7 @@ index 0ed1b53d866..786f4ce4eb1 100644
    return window;
  }
  
-@@ -4443,6 +4451,18 @@ This function runs `window-scroll-functions' before running
+@@ -4446,6 +4454,18 @@ This function runs `window-scroll-functions' before running
  
    set_window_buffer (window, buffer, true, !NILP (keep_margins));
  
@@ -2314,7 +2314,7 @@ index 0ed1b53d866..786f4ce4eb1 100644
    return Qnil;
  }
  
-@@ -8844,6 +8864,10 @@ syms_of_window (void)
+@@ -8850,6 +8870,10 @@ syms_of_window (void)
    DEFSYM (Qwindow_size_change_functions, "window-size-change-functions");
    DEFSYM (Qwindow_buffer_change_functions, "window-buffer-change-functions");
    DEFSYM (Qwindow_selection_change_functions, "window-selection-change-functions");
@@ -2325,7 +2325,7 @@ index 0ed1b53d866..786f4ce4eb1 100644
    DEFSYM (Qwindowp, "windowp");
    DEFSYM (Qwindow_configuration_p, "window-configuration-p");
    DEFSYM (Qwindow_live_p, "window-live-p");
-@@ -9199,6 +9223,17 @@ Note that this optimization can cause the portion of the buffer
+@@ -9205,6 +9229,17 @@ Note that this optimization can cause the portion of the buffer
  displayed after a scrolling operation to be somewhat inaccurate.  */);
    fast_but_imprecise_scrolling = false;
  
@@ -2344,10 +2344,10 @@ index 0ed1b53d866..786f4ce4eb1 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index ba8ba1b72e3..ec559b4cc3c 100644
+index a801caae06f..4de999b713a 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13721,8 +13721,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13733,8 +13733,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index ba8ba1b72e3..ec559b4cc3c 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13979,8 +13994,23 @@ needs_no_redisplay (struct window *w)
+@@ -13991,8 +14006,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
