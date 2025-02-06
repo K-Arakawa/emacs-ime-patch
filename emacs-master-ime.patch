@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index ba39074c83a..7475477d10d 100644
+index 33d04a5bdb9..100080b166c 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -577,6 +577,10 @@ On by default on macOS.])],[],[with_ns=maybe])
+@@ -550,6 +550,10 @@ On by default on macOS.])],[],[with_ns=maybe])
  OPTION_DEFAULT_OFF([w32], [use native MS Windows GUI in a Cygwin build])
  OPTION_DEFAULT_OFF([pgtk], [use GTK to support window systems other than X])
  
@@ -13,7 +13,7 @@ index ba39074c83a..7475477d10d 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_IFAVAILABLE([dbus],[compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7722,6 +7726,42 @@ else
+@@ -7458,6 +7462,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -483,10 +483,10 @@ index 648633004c9..036d1bde280 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 6f8e7036999..6f02058f8b9 100644
+index 98a47f2867f..228eb15094f 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
-@@ -341,6 +341,7 @@
+@@ -331,6 +331,7 @@
        (load "w32-vars")
        (load "term/w32-win")
        (load "disp-table")
@@ -495,7 +495,7 @@ index 6f8e7036999..6f02058f8b9 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index 4f3c1efc4a7..051c9b98990 100644
+index 6e125b9561c..08b448977e4 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1703,8 +1703,24 @@ affects all frames on the same terminal device.  */)
@@ -523,7 +523,7 @@ index 4f3c1efc4a7..051c9b98990 100644
  {
    /* If FRAME is a switch-frame event, extract the frame we should
       switch to.  */
-@@ -4387,6 +4403,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4386,6 +4402,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -534,7 +534,7 @@ index 4f3c1efc4a7..051c9b98990 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 850b5e06480..d4863e57fd5 100644
+index 2d8c45c05ee..3bf37be4ce7 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -359,6 +359,11 @@ static struct timespec timer_idleness_start_time;
@@ -672,7 +672,7 @@ index 850b5e06480..d4863e57fd5 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 225a3a0999e..cfd8322523b 100644
+index 89a4d46240a..0b7bcbfbd7f 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -87,6 +87,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
@@ -2344,10 +2344,10 @@ index 330a95a716f..153dc969585 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index a801caae06f..4de999b713a 100644
+index 804a19e048f..1f2e13f415d 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13733,8 +13733,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13735,8 +13735,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index a801caae06f..4de999b713a 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13991,8 +14006,23 @@ needs_no_redisplay (struct window *w)
+@@ -13993,8 +14008,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
