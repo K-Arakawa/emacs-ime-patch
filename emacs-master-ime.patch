@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 33d04a5bdb9..100080b166c 100644
+index 089a18959e3..c4c5acd000a 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -550,6 +550,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 33d04a5bdb9..100080b166c 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_IFAVAILABLE([dbus],[compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7458,6 +7462,42 @@ else
+@@ -7469,6 +7473,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -448,10 +448,10 @@ index 00000000000..66d51b800d6
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index 648633004c9..036d1bde280 100644
+index c1deb84754d..d33e2aa56ff 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -29724,6 +29724,14 @@ twice for the others.
+@@ -29778,6 +29778,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -466,7 +466,7 @@ index 648633004c9..036d1bde280 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -36898,6 +36906,15 @@ Visual-Wrap-Prefix mode.
+@@ -36993,6 +37001,15 @@ Visual-Wrap-Prefix mode.
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -495,10 +495,10 @@ index 98a47f2867f..228eb15094f 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index 6e125b9561c..08b448977e4 100644
+index 2ccdec6fc41..4a102a6452a 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1703,8 +1703,24 @@ affects all frames on the same terminal device.  */)
+@@ -1736,8 +1736,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -523,7 +523,7 @@ index 6e125b9561c..08b448977e4 100644
  {
    /* If FRAME is a switch-frame event, extract the frame we should
       switch to.  */
-@@ -4386,6 +4402,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4422,6 +4438,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -534,7 +534,7 @@ index 6e125b9561c..08b448977e4 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index 2d8c45c05ee..3bf37be4ce7 100644
+index b22814d702d..48bf2b2cf75 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -359,6 +359,11 @@ static struct timespec timer_idleness_start_time;
@@ -564,7 +564,7 @@ index 2d8c45c05ee..3bf37be4ce7 100644
    if (NILP (Vmemory_full))
      {
        /* Make sure this hook runs after commands that get errors and
-@@ -5148,7 +5161,11 @@ const char *const lispy_function_keys[] =
+@@ -5149,7 +5162,11 @@ const char *const lispy_function_keys[] =
      "junja",          /* VK_JUNJA          0x17 */
      "final",          /* VK_FINAL          0x18 */
      "kanji",          /* VK_KANJI/VK_HANJA 0x19 */
@@ -576,7 +576,7 @@ index 2d8c45c05ee..3bf37be4ce7 100644
      "escape",         /* VK_ESCAPE         0x1B */
      "convert",        /* VK_CONVERT        0x1C */
      "non-convert",    /* VK_NONCONVERT     0x1D */
-@@ -10427,6 +10444,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10438,6 +10455,19 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  {
    specpdl_ref count = SPECPDL_INDEX ();
  
@@ -596,7 +596,7 @@ index 2d8c45c05ee..3bf37be4ce7 100644
    /* How many keys there are in the current key sequence.  */
    int t;
  
-@@ -10562,6 +10592,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10573,6 +10603,12 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
       keybuf[0..mock_input] holds the sequence we should reread.  */
   replay_sequence:
  
@@ -609,7 +609,7 @@ index 2d8c45c05ee..3bf37be4ce7 100644
    starting_buffer = current_buffer;
    first_unbound = READ_KEY_ELTS + 1;
    Lisp_Object first_event = mock_input > 0 ? keybuf[0] : Qnil;
-@@ -10656,6 +10692,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10667,6 +10703,16 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	  goto replay_sequence;
  	}
  
@@ -626,7 +626,7 @@ index 2d8c45c05ee..3bf37be4ce7 100644
        if (t >= READ_KEY_ELTS)
  	error ("Key sequence too long");
  
-@@ -10823,6 +10869,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -10834,6 +10880,10 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
  	     Just return -1.  */
  	  if (EQ (key, Qt))
  	    {
@@ -637,7 +637,7 @@ index 2d8c45c05ee..3bf37be4ce7 100644
  	      unbind_to (count, Qnil);
  	      return -1;
  	    }
-@@ -11388,6 +11438,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
+@@ -11399,6 +11449,11 @@ read_key_sequence (Lisp_Object *keybuf, Lisp_Object prompt,
      ? Fcommand_remapping (read_key_sequence_cmd, Qnil, Qnil)
      : Qnil;
  
@@ -649,7 +649,7 @@ index 2d8c45c05ee..3bf37be4ce7 100644
    unread_switch_frame = delayed_switch_frame;
    unbind_to (count, Qnil);
  
-@@ -12239,6 +12294,10 @@ quit_throw_to_read_char (bool from_signal)
+@@ -12307,6 +12362,10 @@ quit_throw_to_read_char (bool from_signal)
  
    Vunread_command_events = Qnil;
  
@@ -660,7 +660,7 @@ index 2d8c45c05ee..3bf37be4ce7 100644
    if (FRAMEP (internal_last_event_frame)
        && !EQ (internal_last_event_frame, selected_frame))
      do_switch_frame (make_lispy_switch_frame (internal_last_event_frame),
-@@ -12688,6 +12747,10 @@ init_keyboard (void)
+@@ -12756,6 +12815,10 @@ init_keyboard (void)
    input_pending = false;
    interrupt_input_blocked = 0;
    pending_signals = false;
@@ -2344,7 +2344,7 @@ index 330a95a716f..153dc969585 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 804a19e048f..1f2e13f415d 100644
+index c9bcafe57fd..13a42e65edf 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13735,8 +13735,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
