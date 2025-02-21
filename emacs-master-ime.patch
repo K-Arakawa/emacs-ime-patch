@@ -483,7 +483,7 @@ index c1deb84754d..d33e2aa56ff 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 98a47f2867f..228eb15094f 100644
+index 383e30725b1..75602905216 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -331,6 +331,7 @@
@@ -495,7 +495,7 @@ index 98a47f2867f..228eb15094f 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index 2ccdec6fc41..4a102a6452a 100644
+index bcf11e25222..69a18255efb 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1736,8 +1736,24 @@ affects all frames on the same terminal device.  */)
@@ -2344,7 +2344,7 @@ index 330a95a716f..153dc969585 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index c9bcafe57fd..13a42e65edf 100644
+index 7a164ba2972..852a5662b0d 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13735,8 +13735,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
