@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 089a18959e3..c4c5acd000a 100644
+index 6b4d3ee914a..70d71140d6e 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -550,6 +550,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -483,7 +483,7 @@ index c1deb84754d..d33e2aa56ff 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 383e30725b1..75602905216 100644
+index 9089da9a988..d5d0b04fcb0 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -331,6 +331,7 @@
@@ -495,10 +495,10 @@ index 383e30725b1..75602905216 100644
          (load "w32-fns")
          (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
-index bcf11e25222..69a18255efb 100644
+index 895caed5513..4bcea9f6e19 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1736,8 +1736,24 @@ affects all frames on the same terminal device.  */)
+@@ -1743,8 +1743,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -523,7 +523,7 @@ index bcf11e25222..69a18255efb 100644
  {
    /* If FRAME is a switch-frame event, extract the frame we should
       switch to.  */
-@@ -4422,6 +4438,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4429,6 +4445,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -672,7 +672,7 @@ index b22814d702d..48bf2b2cf75 100644
    virtual_core_pointer_name = build_string ("Virtual core pointer");
    virtual_core_keyboard_name = build_string ("Virtual core keyboard");
 diff --git a/src/w32fns.c b/src/w32fns.c
-index 89a4d46240a..0b7bcbfbd7f 100644
+index 17221b73470..adb7dc05b40 100644
 --- a/src/w32fns.c
 +++ b/src/w32fns.c
 @@ -87,6 +87,11 @@ typedef enum _WTS_VIRTUAL_CLASS {
@@ -938,7 +938,7 @@ index 89a4d46240a..0b7bcbfbd7f 100644
  }
  
  DEFUN ("x-create-frame", Fx_create_frame, Sx_create_frame,
-@@ -8614,6 +8801,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
+@@ -8619,6 +8806,960 @@ DEFUN ("system-move-file-to-trash", Fsystem_move_file_to_trash,
  
  #endif /* WINDOWSNT */
  
@@ -1899,7 +1899,7 @@ index 89a4d46240a..0b7bcbfbd7f 100644
  
  /***********************************************************************
  			 w32 specialized functions
-@@ -10995,6 +12136,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
+@@ -11000,6 +12141,9 @@ frame_parm_handler w32_frame_parm_handlers[] =
    gui_set_fullscreen,
    gui_set_font_backend,
    gui_set_alpha,
@@ -1909,7 +1909,7 @@ index 89a4d46240a..0b7bcbfbd7f 100644
    0, /* x_set_sticky */
    w32_set_tool_bar_position,
    w32_set_inhibit_double_buffering,
-@@ -11020,6 +12164,10 @@ syms_of_w32fns (void)
+@@ -11025,6 +12169,10 @@ syms_of_w32fns (void)
    PDUMPER_IGNORE (w32_visible_system_caret_hwnd);
  
    DEFSYM (Qundefined_color, "undefined-color");
@@ -1920,7 +1920,7 @@ index 89a4d46240a..0b7bcbfbd7f 100644
    DEFSYM (Qcancel_timer, "cancel-timer");
    DEFSYM (Qhyper, "hyper");
    DEFSYM (Qsuper, "super");
-@@ -11352,6 +12500,27 @@ The default value of this variable is therefore t, to ignore modifier
+@@ -11357,6 +12505,27 @@ The default value of this variable is therefore t, to ignore modifier
  keys when IME input is received.  */);
    w32_ignore_modifiers_on_IME_input = true;
  
@@ -1948,7 +1948,7 @@ index 89a4d46240a..0b7bcbfbd7f 100644
  #if 0 /* TODO: Port to W32 */
    defsubr (&Sx_change_window_property);
    defsubr (&Sx_delete_window_property);
-@@ -11406,6 +12575,20 @@ keys when IME input is received.  */);
+@@ -11411,6 +12580,20 @@ keys when IME input is received.  */);
    defsubr (&Sw32_get_ime_open_status);
    defsubr (&Sw32_set_ime_open_status);
  
@@ -2344,7 +2344,7 @@ index 330a95a716f..153dc969585 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 7a164ba2972..852a5662b0d 100644
+index adc0f4d7e0a..853f7030d26 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13735,8 +13735,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
