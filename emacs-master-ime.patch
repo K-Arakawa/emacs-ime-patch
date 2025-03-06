@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 6b4d3ee914a..70d71140d6e 100644
+index 13e2d7e16ad..77064dafffb 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -550,6 +550,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -483,7 +483,7 @@ index c1deb84754d..d33e2aa56ff 100644
  
  (register-definition-prefixes "w32-vars" '("w32-"))
 diff --git a/lisp/loadup.el b/lisp/loadup.el
-index 9089da9a988..d5d0b04fcb0 100644
+index 3e87f4811df..8f6765fd78a 100644
 --- a/lisp/loadup.el
 +++ b/lisp/loadup.el
 @@ -331,6 +331,7 @@
@@ -492,8 +492,8 @@ index 9089da9a988..d5d0b04fcb0 100644
        (load "disp-table")
 +      (load "international/w32-ime")
        (when (eq system-type 'windows-nt)
+         (load "term/w32-nt")
          (load "w32-fns")
-         (load "ls-lisp")
 diff --git a/src/frame.c b/src/frame.c
 index 895caed5513..4bcea9f6e19 100644
 --- a/src/frame.c
@@ -2344,10 +2344,10 @@ index 330a95a716f..153dc969585 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index adc0f4d7e0a..853f7030d26 100644
+index a290664534e..e0fba2d3ad1 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13735,8 +13735,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13737,8 +13737,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index adc0f4d7e0a..853f7030d26 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13993,8 +14008,23 @@ needs_no_redisplay (struct window *w)
+@@ -13995,8 +14010,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
