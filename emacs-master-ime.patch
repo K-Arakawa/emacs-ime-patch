@@ -1,5 +1,5 @@
 diff --git a/configure.ac b/configure.ac
-index 13e2d7e16ad..77064dafffb 100644
+index 4a7f326ab2b..77229dd4db1 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -550,6 +550,10 @@ On by default on macOS.])],[],[with_ns=maybe])
@@ -13,7 +13,7 @@ index 13e2d7e16ad..77064dafffb 100644
  OPTION_DEFAULT_ON([gpm],[don't use -lgpm for mouse support on a GNU/Linux console])
  OPTION_DEFAULT_IFAVAILABLE([dbus],[compile with D-Bus support])
  AC_ARG_WITH([gconf],[AS_HELP_STRING([--with-gconf],
-@@ -7469,6 +7473,42 @@ else
+@@ -7526,6 +7530,42 @@ else
    HAVE_GMP=no
  fi
  
@@ -495,10 +495,10 @@ index 3e87f4811df..8f6765fd78a 100644
          (load "term/w32-nt")
          (load "w32-fns")
 diff --git a/src/frame.c b/src/frame.c
-index 895caed5513..4bcea9f6e19 100644
+index bbff0dec2e4..c39efbadd50 100644
 --- a/src/frame.c
 +++ b/src/frame.c
-@@ -1743,8 +1743,24 @@ affects all frames on the same terminal device.  */)
+@@ -1765,8 +1765,24 @@ affects all frames on the same terminal device.  */)
  
     The value of NORECORD is passed as argument to Fselect_window.  */
  
@@ -523,7 +523,7 @@ index 895caed5513..4bcea9f6e19 100644
  {
    /* If FRAME is a switch-frame event, extract the frame we should
       switch to.  */
-@@ -4429,6 +4445,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4458,6 +4474,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -534,7 +534,7 @@ index 895caed5513..4bcea9f6e19 100644
    {"tool-bar-position",		SYMBOL_INDEX (Qtool_bar_position)},
    {"inhibit-double-buffering",  SYMBOL_INDEX (Qinhibit_double_buffering)},
 diff --git a/src/keyboard.c b/src/keyboard.c
-index b22814d702d..48bf2b2cf75 100644
+index 21a3b3bcf4e..ded7689c973 100644
 --- a/src/keyboard.c
 +++ b/src/keyboard.c
 @@ -359,6 +359,11 @@ static struct timespec timer_idleness_start_time;
@@ -2344,7 +2344,7 @@ index 330a95a716f..153dc969585 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index a290664534e..e0fba2d3ad1 100644
+index ac654934e54..fd48b380aea 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13737,8 +13737,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
