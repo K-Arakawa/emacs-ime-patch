@@ -495,7 +495,7 @@ index 6748c0a0750..c328b1ac73c 100644
          (load "term/w32-nt")
          (load "w32-fns")
 diff --git a/src/frame.c b/src/frame.c
-index 7dc9202d6f6..5ac02bb8309 100644
+index 3d181312c10..e2fbd1b9bfb 100644
 --- a/src/frame.c
 +++ b/src/frame.c
 @@ -1777,8 +1777,24 @@ affects all frames on the same terminal device.  */)
@@ -523,7 +523,7 @@ index 7dc9202d6f6..5ac02bb8309 100644
  {
    /* If FRAME is a switch-frame event, extract the frame we should
       switch to.  */
-@@ -4564,6 +4580,9 @@ static const struct frame_parm_table frame_parms[] =
+@@ -4477,6 +4493,9 @@ static const struct frame_parm_table frame_parms[] =
    {"fullscreen",                SYMBOL_INDEX (Qfullscreen)},
    {"font-backend",		SYMBOL_INDEX (Qfont_backend)},
    {"alpha",			SYMBOL_INDEX (Qalpha)},
@@ -2344,7 +2344,7 @@ index 1ac004af5e0..faed0557b70 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index f2b158f00e3..d3a796c4e49 100644
+index c396b213b92..4098c7775b7 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
 @@ -13737,8 +13737,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
