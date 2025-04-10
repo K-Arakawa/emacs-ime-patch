@@ -448,10 +448,10 @@ index 00000000000..66d51b800d6
 +
 +(provide 'w32-ime)
 diff --git a/lisp/ldefs-boot.el b/lisp/ldefs-boot.el
-index c1deb84754d..d33e2aa56ff 100644
+index 709e12176d4..67918473744 100644
 --- a/lisp/ldefs-boot.el
 +++ b/lisp/ldefs-boot.el
-@@ -29778,6 +29778,14 @@ twice for the others.
+@@ -29911,6 +29911,14 @@ twice for the others.
  (fn ARG)" t)
  (register-definition-prefixes "skeleton" '("skeleton-"))
  
@@ -466,7 +466,7 @@ index c1deb84754d..d33e2aa56ff 100644
  
  ;;; Generated autoloads from vc/smerge-mode.el
  
-@@ -36993,6 +37001,15 @@ Visual-Wrap-Prefix mode.
+@@ -37166,6 +37174,15 @@ Visual-Wrap-Prefix mode.
  (register-definition-prefixes "w32-fns" '("w32-"))
  
  
@@ -2344,10 +2344,10 @@ index 1ac004af5e0..faed0557b70 100644
      doc: /* Hash table of dead windows.
  Each entry in this table maps a window number to a window object.
 diff --git a/src/xdisp.c b/src/xdisp.c
-index 61c464d0f36..c1eaf5b5987 100644
+index 4a0ea5778ba..94d3f563040 100644
 --- a/src/xdisp.c
 +++ b/src/xdisp.c
-@@ -13737,8 +13737,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
+@@ -13740,8 +13740,23 @@ format_mode_line_unwind_data (struct frame *target_frame,
    return vector;
  }
  
@@ -2371,7 +2371,7 @@ index 61c464d0f36..c1eaf5b5987 100644
  {
    Lisp_Object old_window = AREF (vector, 7);
    Lisp_Object target_frame_window = AREF (vector, 8);
-@@ -13995,8 +14010,23 @@ needs_no_redisplay (struct window *w)
+@@ -13998,8 +14013,23 @@ needs_no_redisplay (struct window *w)
  /* Prepare for redisplay by updating menu-bar item lists when
     appropriate.  This can call eval.  */
  
